@@ -1,0 +1,80 @@
+.hiw-section {
+  background-color: black;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.hiw-eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #6ee7f7;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+.hiw-title {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 16px;
+  line-height: 1.15;
+}
+
+.hiw-subtitle {
+  font-size: 16px;
+  color: #9ca3af;
+  max-width: 460px;
+  margin: 0 auto 52px;
+  line-height: 1.6;
+}
+
+.hiw-cards {
+  display: flex;
+  /* gap: 50px; */
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.hiw-card {
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 28px 28px 32px;
+  flex: 1 1 260px;
+  max-width: 400px;
+  text-align: left;
+  transition: border-color 0.2s;
+}
+
+.hiw-card:hover {
+  border-color: #4c3d8f;
+}
+
+.hiw-icon-wrap {
+  width: 44px;
+  height: 44px;
+  background-color: #2d1f6e;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a78bfa;
+  margin-bottom: 20px;
+}
+
+.hiw-card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px;
+}
+
+.hiw-card-desc {
+  font-size: 18px;
+  color: #9ca3af;
+  line-height: 1.65;
+  margin: 0;
+}

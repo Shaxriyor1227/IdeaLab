@@ -1,10 +1,36 @@
-import React from 'react'
-import "./Header.css"
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import './Header.css';
+import logo from '../../assets/logo.jpg';
 
 const Header = () => {
-  return (
-    <div>Header</div>
-  )
-}
+  const getLinkClass = ({ isActive }) => 
+    isActive ? "nav-link active" : "nav-link";
 
-export default Header
+  return (
+    <header className="header">
+      <div className="header-container">
+        <div className="header-logo">
+          <img src={logo} alt="IdeaLab Logo" className="logo-img" />
+          <span className="logo-text">IdeaLab</span>
+        </div>
+
+        <nav className="header-nav">
+          <NavLink to="/" className={getLinkClass} end>
+            How it works
+          </NavLink>
+          <NavLink to="/features" className={getLinkClass}>
+            Features
+          </NavLink>
+          <NavLink to="/customers" className={getLinkClass}>
+            Customers
+          </NavLink>
+        </nav>
+
+        <button className="header-btn">Get Started</button>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
