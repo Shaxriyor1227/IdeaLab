@@ -1,8 +1,9 @@
 .rp-page {
   min-height: 100vh;
-  background-color: black;
-  color: #ffffff;
+  background-color: #0f0f13;
+  color: #e5e7eb;
   font-family: inherit;
+  padding-top: 120px;
   padding-bottom: 80px;
 }
 
@@ -14,8 +15,30 @@
 
 /* Navbar */
 .rp-navbar {
-  padding: 32px 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-bottom: 1px solid #ffffff0a;
+  margin-bottom: 40px;
 }
+
+.rp-nav-left { flex: 1; }
+.rp-logo { font-size: 18px; font-weight: 800; color: #ffffff; }
+
+.rp-nav-center {
+  display: flex; gap: 24px; font-size: 14px; color: #9ca3af; flex: 2; justify-content: center;
+}
+.rp-nav-center span { cursor: pointer; transition: color 0.2s; }
+.rp-nav-center span:hover { color: #ffffff; }
+
+.rp-nav-right { flex: 1; display: flex; justify-content: flex-end; }
+.rp-nav-export {
+  display: flex; align-items: center; gap: 8px; background: transparent;
+  border: 1px solid #ffffff15; color: #d1d5db; padding: 8px 16px;
+  border-radius: 8px; font-size: 13px; cursor: pointer; transition: background 0.2s;
+}
+.rp-nav-export:hover { background: #ffffff10; color: #ffffff; }
 
 .rp-back {
   display: flex;
@@ -303,6 +326,42 @@
 
 .rp-btn-ghost-purple:hover {
   color: #c4b5fd;
+}
+
+/* --- PRINT STYLES --- */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  @page {
+    margin: 10mm;
+    background-color: #0f0f13;
+  }
+  body, .rp-page, html {
+    background-color: #0f0f13 !important;
+    color: #e5e7eb !important;
+  }
+  .rp-page {
+    padding-top: 0 !important;
+  }
+  .header, .rp-back, .rp-header-right, .rp-swot-footer {
+    display: none !important;
+  }
+  .rp-content, .rp-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .rp-grid, .rp-swot-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+  }
+  .rp-card, .rp-swot-card, .rp-metric-card, .rp-rec-card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+  }
 }
 
 /* AI Recommendations */

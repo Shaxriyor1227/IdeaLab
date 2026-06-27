@@ -85,6 +85,37 @@
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.35);
 }
 
+.header-btn-ghost {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e5e7eb;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+}
+
+.header-btn-ghost:hover {
+  background: rgba(124, 58, 237, 0.2);
+  border-color: rgba(124, 58, 237, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  color: #ffffff;
+}
+
+/* Print Styles */
+@media print {
+  .header {
+    display: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   .header-nav {
     display: none;

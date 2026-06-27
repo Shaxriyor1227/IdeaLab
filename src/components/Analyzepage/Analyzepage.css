@@ -166,3 +166,63 @@
   font-size: 13px;
   margin-top: 20px;
 }
+
+/* Animated Loading Button */
+.ap-btn-loading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ap-spinner-icon {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: ap-spin 0.8s linear infinite;
+}
+
+@keyframes ap-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ap-loading-text {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.ap-loading-dots span {
+  animation: ap-dots 1.4s infinite both;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.ap-loading-dots span:nth-child(1) { animation-delay: 0s; }
+.ap-loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.ap-loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes ap-dots {
+  0%, 80%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+}
+
+.ap-btn-scan-line {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: ap-scan 2s linear infinite;
+}
+
+@keyframes ap-scan {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}

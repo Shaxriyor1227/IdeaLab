@@ -2,12 +2,15 @@ import React from 'react'
 import Header from './components/Header/Header'
 import HomePage from './components/HomePage/HomePage'
 import Footer from './components/Footer/Footer'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import AnalyzePage from './components/Analyzepage/Analyzepage'
 import ResultsPage from './components/pages/Resultspage/Resultspage'
-import Strengthspage from './components/pages/Strengthspage/Strengthspage'
+import DetailAnalysisPage from './components/pages/DetailAnalysisPage/DetailAnalysisPage'
 
 const App = () => {
+  const location = useLocation();
+  const hideHeaderFooter = ['/results', '/swot-detail'].includes(location.pathname);
+
   return (
     <div>
       <Header />
@@ -15,9 +18,9 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
          <Route path="/analyze" element={<AnalyzePage />} />
          <Route path="/results" element={<ResultsPage />} />
-         <Route path="/strengths" element={<Strengthspage />} />
+         <Route path="/swot-detail" element={<DetailAnalysisPage />} />
       </Routes>
-      <Footer />
+      {!hideHeaderFooter && <Footer />}
     </div>
   )
 }

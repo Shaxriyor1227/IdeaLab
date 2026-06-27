@@ -25,32 +25,39 @@ export default function ResultsPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  if (!state?.result) {
+  let analysisData = state;
+
+  if (!analysisData) {
+    const saved = localStorage.getItem("latestAnalysis");
+    if (saved) {
+      try {
+        analysisData = JSON.parse(saved);
+      } catch (e) {}
+    }
+  }
+
+  if (!analysisData?.result) {
     navigate("/analyze");
     return null;
   }
 
-  const { result, formData, analyzedAt } = state;
+  const { result, formData, analyzedAt } = analysisData;
 
   return (
     <div className="rp-page">
       <div className="rp-container">
         
-        {/* Navbar */}
-        <div className="rp-navbar">
-          <button className="rp-back" onClick={() => navigate("/")}>
-            <HiArrowLeft size={16} /> Back to Dashboard
-          </button>
-        </div>
-
         {/* Header */}
+        <button className="rp-back" onClick={() => navigate("/")}>
+          <HiArrowLeft size={14} /> Back to Dashboard
+        </button>
         <div className="rp-header">
           <div className="rp-header-left">
             <h1 className="rp-title">Idea Analysis</h1>
             <p className="rp-subtitle">AI Code Reviewer · Analyzed {analyzedAt}</p>
           </div>
           <div className="rp-header-right">
-            <button className="rp-btn-ghost"><TbFileExport size={16} /> Export PDF</button>
+            <button className="rp-btn-ghost" onClick={() => window.print()}><TbFileExport size={16} /> Export PDF</button>
             <button className="rp-btn-primary"><MdBookmark size={16} /> Save to Dashboard</button>
           </div>
         </div>
@@ -121,11 +128,7 @@ export default function ResultsPage() {
                 <div className="rp-swot-footer">
                   <button 
                     className="rp-btn-ghost-purple"
-                    onClick={() => {
-                      if (key === 'strengths') {
-                        navigate('/strengths', { state });
-                      }
-                    }}
+                    onClick={() => navigate('/swot-detail', { state: { category: key, analysisData } })}
                   >
                     View Details &rarr;
                   </button>
@@ -157,7 +160,6 @@ export default function ResultsPage() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );

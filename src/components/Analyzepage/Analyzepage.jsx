@@ -48,13 +48,21 @@ Return exactly this JSON structure:
 
 export default function AnalyzePage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    startupName: "",
-    oneLiner: "",
-    problem: "",
-    targetCustomer: "",
-    industry: "",
-    budget: "",
+  const [form, setForm] = useState(() => {
+    const saved = localStorage.getItem("latestAnalysis");
+    if (saved) {
+      try {
+        return JSON.parse(saved).formData;
+      } catch (e) {}
+    }
+    return {
+      startupName: "",
+      oneLiner: "",
+      problem: "",
+      targetCustomer: "",
+      industry: "",
+      budget: "",
+    };
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -98,17 +106,19 @@ export default function AnalyzePage() {
       const clean = text.replace(/```json|```/g, "").trim();
       const result = JSON.parse(clean);
 
-      navigate("/results", {
-        state: {
-          formData: form,
-          result,
-          analyzedAt: new Date().toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          }),
-        },
-      });
+      const analysisData = {
+        formData: form,
+        result,
+        analyzedAt: new Date().toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        }),
+      };
+      
+      localStorage.setItem("latestAnalysis", JSON.stringify(analysisData));
+
+      navigate("/results", { state: analysisData });
     } catch (err) {
       console.error(err);
       setError("Analysis failed. Please check your API key or try again.");
@@ -218,7 +228,14 @@ export default function AnalyzePage() {
             disabled={!isValid || loading}
           >
             {loading ? (
-              <><span className="ap-spinner" /> Analyzing...</>
+              <div className="ap-btn-loading">
+                <span className="ap-spinner-icon" />
+                <span className="ap-loading-text">Analyzing Ideas</span>
+                <span className="ap-loading-dots">
+                  <span>.</span><span>.</span><span>.</span>
+                </span>
+                <div className="ap-btn-scan-line"></div>
+              </div>
             ) : (
               <>Analyze My Idea <HiArrowRight size={16} /></>
             )}
