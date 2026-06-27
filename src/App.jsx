@@ -5,6 +5,7 @@ import Footer from './components/Footer/Footer'
 import { Route, Routes } from 'react-router-dom'
 import AnalyzePage from './components/Analyzepage/Analyzepage'
 import ResultsPage from './components/pages/Resultspage/Resultspage'
+import Strengthspage from './components/pages/Strengthspage/Strengthspage'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
          <Route path="/analyze" element={<AnalyzePage />} />
          <Route path="/results" element={<ResultsPage />} />
+         <Route path="/strengths" element={<Strengthspage />} />
       </Routes>
       <Footer />
     </div>
