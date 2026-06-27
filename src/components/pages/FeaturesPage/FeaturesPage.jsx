@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { LuBrain, LuCircleGauge, LuChartNetwork, LuShieldCheck, LuFileDown } from "react-icons/lu";
 import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
-import { MdTrendingUp, MdCheckCircle, MdArrowForward } from "react-icons/md";
+import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
-import "./Features.css";
+import "./FeaturesPage.css";
 
 const featureRows = [
   {
@@ -92,59 +92,48 @@ const featureRows = [
   },
 ];
 
-export default function Features() {
+export default function FeaturesPage() {
   const navigate = useNavigate();
 
   return (
-    <section className="feat-section">
-      {/* Top Heading */}
-      <div className="feat-intro">
-        <span className="feat-eyebrow">
+    <section className="fp-section">
+
+      {/* Intro */}
+      <div className="fp-intro">
+        <span className="fp-eyebrow">
           <RiSparklingLine size={13} /> FEATURES
         </span>
-        <h2 className="feat-main-title">
+        <h1 className="fp-main-title">
           Built for founders who{" "}
-          <span className="feat-title-gradient">move fast</span>
-          <br />
-          and think clearly
-        </h2>
-        <p className="feat-main-subtitle">
+          <span className="fp-title-gradient">move fast</span>
+          <br />and think clearly
+        </h1>
+        <p className="fp-main-subtitle">
           IdeaLab gives you a complete validation system in one place. From raw idea to
           investor-ready insight — powered by AI, designed for clarity, built for speed.
         </p>
-
-        <div className="feat-intro-stats">
-          <div className="feat-stat-pill">
-            <strong>60s</strong><span>Full analysis</span>
-          </div>
-          <div className="feat-stat-divider" />
-          <div className="feat-stat-pill">
-            <strong>6</strong><span>AI modules</span>
-          </div>
-          <div className="feat-stat-divider" />
-          <div className="feat-stat-pill">
-            <strong>10K+</strong><span>Ideas validated</span>
-          </div>
-          <div className="feat-stat-divider" />
-          <div className="feat-stat-pill">
-            <strong>4.9★</strong><span>User rating</span>
-          </div>
+        <div className="fp-intro-stats">
+          <div className="fp-stat-pill"><strong>60s</strong><span>Full analysis</span></div>
+          <div className="fp-stat-divider" />
+          <div className="fp-stat-pill"><strong>6</strong><span>AI modules</span></div>
+          <div className="fp-stat-divider" />
+          <div className="fp-stat-pill"><strong>10K+</strong><span>Ideas validated</span></div>
+          <div className="fp-stat-divider" />
+          <div className="fp-stat-pill"><strong>4.9★</strong><span>User rating</span></div>
         </div>
       </div>
 
       {/* Feature Rows */}
-      <div className="feat-rows">
+      <div className="fp-rows">
         {featureRows.map((f, i) => (
-          <div className={`feat-row ${f.reverse ? "feat-row--reverse" : ""}`} key={i}>
+          <div className={`fp-row ${f.reverse ? "fp-row--reverse" : ""}`} key={i}>
             {/* Visual Side */}
-            <div className={`feat-visual feat-visual--${f.accent}`}>
-              <div className={`feat-visual-icon feat-visual-icon--${f.accent}`}>
-                {f.icon}
-              </div>
-              <ul className="feat-points-list">
+            <div className={`fp-visual fp-visual--${f.accent}`}>
+              <div className={`fp-visual-icon fp-visual-icon--${f.accent}`}>{f.icon}</div>
+              <ul className="fp-points-list">
                 {f.points.map((p, j) => (
                   <li key={j}>
-                    <MdCheckCircle className={`feat-check feat-check--${f.accent}`} size={16} />
+                    <MdCheckCircle className={`fp-check fp-check--${f.accent}`} size={16} />
                     {p}
                   </li>
                 ))}
@@ -152,30 +141,28 @@ export default function Features() {
             </div>
 
             {/* Text Side */}
-            <div className="feat-text">
-              <span className={`feat-label feat-label--${f.accent}`}>{f.label}</span>
-              <h3 className="feat-row-title">{f.title}</h3>
-              <p className="feat-row-body">{f.body}</p>
+            <div className="fp-text">
+              <span className={`fp-label fp-label--${f.accent}`}>{f.label}</span>
+              <h2 className="fp-row-title">{f.title}</h2>
+              <p className="fp-row-body">{f.body}</p>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Bottom CTA */}
-      <div className="feat-cta">
-        <span className="feat-cta-tag">Get Started Free</span>
-        <h3 className="feat-cta-title">
-          Stop guessing. Start validating.
-        </h3>
-        <p className="feat-cta-body">
-          Every day you spend building without validation is a day you risk wasting. Run your first
-          analysis in under 60 seconds and find out exactly where your idea stands.
+      {/* CTA */}
+      <div className="fp-cta">
+        <span className="fp-cta-tag">Get Started Free</span>
+        <h3 className="fp-cta-title">Stop guessing. Start validating.</h3>
+        <p className="fp-cta-body">
+          Every day you spend building without validation is a day you risk wasting. Run your
+          first analysis in under 60 seconds and find out exactly where your idea stands.
         </p>
-        <div className="feat-cta-actions">
-          <button className="feat-cta-btn-primary" onClick={() => navigate("/analyze")}>
+        <div className="fp-cta-actions">
+          <button className="fp-cta-btn-primary" onClick={() => navigate("/analyze")}>
             Analyze My Idea <HiArrowRight size={16} />
           </button>
-          <button className="feat-cta-btn-ghost" onClick={() => navigate("/history")}>
+          <button className="fp-cta-btn-ghost" onClick={() => navigate("/history")}>
             View History
           </button>
         </div>

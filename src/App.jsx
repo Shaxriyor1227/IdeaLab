@@ -7,6 +7,7 @@ import AnalyzePage from './components/Analyzepage/Analyzepage'
 import ResultsPage from './components/pages/Resultspage/Resultspage'
 import DetailAnalysisPage from './components/pages/DetailAnalysisPage/DetailAnalysisPage'
 import HistoryPage from './components/pages/HistoryPage/HistoryPage'
+import FeaturesPage from './components/pages/FeaturesPage/FeaturesPage'
 
 const App = () => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const App = () => {
          <Route path="/results" element={<ResultsPage />} />
          <Route path="/swot-detail" element={<DetailAnalysisPage />} />
          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/features" element={<FeaturesPage />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </div>
