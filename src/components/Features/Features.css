@@ -1,0 +1,145 @@
+.feat-section {
+  background-color: black;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.feat-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #6ee7f7;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+.feat-title {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 16px;
+  line-height: 1.15;
+}
+
+.feat-subtitle {
+  font-size: 16px;
+  color: #9ca3af;
+  max-width: 460px;
+  margin: 0 auto 52px;
+  line-height: 1.6;
+}
+
+/* Grid */
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .feat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+  .feat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Card base */
+.feat-card {
+  height: 230px;
+
+  background-color: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 28px 24px 32px;
+  text-align: left;
+  transition: border-color 0.2s, background-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle gradient glow in top-right corner per accent */
+.feat-card--purple::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.feat-card--teal::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.feat-card--violet::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.feat-card:hover {
+  border-color: #3a3a3a;
+  background-color: #1a1a1a;
+}
+
+/* Icons */
+.feat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.feat-icon--purple {
+  background-color: #2d1f6e;
+  color: #a78bfa;
+}
+
+.feat-icon--teal {
+  background-color: #0f3d3a;
+  color: #2dd4bf;
+}
+
+.feat-icon--violet {
+  background-color: #2e1b5e;
+  color: #c4b5fd;
+}
+
+/* Text */
+.feat-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px;
+}
+
+.feat-card-desc {
+  font-size: 14px;
+  color: #9ca3af;
+  line-height: 1.65;
+  margin: 0;
+}

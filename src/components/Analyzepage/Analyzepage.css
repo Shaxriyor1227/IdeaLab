@@ -1,0 +1,168 @@
+.ap-page {
+  min-height: 100vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+.ap-wrapper {
+  width: 100%;
+  max-width: 840px;
+  text-align: center;
+}
+
+/* Badge */
+.ap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #1e1535;
+  border: 1px solid #3b2f6e;
+  color: #a78bfa;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+/* Title */
+.ap-title {
+  font-size: clamp(35px, 5vw, 46px);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 14px;
+  line-height: 1.1;
+}
+
+.ap-subtitle {
+  font-size: 15px;
+  color: #8b8fa8;
+  margin: 0 0 36px;
+  line-height: 1.65;
+}
+
+/* Card */
+.ap-card {
+  background-color: #111118;
+  border: 1px solid #2a2540;
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+/* Row */
+.ap-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 520px) {
+  .ap-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Field */
+.ap-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ap-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+/* Input / Textarea / Select */
+.ap-input,
+.ap-textarea,
+.ap-select {
+  background-color: #1a1826;
+  border: 1px solid #2e2a45;
+  border-radius: 10px;
+  color: #e5e7eb;
+  font-size: 14px;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ap-input::placeholder,
+.ap-textarea::placeholder {
+  color: #4b5563;
+}
+
+.ap-input:focus,
+.ap-textarea:focus,
+.ap-select:focus {
+  border-color: #7c3aed;
+}
+
+.ap-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.ap-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+}
+
+.ap-select option {
+  background-color: #1a1826;
+}
+
+/* Button */
+.ap-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background-color: #7c3aed;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+  margin-top: 4px;
+}
+
+.ap-btn:hover {
+  background-color: #6d28d9;
+  transform: translateY(-1px);
+}
+
+.ap-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Note */
+.ap-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 20px;
+}
