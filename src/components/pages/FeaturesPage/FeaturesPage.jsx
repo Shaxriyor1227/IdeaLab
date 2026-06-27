@@ -27,7 +27,7 @@ const featureRows = [
     title: "One number that tells the whole story",
     body: `Investors use complex frameworks to evaluate ideas. Now you can too. IdeaLab distills market opportunity, urgency, monetization potential, competitive density, and trend momentum into a single Viability Score from 0 to 100. A score of 87 means your idea has strong fundamentals and clear market pull. A score of 42 means there's real work to do before you pitch. No ambiguity, no fluff — just a clear signal you can act on. Track how your score improves as you refine your hypothesis across multiple iterations.`,
     points: [
-      "Score 0–100 with contextual labels",
+      "Score 0-100 with contextual labels",
       "Market size and growth rate included",
       "Trend momentum and timing analysis",
       "Compare scores across your idea history",
