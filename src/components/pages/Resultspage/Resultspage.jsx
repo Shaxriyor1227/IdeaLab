@@ -58,7 +58,7 @@ export default function ResultsPage() {
           </div>
           <div className="rp-header-right">
             <button className="rp-btn-ghost" onClick={() => window.print()}><TbFileExport size={16} /> Export PDF</button>
-            <button className="rp-btn-primary"><MdBookmark size={16} /> Save to Dashboard</button>
+            <button className="rp-btn-primary" onClick={() => navigate('/history')}><MdBookmark size={16} /> Save to History</button>
           </div>
         </div>
 

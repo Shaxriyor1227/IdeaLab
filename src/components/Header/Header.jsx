@@ -10,7 +10,7 @@ const Header = () => {
   const getLinkClass = ({ isActive }) => 
     isActive ? "nav-link active" : "nav-link";
 
-  const isAnalysisPage = location.pathname === '/results' || location.pathname === '/swot-detail';
+  const isAnalysisPage = location.pathname === '/results' || location.pathname === '/swot-detail' || location.pathname === '/history';
 
   return (
     <header className="header">
@@ -44,9 +44,9 @@ const Header = () => {
               <NavLink to="/analyze" className={getLinkClass}>
                 New Analysis
               </NavLink>
-              <span className="nav-link" style={{ cursor: 'pointer' }}>
+              <NavLink to="/history" className={getLinkClass}>
                 History
-              </span>
+              </NavLink>
             </>
           )}
         </nav>

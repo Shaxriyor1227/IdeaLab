@@ -6,6 +6,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import AnalyzePage from './components/Analyzepage/Analyzepage'
 import ResultsPage from './components/pages/Resultspage/Resultspage'
 import DetailAnalysisPage from './components/pages/DetailAnalysisPage/DetailAnalysisPage'
+import HistoryPage from './components/pages/HistoryPage/HistoryPage'
 
 const App = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ const App = () => {
          <Route path="/analyze" element={<AnalyzePage />} />
          <Route path="/results" element={<ResultsPage />} />
          <Route path="/swot-detail" element={<DetailAnalysisPage />} />
+         <Route path="/history" element={<HistoryPage />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </div>

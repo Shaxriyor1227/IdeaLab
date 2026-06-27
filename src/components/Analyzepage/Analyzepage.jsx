@@ -118,6 +118,13 @@ export default function AnalyzePage() {
       
       localStorage.setItem("latestAnalysis", JSON.stringify(analysisData));
 
+      // Save to history array
+      const historyRaw = localStorage.getItem("analysisHistory");
+      const history = historyRaw ? JSON.parse(historyRaw) : [];
+      const historyItem = { ...analysisData, id: Date.now() };
+      history.unshift(historyItem); // newest first
+      localStorage.setItem("analysisHistory", JSON.stringify(history));
+
       navigate("/results", { state: analysisData });
     } catch (err) {
       console.error(err);
