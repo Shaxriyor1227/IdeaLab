@@ -23,7 +23,7 @@ const testimonials = [
   {
     quote:
       "It turns founder excitement into evidence. We now run every new product bet through IdeaLab before committing design time.",
-    name: "Priya Raman",
+    name: "Iman Gadthy",
     role: "Studio Partner, LaunchRoom",
     image: user3,
     gradient: "linear-gradient(135deg, #6d28d9, #0ea5e9)",

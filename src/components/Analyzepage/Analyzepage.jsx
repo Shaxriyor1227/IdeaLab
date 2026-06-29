@@ -10,7 +10,7 @@ const industries = [
   "AI / ML", "Logistics", "Real Estate", "Legal Tech", "Other",
 ];
 
-const budgets = ["<$10k", "$10k–$50k", "$50k–$200k", "$200k+"];
+const budgets = ["<$10k", "$10k-$50k", "$50k-$200k", "$200k+"];
 
 const buildPrompt = (form) => `
 You are a startup idea validator. Analyze the following startup idea and return ONLY a valid JSON object. No markdown, no backticks, no explanation.
