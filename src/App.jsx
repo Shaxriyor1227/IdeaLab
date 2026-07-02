@@ -38,6 +38,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<div style={{ minHeight: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>404 - Page Not Found</div>} />
         </Routes>
       </Suspense>
       {!hideFooter && <Footer />}
