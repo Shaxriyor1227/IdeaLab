@@ -14,6 +14,9 @@ body {
   background-color: black;
   color: #ffffff;
   line-height: 1.6;
+}
+
+.page-content-with-header {
   padding-top: 96px;
 }
 
@@ -23,7 +26,7 @@ img {
 }
 
 @media (max-width: 640px) {
-  body {
+  .page-content-with-header {
     padding-top: 84px;
   }
 }

@@ -3,6 +3,7 @@ import { LuBrain, LuCircleGauge, LuChartNetwork, LuShieldCheck, LuFileDown } fro
 import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
 import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
+import { useAuth } from "../../context/Authontext";
 import "./FeaturesPage.css";
 
 const featureRows = [
@@ -94,6 +95,7 @@ const featureRows = [
 
 export default function FeaturesPage() {
   const navigate = useNavigate();
+  const { isAuth } = useAuth();
 
   return (
     <section className="fp-section">
@@ -104,8 +106,7 @@ export default function FeaturesPage() {
           <RiSparklingLine size={13} /> FEATURES
         </span>
         <h1 className="fp-main-title">
-          Built for founders who{" "}
-          <span className="fp-title-gradient">move fast</span>
+          Built for founders who{" "}<span className="fp-title-gradient">move fast</span>
           <br />and think clearly
         </h1>
         <p className="fp-main-subtitle">
@@ -159,10 +160,10 @@ export default function FeaturesPage() {
           first analysis in under 60 seconds and find out exactly where your idea stands.
         </p>
         <div className="fp-cta-actions">
-          <button className="fp-cta-btn-primary" onClick={() => navigate("/analyze")}>
+          <button className="fp-cta-btn-primary" onClick={() => navigate(isAuth ? "/analyze" : "/signin")}>
             Analyze My Idea <HiArrowRight size={16} />
           </button>
-          <button className="fp-cta-btn-ghost" onClick={() => navigate("/history")}>
+          <button className="fp-cta-btn-ghost" onClick={() => navigate(isAuth ? "/history" : "/signin")}>
             View History
           </button>
         </div>

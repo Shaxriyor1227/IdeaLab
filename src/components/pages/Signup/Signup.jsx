@@ -20,6 +20,12 @@ const Signup = () => {
         e.preventDefault();
         setError('');
 
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(signupForm.email)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
         if (signupForm.password.length < 8) {
             setError("Password must be at least 8 characters long.");
             return;
@@ -27,6 +33,12 @@ const Signup = () => {
 
         if (signupForm.password !== confirmPassword) {
             setError("Passwords do not match.");
+            return;
+        }
+
+        const savedUser = JSON.parse(localStorage.getItem("user"));
+        if (savedUser && savedUser.email === signupForm.email) {
+            setError("An account with this email already exists. Please log in.");
             return;
         }
 

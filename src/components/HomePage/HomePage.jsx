@@ -17,7 +17,7 @@ const HomePage = () => {
       <Suspense fallback={fallback}><IdeaAnalysis /></Suspense>
       <Suspense fallback={fallback}><Stats /></Suspense>
       <Suspense fallback={fallback}><HowItWorks /></Suspense>
-      <Suspense fallback={fallback}><Features /></Suspense>
+      {/* <Suspense fallback={fallback}><Features /></Suspense> */}
       <Suspense fallback={fallback}><Testimonials /></Suspense>
       <Suspense fallback={fallback}><CTA /></Suspense>
     </div>

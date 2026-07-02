@@ -1,7 +1,7 @@
 /* ===== FEATURES PAGE — Editorial Layout ===== */
 .fp-section {
   background: black;
-  padding: 140px 24px 60px;
+  padding: 80px 24px 60px;
   position: relative;
   overflow: hidden;
 }
@@ -30,7 +30,7 @@
 }
 
 .fp-main-title {
-  font-size: clamp(34px, 5.5vw, 58px);
+  font-size: clamp(40px, 5.5vw, 64px);
   font-weight: 900;
   color: #ffffff;
   margin: 0 0 20px;

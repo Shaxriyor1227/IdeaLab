@@ -25,17 +25,27 @@ const Header = () => {
       <NavLink to="/features" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
         Features
       </NavLink>
-      <NavLink to="/analyze" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-        Analyze
+      <NavLink to="/blog" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
+        Blog
       </NavLink>
-      <NavLink to="/results" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-        Result
-      </NavLink>
+      {isAuth && (
+        <>
+          <NavLink to="/analyze" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
+            Analyze
+          </NavLink>
+          <NavLink to="/results" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
+            Result
+          </NavLink>
+        </>
+      )}
     </>
   ) : (
     <>
       <NavLink to="/" className={getLinkClass} end onClick={() => setMobileMenuOpen(false)}>
         Dashboard
+      </NavLink>
+      <NavLink to="/blog" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
+        Blog
       </NavLink>
       <NavLink to="/analyze" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
         New Analysis

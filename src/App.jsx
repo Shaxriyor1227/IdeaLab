@@ -10,6 +10,7 @@ const ResultsPage = lazy(() => import('./components/pages/Resultspage/Resultspag
 const DetailAnalysisPage = lazy(() => import('./components/pages/DetailAnalysisPage/DetailAnalysisPage'))
 const HistoryPage = lazy(() => import('./components/pages/HistoryPage/HistoryPage'))
 const FeaturesPage = lazy(() => import('./components/pages/FeaturesPage/FeaturesPage'))
+const BlogPage = lazy(() => import('./components/pages/BlogPage/BlogPage'))
 const SignIn = lazy(() => import('./components/pages/SignIn/SignIn'))
 const Signup = lazy(() => import('./components/pages/Signup/Signup'))
 const ForgotPassword = lazy(() => import('./components/pages/ForgotPassword/ForgotPassword'))
@@ -17,6 +18,7 @@ const ForgotPassword = lazy(() => import('./components/pages/ForgotPassword/Forg
 const App = () => {
   const location = useLocation();
   const hideFooter = ['/results', '/swot-detail', '/signin', '/signup', '/forgot-password'].includes(location.pathname);
+  const hideHeader = ['/signin', '/signup', '/forgot-password'].includes(location.pathname);
 
   const pageFallback = (
     <div style={{ minHeight: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
@@ -26,21 +28,24 @@ const App = () => {
 
   return (
     <div>
-      <Header />
-      <Suspense fallback={pageFallback}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/analyze" element={<ProtectedRoute><AnalyzePage /></ProtectedRoute>} />
-          <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
-          <Route path="/swot-detail" element={<ProtectedRoute><DetailAnalysisPage /></ProtectedRoute>} />
-          <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
-          <Route path="/features" element={<FeaturesPage />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="*" element={<div style={{ minHeight: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>404 - Page Not Found</div>} />
-        </Routes>
-      </Suspense>
+      {!hideHeader && <Header />}
+      <div className={hideHeader ? "" : "page-content-with-header"}>
+        <Suspense fallback={pageFallback}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/analyze" element={<ProtectedRoute><AnalyzePage /></ProtectedRoute>} />
+            <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
+            <Route path="/swot-detail" element={<ProtectedRoute><DetailAnalysisPage /></ProtectedRoute>} />
+            <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+            <Route path="/features" element={<FeaturesPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="*" element={<div style={{ minHeight: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>404 - Page Not Found</div>} />
+          </Routes>
+        </Suspense>
+      </div>
       {!hideFooter && <Footer />}
     </div>
   )

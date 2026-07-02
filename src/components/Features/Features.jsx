@@ -3,6 +3,7 @@ import { LuBrain, LuCircleGauge, LuChartNetwork, LuShieldCheck, LuFileDown } fro
 import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
 import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
+import { useAuth } from "../context/Authontext";
 import "./Features.css";
 
 const featureRows = [
@@ -94,6 +95,7 @@ const featureRows = [
 
 export default function Features() {
   const navigate = useNavigate();
+  const { isAuth } = useAuth();
 
   return (
     <section className="feat-section">
@@ -172,10 +174,10 @@ export default function Features() {
           analysis in under 60 seconds and find out exactly where your idea stands.
         </p>
         <div className="feat-cta-actions">
-          <button className="feat-cta-btn-primary" onClick={() => navigate("/analyze")}>
+          <button className="feat-cta-btn-primary" onClick={() => navigate(isAuth ? "/analyze" : "/signin")}>
             Analyze My Idea <HiArrowRight size={16} />
           </button>
-          <button className="feat-cta-btn-ghost" onClick={() => navigate("/history")}>
+          <button className="feat-cta-btn-ghost" onClick={() => navigate(isAuth ? "/history" : "/signin")}>
             View History
           </button>
         </div>

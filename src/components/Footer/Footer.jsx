@@ -19,10 +19,10 @@ export default function Footer() {
               AI-powered idea validation and deep code reviews. Build faster, validate smarter, and ship with absolute confidence.
             </p>
             <div className="footer-socials">
-              <a href="#" className="social-icon"><FaInstagram /></a>
-              <a href="#" className="social-icon"><FaGithub /></a>
-              <a href="#" className="social-icon"><FaTelegramPlane /></a>
-              <a href="#" className="social-icon"><FaLinkedin /></a>
+              <a href="https://www.instagram.com/shaxriyor1227" className="social-icon" target="_blank"><FaInstagram /></a>
+              <a href="https://github.com/Shaxriyor1227" className="social-icon" target="_blank"><FaGithub /></a>
+              <a href="https://t.me/@Rozmamatov_Shaxriyor" className="social-icon" target="_blank"><FaTelegramPlane /></a>
+              <a href="https://linkedin.com/in/shaxriyor1227" className="social-icon" target="_blank"><FaLinkedin /></a>
             </div>
           </div>
 
