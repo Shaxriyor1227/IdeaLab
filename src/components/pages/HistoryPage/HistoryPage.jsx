@@ -1,24 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HiArrowLeft, HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineTrash } from "react-icons/hi";
 import { MdRocketLaunch, MdTrendingUp, MdOutlineHistory } from "react-icons/md";
 import { RiSparklingLine } from "react-icons/ri";
 import "./HistoryPage.css";
 
 export default function HistoryPage() {
   const navigate = useNavigate();
-  const [history, setHistory] = useState([]);
-
-  useEffect(() => {
+  const [history, setHistory] = useState(() => {
     const raw = localStorage.getItem("analysisHistory");
-    if (raw) {
-      try {
-        setHistory(JSON.parse(raw));
-      } catch (e) {
-        setHistory([]);
-      }
+    if (!raw) return [];
+
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return [];
     }
-  }, []);
+  });
 
   const handleDelete = (id) => {
     const updated = history.filter((item) => item.id !== id);

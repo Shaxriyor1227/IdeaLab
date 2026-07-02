@@ -53,7 +53,16 @@ export default function AnalyzePage() {
     if (saved) {
       try {
         return JSON.parse(saved).formData;
-      } catch (e) {}
+      } catch {
+        return {
+          startupName: "",
+          oneLiner: "",
+          problem: "",
+          targetCustomer: "",
+          industry: "",
+          budget: "",
+        };
+      }
     }
     return {
       startupName: "",

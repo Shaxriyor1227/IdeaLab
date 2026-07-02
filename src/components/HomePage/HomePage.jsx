@@ -1,22 +1,25 @@
-import React from 'react'
-import Hero from '../Hero/Hero'
-import Stats from '../Stats/Stats'
-import IdeaAnalysis from '../IdeaAnalysis/IdeaAnalysis'
-import HowItWorks from '../HowItWorks/HowItWorks'
-import Features from '../Features/Features'
-import Testimonials from '../Comments/Testimonials'
-import CTA from '../CTA/CTA'
+import { Suspense, lazy } from 'react'
+
+const Hero = lazy(() => import('../Hero/Hero'))
+const Stats = lazy(() => import('../Stats/Stats'))
+const IdeaAnalysis = lazy(() => import('../IdeaAnalysis/IdeaAnalysis'))
+const HowItWorks = lazy(() => import('../HowItWorks/HowItWorks'))
+const Features = lazy(() => import('../Features/Features'))
+const Testimonials = lazy(() => import('../Comments/Testimonials'))
+const CTA = lazy(() => import('../CTA/CTA'))
 
 const HomePage = () => {
+  const fallback = <div style={{ minHeight: '200px' }} />;
+
   return (
     <div>
-        <Hero />
-        <IdeaAnalysis />
-        <Stats />
-        <HowItWorks />
-        <Features />
-        <Testimonials />
-        <CTA />
+      <Suspense fallback={fallback}><Hero /></Suspense>
+      <Suspense fallback={fallback}><IdeaAnalysis /></Suspense>
+      <Suspense fallback={fallback}><Stats /></Suspense>
+      <Suspense fallback={fallback}><HowItWorks /></Suspense>
+      <Suspense fallback={fallback}><Features /></Suspense>
+      <Suspense fallback={fallback}><Testimonials /></Suspense>
+      <Suspense fallback={fallback}><CTA /></Suspense>
     </div>
   )
 }

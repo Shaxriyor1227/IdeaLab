@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { LuBrain, LuCircleGauge, LuChartNetwork, LuShieldCheck, LuFileDown } from "react-icons/lu";
 import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
-import { MdTrendingUp, MdCheckCircle, MdArrowForward } from "react-icons/md";
+import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
 import "./Features.css";
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/Authontext';
 import { RiLightbulbFill } from 'react-icons/ri';
@@ -8,7 +8,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import '../SignIn/Signin.css'; // Use shared styles
 
 const Signup = () => {
-    const { signup, signupForm, setSignupForm } = useAuth();
+    const { signup, login, signupForm, setSignupForm } = useAuth();
     const navigate = useNavigate();
 
     const [confirmPassword, setConfirmPassword] = useState('');

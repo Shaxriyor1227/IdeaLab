@@ -1,7 +1,7 @@
 import "./Testimonials.css";
-import user1 from "../../assets/user1.png";
-import user2 from "../../assets/user2.png";
-import user3 from "../../assets/user3.png";
+import user1 from "../../assets/user1.svg";
+import user2 from "../../assets/user2.svg";
+import user3 from "../../assets/user3.svg";
 
 const testimonials = [
   {
@@ -41,14 +41,16 @@ export default function Testimonials() {
       </p>
 
       <div className="test-grid">
-        {testimonials.map((t, i) => (
-          <div className="test-card" key={i}>
+        {testimonials.map((t) => (
+          <div className="test-card" key={t.name}>
             <p className="test-quote">"{t.quote}"</p>
             <div className="test-author">
               <img
                 className="test-avatar"
                 src={t.image}
                 alt={t.name}
+                loading="lazy"
+                decoding="async"
               />
               <div>
                 <p className="test-name">{t.name}</p>

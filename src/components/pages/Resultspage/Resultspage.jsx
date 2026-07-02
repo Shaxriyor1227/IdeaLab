@@ -32,7 +32,9 @@ export default function ResultsPage() {
     if (saved) {
       try {
         analysisData = JSON.parse(saved);
-      } catch (e) {}
+      } catch {
+        analysisData = null;
+      }
     }
   }
 
@@ -41,7 +43,7 @@ export default function ResultsPage() {
     return null;
   }
 
-  const { result, formData, analyzedAt } = analysisData;
+  const { result, analyzedAt } = analysisData;
 
   return (
     <div className="rp-page">

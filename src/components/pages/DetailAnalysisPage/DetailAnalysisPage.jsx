@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import { TbFileExport } from "react-icons/tb";
+import { HiArrowLeft } from "react-icons/hi";
 import { 
   RiShieldCheckLine, 
   RiAlertLine, 
@@ -9,7 +8,7 @@ import {
   RiErrorWarningLine 
 } from "react-icons/ri";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { BsLightningFill, BsGraphUp } from "react-icons/bs";
+import { BsLightningFill } from "react-icons/bs";
 import "./DetailAnalysisPage.css";
 
 const swotThemes = {

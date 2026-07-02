@@ -14,11 +14,18 @@ body {
   background-color: black;
   color: #ffffff;
   line-height: 1.6;
+  padding-top: 96px;
 }
 
-/* Added top padding so fixed header doesn't overlap page content */
-body {
-  padding-top: 96px;
+img {
+  display: block;
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding-top: 84px;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -32,16 +32,26 @@
 /* Grid */
 .test-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   max-width: 1280px;
-  height: 230px;
   margin: 0 auto;
+  align-items: stretch;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .test-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
   .test-grid {
     grid-template-columns: 1fr;
+  }
+
+  .test-section {
+    padding: 64px 16px;
   }
 }
 
