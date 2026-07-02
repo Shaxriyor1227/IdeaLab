@@ -8,23 +8,30 @@ import ResultsPage from './components/pages/Resultspage/Resultspage'
 import DetailAnalysisPage from './components/pages/DetailAnalysisPage/DetailAnalysisPage'
 import HistoryPage from './components/pages/HistoryPage/HistoryPage'
 import FeaturesPage from './components/pages/FeaturesPage/FeaturesPage'
+import SignIn from './components/pages/SignIn/SignIn'
+import Signup from './components/pages/Signup/Signup'
+import ForgotPassword from './components/pages/ForgotPassword/ForgotPassword'
+import ProtectedRoute from './components/pages/Route/ProtectedRoute'
 
 const App = () => {
   const location = useLocation();
-  const hideHeaderFooter = ['/results', '/swot-detail'].includes(location.pathname);
+  const hideFooter = ['/results', '/swot-detail', '/signin', '/signup', '/forgot-password'].includes(location.pathname);
 
   return (
     <div>
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-         <Route path="/analyze" element={<AnalyzePage />} />
-         <Route path="/results" element={<ResultsPage />} />
-         <Route path="/swot-detail" element={<DetailAnalysisPage />} />
-         <Route path="/history" element={<HistoryPage />} />
+         <Route path="/analyze" element={<ProtectedRoute><AnalyzePage /></ProtectedRoute>} />
+         <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
+         <Route path="/swot-detail" element={<ProtectedRoute><DetailAnalysisPage /></ProtectedRoute>} />
+         <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
           <Route path="/features" element={<FeaturesPage />} />
+         <Route path="/signin" element={<SignIn />} />
+         <Route path="/signup" element={<Signup />} />
+         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
-      {!hideHeaderFooter && <Footer />}
+      {!hideFooter && <Footer />}
     </div>
   )
 }

@@ -1,9 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/Authontext';
 import './Hero.css';
 import { MdSlowMotionVideo } from "react-icons/md";
 
-
 const Hero = () => {
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (isAuth) {
+      navigate('/analyze');
+    } else {
+      navigate('/signin');
+    }
+  };
+
   return (
     <section className="hero">
       <div className="hero-container">
@@ -23,7 +35,7 @@ const Hero = () => {
         </p>
 
         <div className="hero-buttons">
-          <button className="btn-primary">
+          <button className="btn-primary" onClick={handleGetStarted}>
             Get Started
             <span className="btn-arrow">→</span>
           </button>

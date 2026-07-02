@@ -1,0 +1,350 @@
+/* Auth Page Styling - Shared Premium Dark Theme */
+
+.auth-page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #09090b; /* Very dark background */
+    color: #f4f4f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 120px 24px 40px 24px;
+    box-sizing: border-box;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background-color: #121215; /* Dark card background */
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 50px rgba(124, 58, 237, 0.03); /* Subtle purple glow */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Glowing Logo Icon */
+.auth-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.auth-logo-bg {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+}
+
+.auth-logo-icon {
+    font-size: 28px;
+    color: #ffffff;
+}
+
+/* Lock logo for Forgot Password page */
+.auth-logo-bg.lock-bg {
+    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Green check logo for success state */
+.auth-logo-bg.success-bg {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Typography */
+.auth-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    color: #ffffff;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.auth-subtitle {
+    font-size: 14px;
+    color: #a1a1aa;
+    text-align: center;
+    margin: 0 0 32px 0;
+}
+
+/* Error Message */
+.auth-error-message {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    font-size: 13px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Social Buttons */
+.auth-social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.auth-social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 12px;
+    color: #e4e4e7;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.auth-social-btn:hover {
+    background-color: #27272a;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.auth-social-icon {
+    font-size: 18px;
+}
+
+/* Divider */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 8px 0 24px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.auth-divider-text {
+    padding: 0 12px;
+    color: #52525b;
+    font-size: 12px;
+    text-transform: lowercase;
+}
+
+/* Form Styles */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.auth-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.auth-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e4e4e7;
+}
+
+.auth-link-forgot {
+    font-size: 13px;
+    color: #8b5cf6;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.auth-link-forgot:hover {
+    color: #a78bfa;
+}
+
+.auth-input {
+    background-color: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #ffffff;
+    outline: none;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.auth-input::placeholder {
+    color: #52525b;
+}
+
+.auth-input:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+/* Password wrapper for eye toggle */
+.auth-password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-input-password {
+    padding-right: 44px;
+}
+
+.auth-password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #52525b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    transition: color 0.15s ease;
+}
+
+.auth-password-toggle:hover {
+    color: #a1a1aa;
+}
+
+/* Primary Button */
+.auth-submit-btn {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+.auth-submit-btn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+}
+
+.auth-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Footer Link styling */
+.auth-footer-text {
+    font-size: 14px;
+    color: #a1a1aa;
+    margin-top: 24px;
+    text-align: center;
+}
+
+.auth-footer-link {
+    color: #8b5cf6;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.auth-footer-link:hover {
+    color: #a78bfa;
+}
+
+/* Back Link (for Forgot Password page) */
+.auth-back-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #8b5cf6;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 24px;
+    align-self: flex-start;
+    transition: color 0.15s ease;
+}
+
+.auth-back-link:hover {
+    color: #a78bfa;
+}
+
+/* Success Button (Secondary style, dark border) */
+.auth-secondary-btn {
+    background-color: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e4e4e7;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.auth-secondary-btn:hover {
+    background-color: #27272a;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Additional Terms & Conditions styling */
+.auth-terms-text {
+    font-size: 12px;
+    color: #52525b;
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 12px;
+}
+
+.auth-terms-text a,
+.auth-terms-text span {
+    color: #a1a1aa;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.auth-terms-text a:hover,
+.auth-terms-text span:hover {
+    color: #8b5cf6;
+}
