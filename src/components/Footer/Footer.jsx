@@ -38,7 +38,7 @@ export default function Footer() {
             <div className="footer-column">
               <h4 className="footer-col-title">Resources</h4>
               <Link to="#" className="footer-link">Documentation</Link>
-              <Link to="#" className="footer-link">Blog</Link>
+              <Link to="/blog" className="footer-link">Blog</Link>
               <Link to="#" className="footer-link">Community</Link>
               <Link to="#" className="footer-link">Help Center</Link>
             </div>
