@@ -95,6 +95,8 @@ export default function AnalyzePage() {
           "X-Title": "IdeaLab",
         },
         body: JSON.stringify({
+          // model: "nvidia/nemotron-3-super-120b-a12b:free",
+          // model: "openai/gpt-oss-120b:free",
           model: "laguna-m.1:free",
           messages: [
             {
