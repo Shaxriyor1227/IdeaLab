@@ -1,5 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+:root {
+  --app-bg: #040408;
+  --card-bg: #0f0f15;
+  --text-color: #f3f4f6;
+  --text-muted: #8b8fa8;
+  --text-white: #ffffff;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --header-bg: rgba(9, 11, 18, 0.82);
+  --mobile-menu-bg: rgba(9, 11, 18, 0.98);
+  --input-bg: #16151f;
+  --input-border-default: #2e2a45;
+  --divider-color: rgba(255, 255, 255, 0.08);
+}
+
+:root.light-mode {
+  --app-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text-color: #0f172a;
+  --text-muted: #475569;
+  --text-white: #0f172a;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --mobile-menu-bg: rgba(255, 255, 255, 0.98);
+  --input-bg: #ffffff;
+  --input-border-default: #cbd5e1;
+  --divider-color: rgba(0, 0, 0, 0.08);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,9 +39,10 @@ body {
                'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
-  color: #ffffff;
+  background-color: var(--app-bg);
+  color: var(--text-color);
   line-height: 1.6;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .page-content-with-header {
@@ -35,8 +64,241 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
+  color: var(--text-white);
+  transition: color 0.25s ease;
 }
 
 button {
   font-family: inherit;
 }
+
+/* Light mode global overrides */
+.light-mode h1,
+.light-mode h2,
+.light-mode h3,
+.light-mode h4,
+.light-mode h5,
+.light-mode h6 {
+  color: var(--text-white) !important;
+}
+
+.light-mode p,
+.light-mode span,
+.light-mode label,
+.light-mode li {
+  color: var(--text-color);
+}
+
+/* Light mode specific component overrides */
+/* Header */
+.light-mode .header {
+  background: var(--header-bg) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light-mode .nav-link {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .nav-link:hover,
+.light-mode .nav-link.active {
+  color: var(--primary-color) !important;
+}
+
+.light-mode .user-name {
+  color: var(--text-color) !important;
+}
+
+.light-mode .header-actions button {
+  color: var(--text-color) !important;
+}
+
+/* Hero Section */
+.light-mode .hero-description {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .hero-title {
+  color: var(--text-white) !important;
+}
+
+.light-mode .btn-secondary {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: var(--text-color) !important;
+}
+
+.light-mode .btn-secondary:hover {
+  background: #e2e8f0 !important;
+}
+
+/* Cards across pages */
+.light-mode .ap-card,
+.light-mode .hp-card,
+.light-mode .rp-card,
+.light-mode .settings-card,
+.light-mode .feat-card,
+.light-mode .swot-card,
+.light-mode .blog-card,
+.light-mode .profile-quick-card,
+.light-mode .auth-card,
+.light-mode .detail-card,
+.light-mode .cta-card {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Form Inputs */
+.light-mode input,
+.light-mode textarea,
+.light-mode select,
+.light-mode .ap-input,
+.light-mode .ap-textarea,
+.light-mode .ap-select,
+.light-mode .settings-input,
+.light-mode .auth-input {
+  background-color: var(--input-bg) !important;
+  border-color: var(--input-border-default) !important;
+  color: var(--text-color) !important;
+}
+
+.light-mode input::placeholder,
+.light-mode textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Text adjustments */
+.light-mode .ap-title,
+.light-mode .hp-title,
+.light-mode .rp-title,
+.light-mode .settings-title,
+.light-mode .feat-main-title,
+.light-mode .fp-main-title,
+.light-mode .auth-title {
+  color: var(--text-white) !important;
+}
+
+.light-mode .ap-subtitle,
+.light-mode .hp-subtitle,
+.light-mode .rp-subtitle,
+.light-mode .settings-subtitle,
+.light-mode .feat-main-subtitle,
+.light-mode .fp-main-subtitle,
+.light-mode .auth-subtitle {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .ap-label,
+.light-mode .auth-label,
+.light-mode .form-group label {
+  color: var(--text-muted) !important;
+}
+
+/* Divider & Borders */
+.light-mode .auth-divider-text {
+  background: var(--card-bg) !important;
+  color: var(--text-muted) !important;
+}
+
+.light-mode .auth-divider::before {
+  background: var(--border-color) !important;
+}
+
+/* History Page tags */
+.light-mode .hp-stat-card {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+.light-mode .hp-stat-label {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .hp-tag {
+  background: #f1f5f9 !important;
+  color: var(--text-muted) !important;
+}
+
+.light-mode .hp-mini-label {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .hp-mini-value {
+  color: var(--text-color) !important;
+}
+
+/* Results page specific */
+.light-mode .rp-score-sub {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .rp-metric-value.rp-text-white {
+  color: var(--text-color) !important;
+}
+
+.light-mode .rp-card-desc.rp-text-gray {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .rp-swot-list li {
+  color: var(--text-color) !important;
+}
+
+.light-mode .rp-rec-heading {
+  color: var(--text-white) !important;
+}
+
+.light-mode .rp-rec-text {
+  color: var(--text-muted) !important;
+}
+
+.light-mode .rp-rec-item {
+  border-color: var(--border-color) !important;
+}
+
+.light-mode .rp-btn-ghost {
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.light-mode .rp-btn-ghost:hover {
+  background: #f1f5f9 !important;
+}
+
+/* Settings quick badge */
+.light-mode .meta-badge {
+  background: #f1f5f9 !important;
+  color: var(--text-color) !important;
+  border-color: #e2e8f0 !important;
+}
+
+.light-mode .profile-quick-name {
+  color: var(--text-white) !important;
+}
+
+.light-mode .profile-avatar-placeholder {
+  color: #ffffff !important;
+}
+
+/* Mobile Menu */
+.light-mode .mobile-menu {
+  background: var(--mobile-menu-bg) !important;
+}
+
+.light-mode .mobile-menu__content {
+  border-top-color: var(--border-color) !important;
+}
+
+.light-mode .mobile-menu__nav a {
+  color: var(--text-color) !important;
+}
+
+.light-mode .mobile-menu__nav a.active {
+  color: var(--primary-color) !important;
+}
+
+.light-mode .cta-glow {
+  opacity: 0.1 !important;
+}

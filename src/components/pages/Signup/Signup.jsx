@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/Authontext';
+import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { RiLightbulbFill } from 'react-icons/ri';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
@@ -8,15 +9,17 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import '../SignIn/Signin.css'; // Use shared styles
 
 const Signup = () => {
-    const { signup, login, signupForm, setSignupForm } = useAuth();
+    const { signup, loginWithGoogle, loginWithGithub, signupForm, setSignupForm } = useAuth();
+    const { t } = useLanguage();
     const navigate = useNavigate();
 
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -36,57 +39,54 @@ const Signup = () => {
             return;
         }
 
-        const savedUser = JSON.parse(localStorage.getItem("user"));
-        if (savedUser && savedUser.email === signupForm.email) {
-            setError("An account with this email already exists. Please log in.");
-            return;
+        setLoading(true);
+
+        try {
+            // Register user in Firebase Authentication and Firestore
+            await signup({
+                name: signupForm.name,
+                email: signupForm.email,
+                password: signupForm.password
+            });
+
+            // Clear states
+            setSignupForm({ name: "", email: "", password: "" });
+            setConfirmPassword('');
+            
+            // Redirect to home dashboard
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            if (err.code === 'auth/email-already-in-use') {
+                setError("Bu elektron pochta orqali allaqachon ro'yxatdan o'tilgan. Iltimos, tizimga kiring.");
+            } else {
+                setError("Ro'yxatdan o'tishda xatolik yuz berdi: " + (err.message || err.code));
+            }
+        } finally {
+            setLoading(false);
         }
+    };
 
-        // Save to localStorage using context method
-        signup({
-            name: signupForm.name,
-            email: signupForm.email,
-            password: signupForm.password
-        });
+    const handleGoogleLogin = async () => {
+        setError('');
+        try {
+            await loginWithGoogle();
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            setError("Google orqali kirishda xatolik yuz berdi.");
+        }
+    };
 
-        // Clear state
-        setSignupForm({ name: "", email: "", password: "" });
-        setConfirmPassword('');
-        
-        // After signing up, we can automatically log them in or redirect to signin.
-        // Let's redirect to signin as requested: "forgot login va register qilgandan keyin Hompage chiqishi kerak"
-        // Wait, "register qilgandan keyin Hompage chiqishi kerak" -> "after register, the HomePage should appear"
-        // Ah! If register should go directly to HomePage, we should set isAuth to true in localStorage and context!
-        // Let's see: in Authontext.jsx, signup does:
-        // const signup = (userData) => {
-        //     localStorage.setItem("user", JSON.stringify(userData));
-        //     setUser(userData);
-        // };
-        // It doesn't set isAuth = true.
-        // But if the user wants register to go directly to HomePage:
-        // We can set isAuth = true in our register handler, or update Authontext.jsx, or do it here!
-        // Let's make it so that upon successful registration, we automatically log them in and navigate to "/" (HomePage)!
-        // This is a very smooth user experience and matches "register qilgandan keyin HomePage chiqishi kerak".
-        localStorage.setItem("isAuth", "true");
-        // We need to trigger the auth state update. Since we can't easily trigger the state change in Authontext without modifying it,
-        // let's check if we can modify Authontext.jsx to set isAuth to true during signup, or we can just update Authontext.jsx!
-        // Let's modify Authontext.jsx to support auto-login on signup or let's do it in Authontext.jsx directly.
-        // Yes, let's update Authontext.jsx to set isAuth = true when signup is called, or let's call login after signup.
-        // If we call signup and then login, it will set isAuth to true.
-        // Let's look at Authontext.jsx:
-        // const signup = (userData) => {
-        //     localStorage.setItem("user", JSON.stringify(userData));
-        //     setUser(userData);
-        // };
-        // If we call signup, we can then call login(email, password) and it will work!
-        // Let's do that:
-        signup({
-            name: signupForm.name,
-            email: signupForm.email,
-            password: signupForm.password
-        });
-        login(signupForm.email, signupForm.password);
-        navigate("/");
+    const handleGithubLogin = async () => {
+        setError('');
+        try {
+            await loginWithGithub();
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            setError("GitHub orqali kirishda xatolik yuz berdi.");
+        }
     };
 
     return (
@@ -106,11 +106,11 @@ const Signup = () => {
 
                 {/* Social Logins */}
                 <div className="auth-social-buttons">
-                    <button type="button" className="auth-social-btn" onClick={() => navigate('/')}>
+                    <button type="button" className="auth-social-btn" onClick={handleGoogleLogin}>
                         <FcGoogle className="auth-social-icon" />
                         <span>Continue with Google</span>
                     </button>
-                    <button type="button" className="auth-social-btn" onClick={() => navigate('/')}>
+                    <button type="button" className="auth-social-btn" onClick={handleGithubLogin}>
                         <FaGithub className="auth-social-icon" />
                         <span>Continue with GitHub</span>
                     </button>
@@ -124,7 +124,7 @@ const Signup = () => {
                 {/* Registration Form */}
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="auth-field-group">
-                        <label className="auth-label">Full name</label>
+                        <label className="auth-label">{t('displayName') || 'Full name'}</label>
                         <input
                             type="text"
                             className="auth-input"
@@ -136,7 +136,7 @@ const Signup = () => {
                     </div>
 
                     <div className="auth-field-group">
-                        <label className="auth-label">Email address</label>
+                        <label className="auth-label">{t('emailAddress') || 'Email address'}</label>
                         <input
                             type="email"
                             className="auth-input"
@@ -189,8 +189,8 @@ const Signup = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="auth-submit-btn">
-                        Create Account &rarr;
+                    <button type="submit" className="auth-submit-btn" disabled={loading}>
+                        {loading ? 'Creating Account...' : 'Create Account →'}
                     </button>
                 </form>
 

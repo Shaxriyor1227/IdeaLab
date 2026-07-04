@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { TbFileExport } from 'react-icons/tb';
-import { FiMenu, FiX } from 'react-icons/fi';
-import { useAuth } from '../context/Authontext';
+import { FiMenu, FiX, FiSettings, FiSun, FiMoon } from 'react-icons/fi';
+import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 import './Header.css';
 import logo from '../../assets/logo.jpg';
 
@@ -10,6 +12,8 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuth, logout, user } = useAuth();
+  const { t } = useLanguage();
+  const { mode, toggleMode } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getLinkClass = ({ isActive }) =>
@@ -20,21 +24,21 @@ const Header = () => {
   const navItems = !isAnalysisPage ? (
     <>
       <NavLink to="/" className={getLinkClass} end onClick={() => setMobileMenuOpen(false)}>
-        How it works
+        {t('howItWorks')}
       </NavLink>
       <NavLink to="/features" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-        Features
+        {t('features')}
       </NavLink>
       <NavLink to="/blog" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-        Blog
+        {t('blog')}
       </NavLink>
       {isAuth && (
         <>
           <NavLink to="/analyze" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-            Analyze
+            {t('analyze')}
           </NavLink>
           <NavLink to="/results" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-            Result
+            {t('result')}
           </NavLink>
         </>
       )}
@@ -42,16 +46,16 @@ const Header = () => {
   ) : (
     <>
       <NavLink to="/" className={getLinkClass} end onClick={() => setMobileMenuOpen(false)}>
-        Dashboard
+        {t('dashboard')}
       </NavLink>
       <NavLink to="/blog" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-        Blog
+        {t('blog')}
       </NavLink>
       <NavLink to="/analyze" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-        New Analysis
+        {t('newAnalysis')}
       </NavLink>
       <NavLink to="/history" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
-        History
+        {t('history')}
       </NavLink>
     </>
   );
@@ -83,18 +87,37 @@ const Header = () => {
         <nav className="header-nav">{navItems}</nav>
 
         <div className="header-actions">
+          <button 
+            className="header-btn-ghost theme-toggle-btn" 
+            onClick={toggleMode}
+            style={{ padding: '8px', display: 'flex', alignItems: 'center' }}
+            title="Toggle Theme Mode"
+          >
+            {mode === 'light' ? <FiMoon size={18} /> : <FiSun size={18} />}
+          </button>
+
           {isAnalysisPage ? (
             <button className="header-btn-ghost header-btn-ghost--desktop" onClick={() => window.print()}>
               <TbFileExport size={18} />
-              Export PDF
+              {t('exportPdf')}
             </button>
           ) : isAuth ? (
             <div className="user-profile-menu">
-              <span className="user-name">{user?.name || 'User'}</span>
-              <button className="header-btn logout-btn" onClick={logout}>Logout</button>
+              <span className="user-name" onClick={() => navigate('/settings')} style={{ cursor: 'pointer' }}>
+                {user?.name || 'User'}
+              </span>
+              <button 
+                className="header-btn-ghost" 
+                onClick={() => navigate('/settings')}
+                style={{ padding: '8px', display: 'flex', alignItems: 'center' }}
+                title={t('settings')}
+              >
+                <FiSettings size={18} />
+              </button>
+              <button className="header-btn logout-btn" onClick={logout}>{t('logout')}</button>
             </div>
           ) : (
-            <button className="header-btn" onClick={() => navigate('/signin')}>Get Started</button>
+            <button className="header-btn" onClick={() => navigate('/signin')}>{t('getStarted')}</button>
           )}
 
           <button
@@ -112,15 +135,33 @@ const Header = () => {
         <div className="mobile-menu__content">
           <div className="mobile-menu__nav">{navItems}</div>
 
+          <button 
+            className="mobile-menu__action" 
+            onClick={() => { toggleMode(); setMobileMenuOpen(false); }}
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+          >
+            {mode === 'light' ? <FiMoon size={18} /> : <FiSun size={18} />} {mode === 'light' ? 'Dark Mode' : 'Light Mode'}
+          </button>
+
+          {isAuth && (
+            <button 
+              className="mobile-menu__action" 
+              onClick={() => { navigate('/settings'); setMobileMenuOpen(false); }}
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+            >
+              <FiSettings size={18} /> {t('settings')}
+            </button>
+          )}
+
           <button className="mobile-menu__action" onClick={handlePrimaryAction}>
             {isAnalysisPage ? (
               <>
-                <TbFileExport size={18} /> Export PDF
+                <TbFileExport size={18} /> {t('exportPdf')}
               </>
             ) : isAuth ? (
-              'Logout'
+              t('logout')
             ) : (
-              'Get Started'
+              t('getStarted')
             )}
           </button>
         </div>

@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 import { RiSparklingLine } from "react-icons/ri";
 import { MdAccessTime } from "react-icons/md";
-import "./AnalyzePage.css";
+import { auth, db } from "../../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { useLanguage } from "../context/LanguageContext";
+import "./Analyzepage.css";
 
 const industries = [
   "Fintech", "Healthtech", "Edtech", "E-commerce", "SaaS",
@@ -48,6 +51,7 @@ Return exactly this JSON structure:
 
 export default function AnalyzePage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [form, setForm] = useState(() => {
     const saved = localStorage.getItem("latestAnalysis");
     if (saved) {
@@ -95,8 +99,6 @@ export default function AnalyzePage() {
           "X-Title": "IdeaLab",
         },
         body: JSON.stringify({
-          // model: "nvidia/nemotron-3-super-120b-a12b:free",
-          // model: "openai/gpt-oss-120b:free",
           model: "laguna-m.1:free",
           messages: [
             {
@@ -129,12 +131,18 @@ export default function AnalyzePage() {
       
       localStorage.setItem("latestAnalysis", JSON.stringify(analysisData));
 
-      // Save to history array
-      const historyRaw = localStorage.getItem("analysisHistory");
-      const history = historyRaw ? JSON.parse(historyRaw) : [];
-      const historyItem = { ...analysisData, id: Date.now() };
-      history.unshift(historyItem); // newest first
-      localStorage.setItem("analysisHistory", JSON.stringify(history));
+      // Save to Firestore under the authenticated user's profile
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        try {
+          await addDoc(collection(db, "users", currentUser.uid, "analyses"), {
+            ...analysisData,
+            createdAt: new Date().toISOString()
+          });
+        } catch (dbErr) {
+          console.error("Error saving analysis to Firestore:", dbErr);
+        }
+      }
 
       navigate("/results", { state: analysisData });
     } catch (err) {
@@ -152,19 +160,16 @@ export default function AnalyzePage() {
       <div className="ap-wrapper">
         <div className="ap-badge">
           <RiSparklingLine size={14} />
-          AI-powered idea intake
+          {t("aiPoweredIntake")}
         </div>
 
-        <h1 className="ap-title">Describe Your Startup Idea</h1>
-        <p className="ap-subtitle">
-          Give IdeaLab the core details and we'll prepare your concept for a
-          fast AI validation pass.
-        </p>
+        <h1 className="ap-title">{t("describeIdea")}</h1>
+        <p className="ap-subtitle">{t("describeSub")}</p>
 
         <div className="ap-card">
           <div className="ap-row">
             <div className="ap-field">
-              <label className="ap-label">Startup name</label>
+              <label className="ap-label">{t("startupName")}</label>
               <input
                 className="ap-input"
                 name="startupName"
@@ -174,7 +179,7 @@ export default function AnalyzePage() {
               />
             </div>
             <div className="ap-field">
-              <label className="ap-label">One-line description</label>
+              <label className="ap-label">{t("oneLineDesc")}</label>
               <input
                 className="ap-input"
                 name="oneLiner"
@@ -186,11 +191,11 @@ export default function AnalyzePage() {
           </div>
 
           <div className="ap-field">
-            <label className="ap-label">Problem you're solving</label>
+            <label className="ap-label">{t("problemSolving")}</label>
             <textarea
               className="ap-textarea"
               name="problem"
-              placeholder="Describe the painful workflow, customer frustration, or market gap..."
+              placeholder={t("problemDesc")}
               value={form.problem}
               onChange={handleChange}
             />
@@ -198,7 +203,7 @@ export default function AnalyzePage() {
 
           <div className="ap-row">
             <div className="ap-field">
-              <label className="ap-label">Target customer</label>
+              <label className="ap-label">{t("targetCustomer")}</label>
               <input
                 className="ap-input"
                 name="targetCustomer"
@@ -208,14 +213,14 @@ export default function AnalyzePage() {
               />
             </div>
             <div className="ap-field">
-              <label className="ap-label">Industry category</label>
+              <label className="ap-label">{t("industryCategory")}</label>
               <select
                 className="ap-select"
                 name="industry"
                 value={form.industry}
                 onChange={handleChange}
               >
-                <option value="">Select industry</option>
+                <option value="">{t("selectIndustry")}</option>
                 {industries.map((ind) => (
                   <option key={ind} value={ind}>{ind}</option>
                 ))}
@@ -224,14 +229,14 @@ export default function AnalyzePage() {
           </div>
 
           <div className="ap-field">
-            <label className="ap-label">Estimated budget</label>
+            <label className="ap-label">{t("estimatedBudget")}</label>
             <select
               className="ap-select"
               name="budget"
               value={form.budget}
               onChange={handleChange}
             >
-              <option value="">Select budget</option>
+              <option value="">{t("selectBudget")}</option>
               {budgets.map((b) => (
                 <option key={b} value={b}>{b}</option>
               ))}
@@ -248,21 +253,21 @@ export default function AnalyzePage() {
             {loading ? (
               <div className="ap-btn-loading">
                 <span className="ap-spinner-icon" />
-                <span className="ap-loading-text">Analyzing Ideas</span>
+                <span className="ap-loading-text">{t("analyzingIdeas")}</span>
                 <span className="ap-loading-dots">
                   <span>.</span><span>.</span><span>.</span>
                 </span>
                 <div className="ap-btn-scan-line"></div>
               </div>
             ) : (
-              <>Analyze My Idea <HiArrowRight size={16} /></>
+              <> {t("btnAnalyze")} <HiArrowRight size={16} /></>
             )}
           </button>
         </div>
 
         <p className="ap-note">
           <MdAccessTime size={14} />
-          Analysis takes ~60 seconds
+          {t("analysisTime")}
         </p>
       </div>
     </div>

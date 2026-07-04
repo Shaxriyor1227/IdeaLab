@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/Authontext';
+import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import './Hero.css';
 import { MdSlowMotionVideo } from "react-icons/md";
 
 const Hero = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleGetStarted = () => {
     if (isAuth) {
@@ -20,27 +22,25 @@ const Hero = () => {
       <div className="hero-container">
         <div className="hero-badge">
           <span className="badge-icon">✨</span>
-          AI startup validation, before you build
+          {t('heroBadge')}
         </div>
 
         <h1 className="hero-title">
-          Validate Your Startup<br />
-          Idea in 60 Seconds
+          {t('heroTitle')}
         </h1>
 
         <p className="hero-description">
-          IdeaLab scores your concept, maps competitors, surfaces risks, and
-          turns raw startup intuition into an investor-ready validation report.
+          {t('heroSub')}
         </p>
 
         <div className="hero-buttons">
           <button className="btn-primary" onClick={handleGetStarted}>
-            Get Started
+            {t('heroBtn')}
             <span className="btn-arrow">→</span>
           </button>
           <button className="btn-secondary">
            <MdSlowMotionVideo />
-            Watch Demo
+            {t('watchDemo')}
           </button>
         </div>
       </div>

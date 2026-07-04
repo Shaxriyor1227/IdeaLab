@@ -6,25 +6,27 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #09090b; /* Very dark background */
-    color: #f4f4f5;
+    background-color: var(--app-bg); /* Use variable background */
+    color: var(--text-color);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     padding: 120px 24px 40px 24px;
     box-sizing: border-box;
+    transition: background-color 0.25s, color 0.25s;
 }
 
 .auth-card {
     width: 100%;
     max-width: 440px;
-    background-color: #121215; /* Dark card background */
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: var(--card-bg); /* Use card variable background */
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 
                 0 0 50px rgba(124, 58, 237, 0.03); /* Subtle purple glow */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    transition: background-color 0.25s, border-color 0.25s;
 }
 
 /* Glowing Logo Icon */
@@ -67,14 +69,14 @@
     font-size: 28px;
     font-weight: 700;
     text-align: center;
-    color: #ffffff;
+    color: var(--text-white);
     margin: 0 0 8px 0;
     letter-spacing: -0.5px;
 }
 
 .auth-subtitle {
     font-size: 14px;
-    color: #a1a1aa;
+    color: var(--text-muted);
     text-align: center;
     margin: 0 0 32px 0;
 }
@@ -105,11 +107,11 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background-color: #18181b;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 12px;
-    color: #e4e4e7;
+    color: var(--text-color);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -118,8 +120,8 @@
 }
 
 .auth-social-btn:hover {
-    background-color: #27272a;
-    border-color: rgba(255, 255, 255, 0.15);
+    filter: brightness(0.95);
+    border-color: var(--primary-color);
 }
 
 .auth-social-icon {
@@ -138,12 +140,12 @@
 .auth-divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .auth-divider-text {
     padding: 0 12px;
-    color: #52525b;
+    color: var(--text-muted);
     font-size: 12px;
     text-transform: lowercase;
 }
@@ -170,28 +172,28 @@
 .auth-label {
     font-size: 14px;
     font-weight: 500;
-    color: #e4e4e7;
+    color: var(--text-muted);
 }
 
 .auth-link-forgot {
     font-size: 13px;
-    color: #8b5cf6;
+    color: var(--primary-color);
     cursor: pointer;
     font-weight: 500;
     transition: color 0.15s ease;
 }
 
 .auth-link-forgot:hover {
-    color: #a78bfa;
+    filter: brightness(1.2);
 }
 
 .auth-input {
-    background-color: #18181b;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border-default);
     border-radius: 8px;
     padding: 12px 14px;
     font-size: 14px;
-    color: #ffffff;
+    color: var(--text-color);
     outline: none;
     transition: all 0.2s ease;
     width: 100%;
@@ -199,12 +201,12 @@
 }
 
 .auth-input::placeholder {
-    color: #52525b;
+    color: var(--text-muted);
 }
 
 .auth-input:focus {
-    border-color: #8b5cf6;
-    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-glow);
 }
 
 /* Password wrapper for eye toggle */
@@ -269,20 +271,20 @@
 /* Footer Link styling */
 .auth-footer-text {
     font-size: 14px;
-    color: #a1a1aa;
+    color: var(--text-muted);
     margin-top: 24px;
     text-align: center;
 }
 
 .auth-footer-link {
-    color: #8b5cf6;
+    color: var(--primary-color);
     font-weight: 500;
     cursor: pointer;
     transition: color 0.15s ease;
 }
 
 .auth-footer-link:hover {
-    color: #a78bfa;
+    filter: brightness(1.2);
 }
 
 /* Back Link (for Forgot Password page) */
@@ -290,7 +292,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #8b5cf6;
+    color: var(--primary-color);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -300,14 +302,14 @@
 }
 
 .auth-back-link:hover {
-    color: #a78bfa;
+    filter: brightness(1.2);
 }
 
 /* Success Button (Secondary style, dark border) */
 .auth-secondary-btn {
-    background-color: #18181b;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #e4e4e7;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
     border-radius: 8px;
     padding: 14px;
     font-size: 15px;
@@ -323,14 +325,14 @@
 }
 
 .auth-secondary-btn:hover {
-    background-color: #27272a;
-    border-color: rgba(255, 255, 255, 0.15);
+    filter: brightness(0.95);
+    border-color: var(--primary-color);
 }
 
 /* Additional Terms & Conditions styling */
 .auth-terms-text {
     font-size: 12px;
-    color: #52525b;
+    color: var(--text-muted);
     text-align: center;
     line-height: 1.6;
     margin-top: 12px;
@@ -338,7 +340,7 @@
 
 .auth-terms-text a,
 .auth-terms-text span {
-    color: #a1a1aa;
+    color: var(--text-muted);
     text-decoration: none;
     cursor: pointer;
     transition: color 0.15s ease;
@@ -346,5 +348,5 @@
 
 .auth-terms-text a:hover,
 .auth-terms-text span:hover {
-    color: #8b5cf6;
+    color: var(--primary-color);
 }

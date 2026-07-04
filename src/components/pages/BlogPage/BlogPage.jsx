@@ -1,11 +1,13 @@
 import { RiArticleLine, RiTimeLine } from 'react-icons/ri';
 import { HiArrowRight } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 import { blogPosts } from './blogData';
 import './BlogPage.css';
 
 export default function BlogPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleReadArticle = (slug) => {
     navigate(`/blog/${slug}`);
@@ -16,13 +18,13 @@ export default function BlogPage() {
       {/* Header */}
       <div className="blog-header">
         <span className="blog-eyebrow">
-          <RiArticleLine size={14} /> RESOURCES & INSIGHTS
+          <RiArticleLine size={14} /> {t('blog')}
         </span>
         <h1 className="blog-title">
-          Learn how to build <span className="blog-title-gradient">smarter</span>
+          {t('blogTitleText')}
         </h1>
         <p className="blog-subtitle">
-          Expert insights on startup validation, product strategy, market research, and growth.
+          {t('blogSubtitleText')}
         </p>
       </div>
 
@@ -49,7 +51,7 @@ export default function BlogPage() {
                 className="blog-read-btn"
                 onClick={() => handleReadArticle(post.slug)}
               >
-                Read Article <HiArrowRight size={16} />
+                {t('readArticle')} <HiArrowRight size={16} />
               </button>
             </div>
           </div>
@@ -59,11 +61,11 @@ export default function BlogPage() {
       {/* Newsletter CTA */}
       <div className="blog-newsletter">
         <div className="blog-newsletter-content">
-          <h2>Get startup insights delivered to your inbox</h2>
-          <p>Join 10,000+ founders who get our weekly newsletter on product validation.</p>
+          <h2>{t('newsletterTitle')}</h2>
+          <p>{t('newsletterSub')}</p>
           <div className="blog-newsletter-form">
             <input type="email" placeholder="your@email.com" className="blog-input" />
-            <button className="blog-subscribe-btn">Subscribe</button>
+            <button className="blog-subscribe-btn">{t('subscribe')}</button>
           </div>
         </div>
       </div>

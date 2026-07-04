@@ -1,10 +1,12 @@
 import { useNavigate, Link } from "react-router-dom";
 import { FaInstagram, FaGithub, FaTelegramPlane, FaLinkedin } from "react-icons/fa";
 import logo from "../../assets/logo.jpg";
+import { useLanguage } from "../context/LanguageContext";
 import "./Footer.css";
 
 export default function Footer() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <footer className="footer-section">
@@ -16,49 +18,49 @@ export default function Footer() {
               <span className="footer-logo-text">IdeaLab</span>
             </div>
             <p className="footer-tagline">
-              AI-powered idea validation and deep code reviews. Build faster, validate smarter, and ship with absolute confidence.
+              {t("footerTagline")}
             </p>
             <div className="footer-socials">
-              <a href="https://www.instagram.com/shaxriyor1227" className="social-icon" target="_blank"><FaInstagram /></a>
-              <a href="https://github.com/Shaxriyor1227" className="social-icon" target="_blank"><FaGithub /></a>
-              <a href="https://t.me/@Rozmamatov_Shaxriyor" className="social-icon" target="_blank"><FaTelegramPlane /></a>
-              <a href="https://linkedin.com/in/shaxriyor1227" className="social-icon" target="_blank"><FaLinkedin /></a>
+              <a href="https://www.instagram.com/shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+              <a href="https://github.com/Shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+              <a href="https://t.me/@Rozmamatov_Shaxriyor" className="social-icon" target="_blank" rel="noopener noreferrer"><FaTelegramPlane /></a>
+              <a href="https://linkedin.com/in/shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
             </div>
           </div>
 
           <div className="footer-links-group">
             <div className="footer-column">
-              <h4 className="footer-col-title">Product</h4>
-              <Link to="/features" className="footer-link">Features</Link>
-              <Link to="/analyze" className="footer-link">New Analysis</Link>
-              <Link to="#" className="footer-link">Integrations</Link>
-              <Link to="#" className="footer-link">Pricing</Link>
+              <h4 className="footer-col-title">{t("footerProduct")}</h4>
+              <Link to="/features" className="footer-link">{t("features")}</Link>
+              <Link to="/analyze" className="footer-link">{t("newAnalysis")}</Link>
+              <Link to="#" className="footer-link">{t("footerIntegrations")}</Link>
+              <Link to="#" className="footer-link">{t("footerPricing")}</Link>
             </div>
             
             <div className="footer-column">
-              <h4 className="footer-col-title">Resources</h4>
-              <Link to="#" className="footer-link">Documentation</Link>
-              <Link to="/blog" className="footer-link">Blog</Link>
-              <Link to="#" className="footer-link">Community</Link>
-              <Link to="#" className="footer-link">Help Center</Link>
+              <h4 className="footer-col-title">{t("footerResources")}</h4>
+              <Link to="#" className="footer-link">{t("footerDocumentation")}</Link>
+              <Link to="/blog" className="footer-link">{t("blog")}</Link>
+              <Link to="#" className="footer-link">{t("footerCommunity")}</Link>
+              <Link to="#" className="footer-link">{t("footerHelpCenter")}</Link>
             </div>
 
             <div className="footer-column">
-              <h4 className="footer-col-title">Legal</h4>
-              <Link to="#" className="footer-link">Privacy Policy</Link>
-              <Link to="#" className="footer-link">Terms of Service</Link>
-              <Link to="#" className="footer-link">Cookie Policy</Link>
+              <h4 className="footer-col-title">{t("footerLegal")}</h4>
+              <Link to="#" className="footer-link">{t("footerPrivacyPolicy")}</Link>
+              <Link to="#" className="footer-link">{t("footerTermsOfService")}</Link>
+              <Link to="#" className="footer-link">{t("footerCookiePolicy")}</Link>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} IdeaLab Inc. All rights reserved.
+            © {new Date().getFullYear()} IdeaLab Inc. {t("footerAllRightsReserved")}
           </p>
           <div className="footer-bottom-links">
             <span className="footer-status">
-              <span className="status-dot"></span> All systems operational
+              <span className="status-dot"></span> {t("footerAllSystemsOperational")}
             </span>
           </div>
         </div>

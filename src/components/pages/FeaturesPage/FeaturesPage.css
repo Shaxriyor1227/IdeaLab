@@ -1,9 +1,10 @@
 /* ===== FEATURES PAGE — Editorial Layout ===== */
 .fp-section {
-  background: black;
+  background: var(--app-bg);
   padding: 80px 24px 60px;
   position: relative;
   overflow: hidden;
+  transition: background-color 0.25s;
 }
 
 /* ===== INTRO ===== */
@@ -55,10 +56,11 @@
 .fp-intro-stats {
   display: inline-flex;
   align-items: center;
-  background: #111118;
-  border: 1px solid rgba(255,255,255,0.06);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   overflow: hidden;
+  transition: background-color 0.25s, border-color 0.25s;
 }
 
 .fp-stat-pill {
@@ -108,11 +110,12 @@
 
 /* ===== VISUAL ===== */
 .fp-visual {
-  background: #111118;
-  border: 1px solid rgba(255,255,255,0.06);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 40px;
   position: relative;
+  transition: background-color 0.25s, border-color 0.25s;
   overflow: hidden;
   min-height: 280px;
   display: flex;
@@ -190,13 +193,14 @@
   margin: 100px auto 0;
   text-align: center;
   position: relative;
-  background: rgba(15, 13, 26, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 32px;
   padding: 72px 64px 64px;
   overflow: hidden;
-  box-shadow: 0 40px 120px rgba(124, 58, 246, 0.18);
+  box-shadow: 0 40px 120px rgba(124, 58, 246, 0.1);
   backdrop-filter: blur(14px);
+  transition: background-color 0.25s, border-color 0.25s;
 }
 
 .fp-cta::before {

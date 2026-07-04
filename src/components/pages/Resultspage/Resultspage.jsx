@@ -10,7 +10,8 @@ import {
   RiStarFill
 } from "react-icons/ri";
 import { FiTrendingUp, FiActivity, FiGlobe } from "react-icons/fi";
-import "./ResultsPage.css";
+import { useLanguage } from "../../context/LanguageContext";
+import "./Resultspage.css";
 
 const priorityColor = { High: "rp-high", Medium: "rp-medium", Low: "rp-low" };
 
@@ -24,6 +25,7 @@ const swotConfig = [
 export default function ResultsPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   let analysisData = state;
 
@@ -51,16 +53,16 @@ export default function ResultsPage() {
         
         {/* Header */}
         <button className="rp-back" onClick={() => navigate("/")}>
-          <HiArrowLeft size={14} /> Back to Dashboard
+          <HiArrowLeft size={14} /> {t("backToDashboard")}
         </button>
         <div className="rp-header">
           <div className="rp-header-left">
-            <h1 className="rp-title">Idea Analysis</h1>
-            <p className="rp-subtitle">AI Code Reviewer · Analyzed {analyzedAt}</p>
+            <h1 className="rp-title">{t("ideaAnalysisReport")}</h1>
+            <p className="rp-subtitle">AI Code Reviewer · {t("analyzedDate")} {analyzedAt}</p>
           </div>
           <div className="rp-header-right">
-            <button className="rp-btn-ghost" onClick={() => window.print()}><TbFileExport size={16} /> Export PDF</button>
-            <button className="rp-btn-primary" onClick={() => navigate('/history')}><MdBookmark size={16} /> Save to History</button>
+            <button className="rp-btn-ghost" onClick={() => window.print()}><TbFileExport size={16} /> {t("exportPdf")}</button>
+            <button className="rp-btn-primary" onClick={() => navigate('/history')}><MdBookmark size={16} /> {t("saveToHistory")}</button>
           </div>
         </div>
 
@@ -69,8 +71,8 @@ export default function ResultsPage() {
           {/* Card 1 - Viability Score */}
           <div className="rp-card rp-card-viability">
             <div className="rp-card-top">
-              <span className="rp-card-label">Viability Score</span>
-              <span className="rp-badge rp-badge-purple">High Potential</span>
+              <span className="rp-card-label">{t("viabilityScore")}</span>
+              <span className="rp-badge rp-badge-purple">{result.viabilityLabel}</span>
             </div>
             <div className="rp-viability-score">
               <span className="rp-score-main">{result.viabilityScore}</span>
@@ -79,13 +81,13 @@ export default function ResultsPage() {
             <div className="rp-progress-bar">
               <div className="rp-progress-fill" style={{ width: `${result.viabilityScore}%` }}></div>
             </div>
-            <p className="rp-card-desc">Strong market fit with clear differentiation</p>
+            <p className="rp-card-desc">{t("strongMarketFit")}</p>
           </div>
 
           {/* Card 2 - Market Size */}
           <div className="rp-card">
             <div className="rp-card-top">
-              <span className="rp-card-label">Market Size</span>
+              <span className="rp-card-label">{t("marketSize")}</span>
               <div className="rp-icon-blue"><FiGlobe size={18} /></div>
             </div>
             <div className="rp-metric-value rp-text-cyan">{result.marketSize}</div>
@@ -95,17 +97,17 @@ export default function ResultsPage() {
           {/* Card 3 - Competition */}
           <div className="rp-card">
             <div className="rp-card-top">
-              <span className="rp-card-label">Competition</span>
+              <span className="rp-card-label">{t("competition")}</span>
               <div className="rp-icon-gray"><FiActivity size={18} /></div>
             </div>
             <div className="rp-metric-value rp-text-white">{result.competition}</div>
-            <p className="rp-card-desc rp-text-gray">{result.competitorCount} direct competitors</p>
+            <p className="rp-card-desc rp-text-gray">{result.competitorCount} {t("locale") === "uz" ? "ta bevosita raqobatchilar" : "direct competitors"}</p>
           </div>
 
           {/* Card 4 - Trend Score */}
           <div className="rp-card">
             <div className="rp-card-top">
-              <span className="rp-card-label">Trend Score</span>
+              <span className="rp-card-label">{t("trendScore")}</span>
               <div className="rp-icon-cyan"><FiTrendingUp size={18} /></div>
             </div>
             <div className="rp-metric-value rp-text-white">{result.trendScore}</div>
@@ -115,12 +117,12 @@ export default function ResultsPage() {
 
         {/* SWOT Analysis */}
         <div className="rp-section">
-          <h2 className="rp-section-title">SWOT Analysis</h2>
+          <h2 className="rp-section-title">{t("swotAnalysis")}</h2>
           <div className="rp-swot-grid">
             {swotConfig.map(({ key, label, icon, color }) => (
               <div className="rp-swot-card" key={key}>
                 <div className={`rp-swot-header ${color}`}>
-                  {icon} <h3>{label}</h3>
+                  {icon} <h3>{t("locale") === "uz" ? (key.charAt(0).toUpperCase() + key.slice(1) === "Strengths" ? "Kuchli taraflari" : key.charAt(0).toUpperCase() + key.slice(1) === "Weaknesses" ? "Bo'sh taraflari" : key.charAt(0).toUpperCase() + key.slice(1) === "Opportunities" ? "Imkoniyatlar" : "Xavflar") : label}</h3>
                 </div>
                 <ul className="rp-swot-list">
                   {result.swot[key].map((item, i) => (
@@ -132,7 +134,7 @@ export default function ResultsPage() {
                     className="rp-btn-ghost-purple"
                     onClick={() => navigate('/swot-detail', { state: { category: key, analysisData } })}
                   >
-                    View Details &rarr;
+                    {t("viewDetails")} &rarr;
                   </button>
                 </div>
               </div>
@@ -143,7 +145,7 @@ export default function ResultsPage() {
         {/* AI Recommendations */}
         <div className="rp-section">
           <h2 className="rp-section-title rp-recs-title">
-            <RiStarFill className="rp-text-purple" size={20} /> AI Recommendations
+            <RiStarFill className="rp-text-purple" size={20} /> {t("aiRecommendations")}
           </h2>
           <div className="rp-recs-list">
             {result.recommendations.map((rec, i) => (
@@ -155,7 +157,7 @@ export default function ResultsPage() {
                 </div>
                 <div className="rp-rec-priority">
                   <span className={`rp-priority-badge ${priorityColor[rec.priority]}`}>
-                    {rec.priority} Priority
+                    {rec.priority} {t("priority")}
                   </span>
                 </div>
               </div>

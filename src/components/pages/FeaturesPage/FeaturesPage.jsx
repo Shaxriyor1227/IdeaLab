@@ -3,7 +3,8 @@ import { LuBrain, LuCircleGauge, LuChartNetwork, LuShieldCheck, LuFileDown } fro
 import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
 import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
-import { useAuth } from "../../context/Authontext";
+import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import "./FeaturesPage.css";
 
 const featureRows = [
@@ -96,6 +97,7 @@ const featureRows = [
 export default function FeaturesPage() {
   const navigate = useNavigate();
   const { isAuth } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <section className="fp-section">
@@ -103,24 +105,22 @@ export default function FeaturesPage() {
       {/* Intro */}
       <div className="fp-intro">
         <span className="fp-eyebrow">
-          <RiSparklingLine size={13} /> FEATURES
+          <RiSparklingLine size={13} /> {t('features')}
         </span>
         <h1 className="fp-main-title">
-          Built for founders who{" "}<span className="fp-title-gradient">move fast</span>
-          <br />and think clearly
+          {t('featuresTitle')}
         </h1>
         <p className="fp-main-subtitle">
-          IdeaLab gives you a complete validation system in one place. From raw idea to
-          investor-ready insight — powered by AI, designed for clarity, built for speed.
+          {t('featuresSubtitle')}
         </p>
         <div className="fp-intro-stats">
-          <div className="fp-stat-pill"><strong>60s</strong><span>Full analysis</span></div>
+          <div className="fp-stat-pill"><strong>60s</strong><span>{t('fullAnalysisTime')}</span></div>
           <div className="fp-stat-divider" />
-          <div className="fp-stat-pill"><strong>6</strong><span>AI modules</span></div>
+          <div className="fp-stat-pill"><strong>6</strong><span>{t('aiModulesCount')}</span></div>
           <div className="fp-stat-divider" />
-          <div className="fp-stat-pill"><strong>10K+</strong><span>Ideas validated</span></div>
+          <div className="fp-stat-pill"><strong>10K+</strong><span>{t('ideasValidatedText')}</span></div>
           <div className="fp-stat-divider" />
-          <div className="fp-stat-pill"><strong>4.9★</strong><span>User rating</span></div>
+          <div className="fp-stat-pill"><strong>4.9★</strong><span>{t('userRating')}</span></div>
         </div>
       </div>
 
@@ -153,18 +153,17 @@ export default function FeaturesPage() {
 
       {/* CTA */}
       <div className="fp-cta">
-        <span className="fp-cta-tag">Get Started Free</span>
-        <h3 className="fp-cta-title">Stop guessing. Start validating.</h3>
+        <span className="fp-cta-tag">{t('getStarted')}</span>
+        <h3 className="fp-cta-title">{t('stopGuessing')}</h3>
         <p className="fp-cta-body">
-          Every day you spend building without validation is a day you risk wasting. Run your
-          first analysis in under 60 seconds and find out exactly where your idea stands.
+          {t('stopGuessingDesc')}
         </p>
         <div className="fp-cta-actions">
           <button className="fp-cta-btn-primary" onClick={() => navigate(isAuth ? "/analyze" : "/signin")}>
-            Analyze My Idea <HiArrowRight size={16} />
+            {t('btnAnalyzeMyIdea')} <HiArrowRight size={16} />
           </button>
           <button className="fp-cta-btn-ghost" onClick={() => navigate(isAuth ? "/history" : "/signin")}>
-            View History
+            {t('history')}
           </button>
         </div>
       </div>

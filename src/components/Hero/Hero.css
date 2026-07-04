@@ -1,13 +1,14 @@
 .hero {
   min-height: 85vh;
   /* background: radial-gradient(ellipse at top, #1a1a2e 0%, #09090b 50%); */
-  background-color: black;
+  background-color: var(--app-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8rem 2rem 4rem;
   position: relative;
   overflow: hidden;
+  transition: background-color 0.25s;
 }
 
 .hero::before {
@@ -52,7 +53,7 @@
 .hero-title {
   font-size: 4.5rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-color);
   line-height: 1.05;
   margin: 0 0 1.5rem;
   letter-spacing: -0.03em;
@@ -107,8 +108,8 @@
 
 .btn-secondary {
   background: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   padding: 0.9rem 2rem;
   font-size: 1rem;
   font-weight: 600;

@@ -3,7 +3,7 @@ import { LuBrain, LuCircleGauge, LuChartNetwork, LuShieldCheck, LuFileDown } fro
 import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
 import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
-import { useAuth } from "../context/Authontext";
+import { useAuth } from "../context/AuthContext";
 import "./Features.css";
 
 const featureRows = [

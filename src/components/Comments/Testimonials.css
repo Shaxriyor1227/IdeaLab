@@ -1,7 +1,8 @@
 .test-section {
-  background-color: black;
+  background-color: var(--app-bg);
   padding: 80px 24px;
   text-align: center;
+  transition: background-color 0.25s;
 }
 
 .test-eyebrow {
@@ -16,7 +17,7 @@
 .test-title {
   font-size: clamp(28px, 5vw, 48px);
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-color);
   margin: 0 0 16px;
   line-height: 1.15;
 }
@@ -57,8 +58,8 @@
 
 /* Card */
 .test-card {
-  background-color: #161616;
-  border: 1px solid #2a2a2a;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 28px 24px 28px;
   text-align: left;
@@ -66,7 +67,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 32px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.25s;
 }
 
 .test-card:hover {
@@ -75,7 +76,7 @@
 
 .test-quote {
   font-size: 15px;
-  color: #e5e7eb;
+  color: var(--text-color);
   line-height: 1.7;
   margin: 0;
   flex: 1;
@@ -98,7 +99,7 @@
 .test-name {
   font-size: 14px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-color);
   margin: 0 0 2px;
 }
 

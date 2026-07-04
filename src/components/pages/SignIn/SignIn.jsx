@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/Authontext';
+import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { RiLightbulbFill } from 'react-icons/ri';
 import { FcGoogle } from 'react-icons/fc';
@@ -8,22 +9,53 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import './Signin.css';
 
 const SignIn = () => {
-    const { login, signinForm, setSigninForm } = useAuth();
+    const { login, loginWithGoogle, loginWithGithub, signinForm, setSigninForm } = useAuth();
+    const { t } = useLanguage();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
         
-        const success = login(signinForm.email, signinForm.password);
-
-        if (success) {
+        try {
+            await login(signinForm.email, signinForm.password);
             setSigninForm({ email: "", password: "" });
             navigate("/");
-        } else {
-            setError("Invalid email or password. Please check your credentials or sign up.");
+        } catch (err) {
+            console.error(err);
+            if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+                setError("Email yoki parol noto'g'ri. Iltimos tekshirib qaytadan urining.");
+            } else {
+                setError("Tizimga kirishda xatolik yuz berdi: " + (err.message || err.code));
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        setError('');
+        try {
+            await loginWithGoogle();
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            setError("Google orqali kirishda xatolik yuz berdi.");
+        }
+    };
+
+    const handleGithubLogin = async () => {
+        setError('');
+        try {
+            await loginWithGithub();
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            setError("GitHub orqali kirishda xatolik yuz berdi.");
         }
     };
 
@@ -37,18 +69,18 @@ const SignIn = () => {
                     </div>
                 </div>
 
-                <h2 className="auth-title">Welcome back</h2>
+                <h2 className="auth-title">{t('welcomeBack') || 'Welcome back'}</h2>
                 <p className="auth-subtitle">Log in to your IdeaLab account</p>
 
                 {error && <div className="auth-error-message">{error}</div>}
 
                 {/* Social Logins */}
                 <div className="auth-social-buttons">
-                    <button type="button" className="auth-social-btn" onClick={() => navigate('/')}>
+                    <button type="button" className="auth-social-btn" onClick={handleGoogleLogin}>
                         <FcGoogle className="auth-social-icon" />
                         <span>Continue with Google</span>
                     </button>
-                    <button type="button" className="auth-social-btn" onClick={() => navigate('/')}>
+                    <button type="button" className="auth-social-btn" onClick={handleGithubLogin}>
                         <FaGithub className="auth-social-icon" />
                         <span>Continue with GitHub</span>
                     </button>
@@ -62,7 +94,7 @@ const SignIn = () => {
                 {/* Email/Password Form */}
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="auth-field-group">
-                        <label className="auth-label">Email address</label>
+                        <label className="auth-label">{t('emailAddress') || 'Email address'}</label>
                         <input
                             type="email"
                             className="auth-input"
@@ -102,8 +134,8 @@ const SignIn = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="auth-submit-btn">
-                        Log in &rarr;
+                    <button type="submit" className="auth-submit-btn" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Log in →'}
                     </button>
                 </form>
             </div>

@@ -1,24 +1,47 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { RiLockPasswordLine, RiCheckboxCircleFill } from 'react-icons/ri';
 import { FiArrowLeft } from 'react-icons/fi';
 import '../SignIn/Signin.css'; // Use shared styles
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
+    const { resetPassword } = useAuth();
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (email) {
+        setError('');
+        if (!email) return;
+
+        setLoading(true);
+        try {
+            await resetPassword(email);
             setIsSubmitted(true);
+        } catch (err) {
+            console.error(err);
+            if (err.code === 'auth/user-not-found') {
+                setError("Ushbu email topilmadi. Iltimos tekshirib qaytadan urining.");
+            } else {
+                setError("Parolni tiklashda xatolik yuz berdi: " + (err.message || err.code));
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleResend = () => {
-        // Simulate resending email
-        alert(`Resent reset link to ${email}`);
+    const handleResend = async () => {
+        setError('');
+        try {
+            await resetPassword(email);
+            alert(`Reset link resent to ${email}`);
+        } catch (err) {
+            alert(`Resend failed: ${err.message}`);
+        }
     };
 
     return (
@@ -42,6 +65,8 @@ const ForgotPassword = () => {
                     <h2 className="auth-title">Reset your password</h2>
                     <p className="auth-subtitle">Enter your email and we'll send a reset link</p>
 
+                    {error && <div className="auth-error-message">{error}</div>}
+
                     <form onSubmit={handleSubmit} className="auth-form">
                         <div className="auth-field-group">
                             <label className="auth-label">Email address</label>
@@ -55,8 +80,8 @@ const ForgotPassword = () => {
                             />
                         </div>
 
-                        <button type="submit" className="auth-submit-btn">
-                            Send Reset Link &rarr;
+                        <button type="submit" className="auth-submit-btn" disabled={loading}>
+                            {loading ? 'Sending...' : 'Send Reset Link →'}
                         </button>
                     </form>
                 </div>
