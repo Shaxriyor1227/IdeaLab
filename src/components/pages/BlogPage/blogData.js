@@ -135,9 +135,9 @@ export const blogPosts = [
       <h2>A Three-Tier Framework for Who to Actually Track</h2>
       <p>Most founders either track too many competitors and drown in noise, or only watch the obvious market leader and miss the smaller players actually competing for their exact customer. A tighter, tiered list fixes both problems:</p>
       <ul>
-        <li><strong>2–3 direct competitors</strong> — selling roughly the same thing to roughly the same audience. These set your baseline.</li>
-        <li><strong>2–3 aspirational accounts</strong> — bigger brands whose strategy is worth studying even if you can't yet match their resources or budget.</li>
-        <li><strong>1–2 lateral competitors</strong> — adjacent products whose audience overlaps with yours, even if they don't sell the same thing. They often reveal shifting customer expectations before direct competitors do.</li>
+        <li><strong>2-3 direct competitors</strong> — selling roughly the same thing to roughly the same audience. These set your baseline.</li>
+        <li><strong>2-3 aspirational accounts</strong> — bigger brands whose strategy is worth studying even if you can't yet match their resources or budget.</li>
+        <li><strong>1-2 lateral competitors</strong> — adjacent products whose audience overlaps with yours, even if they don't sell the same thing. They often reveal shifting customer expectations before direct competitors do.</li>
       </ul>
       <p>Anything past six or seven tracked accounts usually means you're collecting data you'll never act on.</p>
 
@@ -151,7 +151,7 @@ export const blogPosts = [
       <p>The safest way to benchmark competitors without spiraling into constant checking is to contain it to a single, structured session each week rather than a habit you dip into throughout the day.</p>
       <ol>
         <li><strong>Snapshot:</strong> Pull engagement and growth numbers for your tracked set over the past 7 days, compared to your own metrics for the same period.</li>
-        <li><strong>Study what worked:</strong> Look at each competitor's top 2–3 posts of the week — format, length, whether they used a call-to-action — not their entire feed.</li>
+        <li><strong>Study what worked:</strong> Look at each competitor's top 2-3 posts of the week — format, length, whether they used a call-to-action — not their entire feed.</li>
         <li><strong>Compare, don't copy:</strong> Hold your own top content from the same period next to theirs. Where is the real gap — format, timing, or message?</li>
         <li><strong>Turn the gap into one action:</strong> Pick a single, concrete change for next week. Not five. One.</li>
       </ol>
