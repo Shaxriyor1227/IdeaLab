@@ -1,12 +1,12 @@
 import { useNavigate, Link } from "react-router-dom";
 import { FaInstagram, FaGithub, FaTelegramPlane, FaLinkedin } from "react-icons/fa";
 import logo from "../../assets/logo.jpg";
-import { useLanguage } from "../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
 export default function Footer() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <footer className="footer-section">

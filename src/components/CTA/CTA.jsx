@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 import { useAuth } from "../context/AuthContext";
-import { useLanguage } from "../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import "./CTA.css";
 
 export default function CTA() {
   const navigate = useNavigate();
   const { isAuth } = useAuth();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const handleGetStarted = () => {
     if (isAuth) {

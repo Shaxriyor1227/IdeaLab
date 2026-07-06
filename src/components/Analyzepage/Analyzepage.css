@@ -4,15 +4,50 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 24px;
+  padding: 100px 24px 60px;
   transition: background-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.ap-page::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .ap-wrapper {
   width: 100%;
   max-width: 840px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
+
+@keyframes apFadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ap-badge,
+.ap-title,
+.ap-subtitle,
+.ap-card {
+  opacity: 0;
+  animation: apFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.ap-badge { animation-delay: 0.1s; }
+.ap-title { animation-delay: 0.2s; }
+.ap-subtitle { animation-delay: 0.3s; }
+.ap-card { animation-delay: 0.4s; }
 
 /* Badge */
 .ap-badge {
@@ -47,15 +82,22 @@
 
 /* Card */
 .ap-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 32px 28px;
+  background: rgba(20, 20, 25, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   text-align: left;
-  transition: background-color 0.25s, border-color 0.25s;
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.ap-card:hover {
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(124, 58, 237, 0.1);
 }
 
 /* Row */
@@ -109,7 +151,9 @@
 .ap-input:focus,
 .ap-textarea:focus,
 .ap-select:focus {
-  border-color: #7c3aed;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  background-color: rgba(30, 30, 35, 0.8);
 }
 
 .ap-textarea {
@@ -131,26 +175,44 @@
 
 /* Button */
 .ap-btn {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  background-color: #7c3aed;
+  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
   color: #ffffff;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   border: none;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 12px;
+  padding: 16px;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.15s;
-  margin-top: 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 8px;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+  overflow: hidden;
+  z-index: 1;
 }
 
-.ap-btn:hover {
-  background-color: #6d28d9;
-  transform: translateY(-1px);
+.ap-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+  z-index: -1;
+}
+
+.ap-btn:not(.ap-btn--disabled):hover::before {
+  left: 100%;
+}
+
+.ap-btn:not(.ap-btn--disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(124, 58, 237, 0.5);
 }
 
 .ap-btn--disabled {

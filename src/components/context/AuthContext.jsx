@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db, googleProvider, githubProvider } from "../../firebase";
+import i18n from "../../i18n";
 
 const AuthContext = createContext();
 
@@ -52,6 +53,10 @@ export const AuthProvider = ({ children }) => {
             theme: dbData.theme,
             locale: dbData.locale,
           };
+          // Sync i18n language with user's saved preference
+          if (dbData.locale && (dbData.locale === 'en' || dbData.locale === 'uz')) {
+            i18n.changeLanguage(dbData.locale);
+          }
         } else {
           // Create document if it doesn't exist (e.g. social login first time)
           await setDoc(userDocRef, {

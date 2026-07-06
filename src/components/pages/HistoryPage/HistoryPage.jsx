@@ -6,13 +6,13 @@ import { RiSparklingLine } from "react-icons/ri";
 import { auth, db } from "../../../firebase";
 import { collection, doc, deleteDoc, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
-import { useLanguage } from "../../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import "./HistoryPage.css";
 
 export default function HistoryPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, i18n } = useTranslation();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +46,7 @@ export default function HistoryPage() {
   const handleDelete = async (id) => {
     if (!user?.uid) return;
     const confirmDelete = window.confirm(
-      t("locale") === "uz" ? "Ushbu hisobotni o'chirmoqchimisiz?" : "Are you sure you want to delete this analysis report?"
+      i18n.language === "uz" ? "Ushbu hisobotni o'chirmoqchimisiz?" : "Are you sure you want to delete this analysis report?"
     );
     if (!confirmDelete) return;
 

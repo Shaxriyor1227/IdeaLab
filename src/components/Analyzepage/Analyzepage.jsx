@@ -5,7 +5,7 @@ import { RiSparklingLine } from "react-icons/ri";
 import { MdAccessTime } from "react-icons/md";
 import { auth, db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { useLanguage } from "../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import "./Analyzepage.css";
 
 const industries = [
@@ -51,7 +51,7 @@ Return exactly this JSON structure:
 
 export default function AnalyzePage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [form, setForm] = useState(() => {
     const saved = localStorage.getItem("latestAnalysis");
     if (saved) {

@@ -1,11 +1,11 @@
 import { FiSearch } from "react-icons/fi";
 import { LuChartNoAxesCombined } from "react-icons/lu";
 import { HiOutlineDocumentArrowDown } from "react-icons/hi2";
-import { useLanguage } from "../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import "./HowItWorks.css";
 
 export default function HowItWorks() {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const steps = [
     {

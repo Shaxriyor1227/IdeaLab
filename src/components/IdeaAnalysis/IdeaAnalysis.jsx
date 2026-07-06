@@ -1,8 +1,8 @@
-import { useLanguage } from '../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import './IdeaAnalysis.css';
 
 const IdeaAnalysis = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <section className="idea-analysis-section">

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { RiLightbulbFill } from 'react-icons/ri';
 import { FcGoogle } from 'react-icons/fc';
@@ -10,7 +10,7 @@ import './Signin.css';
 
 const SignIn = () => {
     const { login, loginWithGoogle, loginWithGithub, signinForm, setSigninForm } = useAuth();
-    const { t } = useLanguage();
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');

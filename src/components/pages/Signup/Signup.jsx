@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { RiLightbulbFill } from 'react-icons/ri';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
@@ -10,7 +10,7 @@ import '../SignIn/Signin.css'; // Use shared styles
 
 const Signup = () => {
     const { signup, loginWithGoogle, loginWithGithub, signupForm, setSignupForm } = useAuth();
-    const { t } = useLanguage();
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const [confirmPassword, setConfirmPassword] = useState('');

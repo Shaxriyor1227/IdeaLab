@@ -29,6 +29,28 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+@keyframes articleFadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.blog-post-header-row,
+.blog-post-title,
+.blog-post-meta,
+.blog-post-image,
+.blog-post-content,
+.blog-post-next-card {
+  opacity: 0;
+  animation: articleFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.blog-post-header-row { animation-delay: 0.1s; }
+.blog-post-title { animation-delay: 0.2s; }
+.blog-post-meta { animation-delay: 0.3s; }
+.blog-post-image { animation-delay: 0.4s; }
+.blog-post-content { animation-delay: 0.5s; }
+.blog-post-next-card { animation-delay: 0.7s; }
+
 /* ==========================================================================
    Back button
    ========================================================================== */

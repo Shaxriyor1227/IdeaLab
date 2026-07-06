@@ -10,7 +10,7 @@ import {
   RiStarFill
 } from "react-icons/ri";
 import { FiTrendingUp, FiActivity, FiGlobe } from "react-icons/fi";
-import { useLanguage } from "../../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import "./Resultspage.css";
 
 const priorityColor = { High: "rp-high", Medium: "rp-medium", Low: "rp-low" };
@@ -25,7 +25,8 @@ const swotConfig = [
 export default function ResultsPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
 
   let analysisData = state;
 
@@ -101,7 +102,7 @@ export default function ResultsPage() {
               <div className="rp-icon-gray"><FiActivity size={18} /></div>
             </div>
             <div className="rp-metric-value rp-text-white">{result.competition}</div>
-            <p className="rp-card-desc rp-text-gray">{result.competitorCount} {t("locale") === "uz" ? "ta bevosita raqobatchilar" : "direct competitors"}</p>
+            <p className="rp-card-desc rp-text-gray">{result.competitorCount} {lang === "uz" ? "ta bevosita raqobatchilar" : "direct competitors"}</p>
           </div>
 
           {/* Card 4 - Trend Score */}
@@ -122,7 +123,7 @@ export default function ResultsPage() {
             {swotConfig.map(({ key, label, icon, color }) => (
               <div className="rp-swot-card" key={key}>
                 <div className={`rp-swot-header ${color}`}>
-                  {icon} <h3>{t("locale") === "uz" ? (key.charAt(0).toUpperCase() + key.slice(1) === "Strengths" ? "Kuchli taraflari" : key.charAt(0).toUpperCase() + key.slice(1) === "Weaknesses" ? "Bo'sh taraflari" : key.charAt(0).toUpperCase() + key.slice(1) === "Opportunities" ? "Imkoniyatlar" : "Xavflar") : label}</h3>
+                  {icon} <h3>{lang === "uz" ? (key === "strengths" ? "Kuchli tomonlar" : key === "weaknesses" ? "Kuchsiz tomonlar" : key === "opportunities" ? "Imkoniyatlar" : "Xavflar") : label}</h3>
                 </div>
                 <ul className="rp-swot-list">
                   {result.swot[key].map((item, i) => (

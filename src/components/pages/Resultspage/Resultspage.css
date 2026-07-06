@@ -12,6 +12,13 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes rpFadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Navbar */
@@ -66,6 +73,9 @@
   margin-bottom: 40px;
   flex-wrap: wrap;
   gap: 20px;
+  opacity: 0;
+  animation: rpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.1s;
 }
 
 .rp-title {
@@ -143,13 +153,27 @@
 }
 
 .rp-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: rgba(20, 20, 25, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  transition: background-color 0.25s, border-color 0.25s;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  animation: rpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.rp-card:nth-child(1) { animation-delay: 0.2s; }
+.rp-card:nth-child(2) { animation-delay: 0.3s; }
+.rp-card:nth-child(3) { animation-delay: 0.4s; }
+.rp-card:nth-child(4) { animation-delay: 0.5s; }
+
+.rp-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3), 0 0 24px rgba(124, 58, 237, 0.1);
 }
 
 .rp-card-viability {
@@ -242,6 +266,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  opacity: 0;
+  animation: rpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.5s;
 }
 
 .rp-text-purple { color: #7C3AED; }
@@ -259,13 +286,27 @@
 }
 
 .rp-swot-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: rgba(20, 20, 25, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  transition: background-color 0.25s, border-color 0.25s;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  animation: rpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.rp-swot-card:nth-child(1) { animation-delay: 0.6s; }
+.rp-swot-card:nth-child(2) { animation-delay: 0.65s; }
+.rp-swot-card:nth-child(3) { animation-delay: 0.7s; }
+.rp-swot-card:nth-child(4) { animation-delay: 0.75s; }
+
+.rp-swot-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
 }
 
 .rp-swot-header {
@@ -379,14 +420,29 @@
 }
 
 .rp-rec-item {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: rgba(20, 20, 25, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   padding: 24px;
   display: flex;
   align-items: center;
   gap: 20px;
-  transition: background-color 0.25s, border-color 0.25s;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  animation: rpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.rp-rec-item:nth-child(1) { animation-delay: 0.8s; }
+.rp-rec-item:nth-child(2) { animation-delay: 0.85s; }
+.rp-rec-item:nth-child(3) { animation-delay: 0.9s; }
+.rp-rec-item:nth-child(4) { animation-delay: 0.95s; }
+.rp-rec-item:nth-child(5) { animation-delay: 1.0s; }
+
+.rp-rec-item:hover {
+  transform: translateX(6px);
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 600px) {

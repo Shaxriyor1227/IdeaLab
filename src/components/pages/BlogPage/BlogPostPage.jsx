@@ -2,14 +2,14 @@ import { RiTimeLine } from 'react-icons/ri';
 import { HiArrowLeft } from 'react-icons/hi';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { blogPosts } from './blogData';
 import './BlogPostPage.css';
 
 export default function BlogPostPage() {
   const navigate = useNavigate();
   const { slug } = useParams();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -22,7 +22,7 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <section className="blog-post-page">
-        <button className="blog-back-btn" onClick={() => navigate(-1)}>
+        <button className="blog-back-btn" onClick={() => navigate('/blog')}>
           <HiArrowLeft size={18} /> {t('backToBlog')}
         </button>
         <div className="blog-post-notfound">
@@ -34,9 +34,9 @@ export default function BlogPostPage() {
   }
 
   return (
-    <article className="blog-post-page">
+    <article className="blog-post-page" key={slug}>
       <div className="blog-post-header-row">
-        <button className="blog-back-btn" onClick={() => navigate(-1)}>
+        <button className="blog-back-btn" onClick={() => navigate('/blog')}>
           <HiArrowLeft size={18} /> {t('backToBlog')}
         </button>
         <span className="blog-post-category">{post.category}</span>

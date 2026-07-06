@@ -1,13 +1,13 @@
 import { RiArticleLine, RiTimeLine } from 'react-icons/ri';
 import { HiArrowRight } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { blogPosts } from './blogData';
 import './BlogPage.css';
 
 export default function BlogPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const handleReadArticle = (slug) => {
     navigate(`/blog/${slug}`);

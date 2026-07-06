@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import './Hero.css';
 import { MdSlowMotionVideo } from "react-icons/md";
 
 const Hero = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const handleGetStarted = () => {
     if (isAuth) {

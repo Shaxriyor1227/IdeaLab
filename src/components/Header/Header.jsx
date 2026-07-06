@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { TbFileExport } from 'react-icons/tb';
 import { FiMenu, FiX, FiSettings, FiSun, FiMoon } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import './Header.css';
 import logo from '../../assets/logo.jpg';
@@ -12,7 +12,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuth, logout, user } = useAuth();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const { mode, toggleMode } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

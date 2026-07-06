@@ -13,6 +13,11 @@
   padding: 0 24px;
 }
 
+@keyframes dpFadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Navbar */
 .dp-navbar {
   display: flex;
@@ -41,7 +46,12 @@
 .dp-nav-export:hover { background: #ffffff10; color: #ffffff; }
 
 /* Header */
-.dp-header { margin-bottom: 40px; }
+.dp-header { 
+  margin-bottom: 40px; 
+  opacity: 0;
+  animation: dpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.1s;
+}
 .dp-back-link {
   display: inline-flex; align-items: center; gap: 8px; background: none;
   border: none; color: #9ca3af; font-size: 14px; cursor: pointer; padding: 0;
@@ -119,9 +129,14 @@
 
 /* Score Card */
 .dp-score-card {
-  background: #111118; 
+  background: rgba(20, 20, 25, 0.6); 
   border: 1px solid var(--theme-color);
-  border-radius: 12px; padding: 24px 32px; margin-bottom: 48px;
+  border-radius: 16px; padding: 24px 32px; margin-bottom: 48px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: dpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.2s;
 }
 .dp-score-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .dp-label-small { font-size: 12px; font-weight: 700; color: var(--theme-color); letter-spacing: 0.5px; text-transform: uppercase; }
@@ -141,7 +156,25 @@
 
 /* Detail Cards */
 .dp-details-section { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
-.dp-detail-card { background: #111118; border: 1px solid #ffffff10; border-radius: 12px; padding: 24px; }
+.dp-detail-card { 
+  background: rgba(20, 20, 25, 0.6); 
+  border: 1px solid #ffffff10; 
+  border-radius: 16px; 
+  padding: 24px; 
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: dpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.dp-detail-card:nth-child(1) { animation-delay: 0.3s; }
+.dp-detail-card:nth-child(2) { animation-delay: 0.4s; }
+.dp-detail-card:nth-child(3) { animation-delay: 0.5s; }
+
+.dp-detail-card:hover {
+  transform: translateX(6px);
+  border-color: color-mix(in srgb, var(--theme-color) 40%, transparent);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
 .dp-detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 16px; }
 .dp-detail-title { margin: 0; font-size: 16px; font-weight: 700; color: #ffffff; }
 
@@ -170,8 +203,18 @@
 
 /* Competitor Table */
 .dp-section { margin-bottom: 48px; }
-.dp-section-title { font-size: 18px; font-weight: 700; margin: 0 0 20px 0; color: #ffffff; text-transform: capitalize; }
-.dp-table-wrapper { background: #111118; border: 1px solid #ffffff15; border-radius: 12px; overflow: hidden; overflow-x: auto; }
+.dp-section-title { 
+  font-size: 18px; font-weight: 700; margin: 0 0 20px 0; color: #ffffff; text-transform: capitalize; 
+  opacity: 0; animation: dpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 0.4s;
+}
+.dp-table-wrapper { 
+  background: rgba(20, 20, 25, 0.6); 
+  border: 1px solid #ffffff15; 
+  border-radius: 16px; 
+  overflow: hidden; overflow-x: auto; 
+  backdrop-filter: blur(12px);
+  opacity: 0; animation: dpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 0.6s;
+}
 .dp-table { width: 100%; border-collapse: collapse; text-align: left; }
 .dp-table th { padding: 16px 24px; background: #1f293730; font-size: 13px; color: #9ca3af; font-weight: 600; border-bottom: 1px solid #ffffff15; }
 .dp-table td { padding: 16px 24px; font-size: 14px; color: #e5e7eb; border-bottom: 1px solid #ffffff0a; }
@@ -182,7 +225,23 @@
 /* Leverage Actions */
 .dp-leverage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 768px) { .dp-leverage-grid { grid-template-columns: 1fr; } }
-.dp-leverage-card { background: #111118; border: 1px solid #ffffff15; border-radius: 12px; padding: 24px; }
+.dp-leverage-card { 
+  background: rgba(20, 20, 25, 0.6); 
+  border: 1px solid #ffffff15; 
+  border-radius: 16px; 
+  padding: 24px; 
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0; animation: dpFadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.dp-leverage-card:nth-child(1) { animation-delay: 0.7s; }
+.dp-leverage-card:nth-child(2) { animation-delay: 0.8s; }
+
+.dp-leverage-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--theme-color) 40%, transparent);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
 .dp-leverage-icon {
   width: 32px; height: 32px; background: #7C3AED20; color: #a78bfa; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; margin-bottom: 16px;

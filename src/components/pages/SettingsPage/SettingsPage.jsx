@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
-import { useLanguage } from "../../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import { FiUser, FiSettings, FiCheck, FiSun, FiMoon } from "react-icons/fi";
 import { MdOutlineColorLens, MdTranslate, MdLogout } from "react-icons/md";
 import { doc, updateDoc } from "firebase/firestore";
@@ -12,11 +12,24 @@ import "./SettingsPage.css";
 export default function SettingsPage() {
   const { user, logout } = useAuth();
   const { theme, changeTheme, themes, mode, toggleMode } = useTheme();
-  const { locale, changeLocale, t } = useLanguage();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
 
   const [displayName, setDisplayName] = useState(user?.name || "");
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+
+  const handleLanguageChange = async (newLocale) => {
+    i18n.changeLanguage(newLocale);
+    if (user?.uid) {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, { locale: newLocale });
+      } catch (err) {
+        console.error("Error updating language preference:", err);
+      }
+    }
+  };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -123,8 +136,8 @@ export default function SettingsPage() {
                   </div>
                   <span className="mode-toggle-lbl">
                     {mode === "light" 
-                      ? (locale === "ru" ? "Светлая" : locale === "uz" ? "Kunduzgi" : "Light Mode") 
-                      : (locale === "ru" ? "Темная" : locale === "uz" ? "Tungi" : "Dark Mode")}
+                      ? (locale === "uz" ? "Kunduzgi" : "Light Mode") 
+                      : (locale === "uz" ? "Tungi" : "Dark Mode")}
                   </span>
                 </button>
               </div>
@@ -142,22 +155,16 @@ export default function SettingsPage() {
 
               <div className="lang-options">
                 <button
-                  onClick={() => changeLocale("en")}
+                  onClick={() => handleLanguageChange("en")}
                   className={`lang-option-btn ${locale === "en" ? "lang-option-btn--active" : ""}`}
                 >
                   <span className="flag-icon">🇺🇸</span> English
                 </button>
                 <button
-                  onClick={() => changeLocale("uz")}
+                  onClick={() => handleLanguageChange("uz")}
                   className={`lang-option-btn ${locale === "uz" ? "lang-option-btn--active" : ""}`}
                 >
                   <span className="flag-icon">🇺🇿</span> O'zbekcha
-                </button>
-                <button
-                  onClick={() => changeLocale("ru")}
-                  className={`lang-option-btn ${locale === "ru" ? "lang-option-btn--active" : ""}`}
-                >
-                  <span className="flag-icon">🇷🇺</span> Русский
                 </button>
               </div>
             </div>
@@ -242,7 +249,7 @@ export default function SettingsPage() {
                   Theme: {themes[theme]?.name || "Purple"}
                 </span>
                 <span className="meta-badge lang-badge">
-                  Lang: {locale === "en" ? "English" : locale === "ru" ? "Русский" : "O'zbek"}
+                  Lang: {locale === "en" ? "English" : "O'zbek"}
                 </span>
                 <span className="meta-badge mode-badge">
                   Mode: {mode === "light" ? "Light" : "Dark"}

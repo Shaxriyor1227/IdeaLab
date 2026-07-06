@@ -4,7 +4,7 @@ import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
 import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
 import { useAuth } from "../../context/AuthContext";
-import { useLanguage } from "../../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import "./FeaturesPage.css";
 
 const featureRows = [
@@ -97,7 +97,7 @@ const featureRows = [
 export default function FeaturesPage() {
   const navigate = useNavigate();
   const { isAuth } = useAuth();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <section className="fp-section">
