@@ -32,8 +32,8 @@
 
 .hiw-cards {
   display: flex;
-  /* gap: 50px; */
-  justify-content: space-around;
+  gap: 24px;
+  justify-content: center;
   flex-wrap: wrap;
   max-width: 1300px;
   margin: 0 auto;

@@ -7,7 +7,7 @@ import './BlogPage.css';
 
 export default function BlogPage() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleReadArticle = (slug) => {
     navigate(`/blog/${slug}`);
@@ -30,7 +30,7 @@ export default function BlogPage() {
 
       {/* Blog Grid */}
       <div className="blog-grid">
-        {blogPosts.map((post) => (
+        {(blogPosts[i18n.language] || blogPosts.en).map((post) => (
           <div className="blog-card" key={post.id}>
             <div className="blog-card-image">
               <img src={post.image} alt={post.title} />

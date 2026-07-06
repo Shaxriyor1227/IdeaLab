@@ -127,5 +127,73 @@
   "footerAllSystemsOperational": "Barcha tizimlar ishlamoqda",
   "ctaTitle": "Tekshirishni bepul boshlang",
   "ctaSubtitle": "Birinchi g'oyangizni IdeaLab orqali tahlil qiling va bir daqiqadan kamroq vaqt ichida bozor reytingi, SWOT tahlili, raqobatchilar ro'yxati va tavsiya etilgan keyingi tajribalarni oling.",
-  "locale": "uz"
+  "locale": "uz",
+  "featuresData": [
+    {
+      "label": "01 — SWOT Tahlili",
+      "title": "Startapingizni har tomonlama tushuning",
+      "body": "Aksariyat asoschilar o'z kamchiliklarini juda kech bo'lmasdan ko'ra olmaydilar. IdeaLab'ning sun'iy intellekti g'oyangizni to'rtta muhim yo'nalish bo'yicha tahlil qiladi — Kuchli tomonlar, Kuchsiz tomonlar, Imkoniyatlar va Xavflar — barchasi sizning aniq bozoringiz, maqsadli mijozingiz va raqobat muhitiga moslashtirilgan holda. Bu oddiy qolip emas. Har bir ma'lumot siz kiritgan ma'lumotlar asosida yangidan yaratiladi va g'oyangiz aslida qanday holatda ekanligini ko'rsatuvchi real vaqtdagi oynani taqdim etadi. Siz bir qator kod yozishdan oldin nimaga ko'proq e'tibor qaratish kerakligini va nimani tuzatish kerakligini aniq bilib olasiz.",
+      "points": [
+        "Sizning sohangizga moslashtirilgan kuchli tomonlar",
+        "Investorlardan oldin aniqlangan kuchsiz tomonlar",
+        "Siz hech qachon o'ylamagan imkoniyatlar",
+        "Dolzarblik va ta'siriga qarab tartiblangan xavflar"
+      ]
+    },
+    {
+      "label": "02 — Hayotiylik Darajasi",
+      "title": "To'liq manzarani ko'rsatadigan yagona raqam",
+      "body": "Investorlar g'oyalarni baholash uchun murakkab tizimlardan foydalanadilar. Endi siz ham shunday qila olasiz. IdeaLab bozor imkoniyati, dolzarbligi, monetizatsiya salohiyati, raqobat zichligi va trend sur'atini 0 dan 100 gacha bo'lgan yagona Hayotiylik Darajasiga birlashtiradi. 87 ball sizning g'oyangiz kuchli asoslarga va aniq bozor talabiga ega ekanligini anglatadi. 42 ball esa investorlarga taqdim etishdan oldin hali ko'p ish qilinishi kerakligini bildiradi. Hech qanday mujmalliksiz, faqat aniq va tushunarli signal. G'oyangizni qayta ishlash davomida balingiz qanday oshib borishini kuzatib boring.",
+      "points": [
+        "0-100 gacha aniq baholash darajasi",
+        "Bozor hajmi va o'sish sur'ati hisobga olingan",
+        "Trend sur'ati va vaqt tahlili",
+        "G'oyalaringiz tarixidagi ballarni solishtirish"
+      ]
+    },
+    {
+      "label": "03 — Raqobat Tahlili",
+      "title": "Jangga kirishdan oldin maydonni ko'ring",
+      "body": "Raqobatchilaringizni bilmasdan bozorga kirish xuddi ko'zi bog'liq holda mashina haydashga o'xshaydi. IdeaLab g'oyangiz atrofidagi raqobat muhitini xaritalab beradi — ma'lum o'yinchilarni aniqlash, bo'shliqlarni ko'rsatish, potentsial o'rinbosarlarni topish va qayerda farqlanish mumkinligini ta'kidlash. Kunlab qo'lda izlanish olib borish o'rniga, 60 soniyadan kamroq vaqt ichida tuzilgan intellektual hisobotni olasiz. Kimga qarshi ekanligingizni, ularda nima yetishmayotganini va mahsulotingizni qanday qilib g'olib bo'lish uchun yo'naltirishni tushunib oling.",
+      "points": [
+        "Raqobatchilar soni va toifa zichligi",
+        "Bo'shliqlar va yetishmovchiliklarni aniqlash",
+        "Haqiqatdan ishlaydigan strategik yo'nalishlar",
+        "Xususiyatlar bo'yicha taqqoslash matritsasi"
+      ]
+    },
+    {
+      "label": "04 — Sun'iy Intellekt Tavsiyalari",
+      "title": "Shunchaki tahlil emas — aniq harakatlar rejasi",
+      "body": "Harakatsiz tahlil shunchaki shovqin hisoblanadi. G'oyangizni qismlarga ajratgandan so'ng, IdeaLab sun'iy intellekti joylashuv strategiyasi, MVP (minimal ishlovchi mahsulot) ko'lami, narx tajribalari, bozorga kirish kanallari va mijozlarni jalb qilishning dastlabki qadamlarini o'z ichiga olgan muhimlik bo'yicha tartiblangan tavsiyalar to'plamini ishlab chiqadi. Har bir tavsiya Yuqori, O'rta yoki Past muhimlik darajasi bilan belgilanadi, shuning uchun siz doimo nimadan boshlashni bilasiz. Bu xuddi minglab biznes modellarini ko'rib chiqqan va bugungi bozorda aslida nima ishlashini biladigan startap maslahatchisiga ega bo'lishga o'xshaydi.",
+      "points": [
+        "Yuqori, O'rta, Past muhimlik darajalari",
+        "Bozorga kirish va sotuv kanallari bo'yicha maslahat",
+        "MVP ko'lami va xususiyatlar ketma-ketligi",
+        "Narxlash strategiyasi bo'yicha tavsiyalar"
+      ]
+    },
+    {
+      "label": "05 — Tarix va Kuzatuv",
+      "title": "G'oyangiz vaqt o'tishi bilan o'sishini kuzating",
+      "body": "Ajoyib g'oyalar kamdan-kam hollarda darhol mukammal bo'ladi — ular takrorlanish orqali yaxshilanadi. IdeaLab siz o'tkazgan har bir tahlilni saqlab qoladi va vaqt o'tishi bilan fikrlashingizni kuzatishga imkon beruvchi shaxsiy tekshiruv tarixini yaratadi. Istalgan oldingi tahlilga qayting, variantlar bo'yicha hayotiylik darajalarini solishtiring va bozoringiz haqida ko'proq bilib olganingiz sari g'oyangiz qanday rivojlanib borayotganini yaqqol ko'ring. Strategiyangizni aniqlashtiryapsizmi yoki butunlay o'zgartiryapsizmi, tarixingiz keyingi qadamni yo'naltirish uchun doimo shu yerda.",
+      "points": [
+        "Cheklanmagan tahlil tarixi saqlanadi",
+        "O'tgan hisobotlarga bir marta bosish orqali kirish",
+        "Turli variantlar bo'yicha ballarni taqqoslash",
+        "Tozalikni saqlash uchun eski tahlillarni o'chirish"
+      ]
+    },
+    {
+      "label": "06 — PDF Yuklash",
+      "title": "Tahlil hisobotini istalgan joyda ulashing",
+      "body": "Sizning tahlilingiz faqat siz uni yetkazib bera olishingiz bilan qadrlidir. IdeaLab sizga hayotiylik darajasi, SWOT tahlili, bozor ma'lumotlari va sun'iy intellekt tavsiyalarini o'z ichiga olgan to'liq tekshiruvning toza, professional PDF hisobotini yuklab olish imkonini beradi. Rejalashtirish sessiyalarida hamkorlar bilan ulashing, fikr-mulohaza olish uchun maslahatchilarga taqdim eting, investorlar uchun taqdimotlarga qo'shing yoki dastlabki jamoangizni imkoniyatni bir xil tushunishga yo'naltirish uchun foydalaning. Hech qanday formatlash kerak emas — shunchaki bitta tugma.",
+      "points": [
+        "To'liq tahlil bitta aniq hujjatda",
+        "Sarlavhasiz, chop etishga tayyor PDF formati",
+        "Hamkorlar, maslahatchilar yoki investorlar bilan ulashish",
+        "Istalgan vaqtda natijalar sahifasidan to'g'ridan-to'g'ri yuklab olish"
+      ]
+    }
+  ]
 }

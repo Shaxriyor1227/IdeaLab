@@ -9,15 +9,16 @@ import './BlogPostPage.css';
 export default function BlogPostPage() {
   const navigate = useNavigate();
   const { slug } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [slug]);
 
-  const postIndex = blogPosts.findIndex((item) => item.slug === slug);
-  const post = blogPosts[postIndex];
-  const nextPost = blogPosts[postIndex + 1] || null;
+  const currentPosts = blogPosts[i18n.language] || blogPosts.en;
+  const postIndex = currentPosts.findIndex((item) => item.slug === slug);
+  const post = currentPosts[postIndex];
+  const nextPost = currentPosts[postIndex + 1] || null;
 
   if (!post) {
     return (

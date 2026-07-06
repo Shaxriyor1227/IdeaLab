@@ -33,16 +33,12 @@ export default function Footer() {
               <h4 className="footer-col-title">{t("footerProduct")}</h4>
               <Link to="/features" className="footer-link">{t("features")}</Link>
               <Link to="/analyze" className="footer-link">{t("newAnalysis")}</Link>
-              <Link to="#" className="footer-link">{t("footerIntegrations")}</Link>
-              <Link to="#" className="footer-link">{t("footerPricing")}</Link>
+              <Link to="/history" className="footer-link">{t("history") || "History"}</Link>
             </div>
             
             <div className="footer-column">
               <h4 className="footer-col-title">{t("footerResources")}</h4>
-              <Link to="#" className="footer-link">{t("footerDocumentation")}</Link>
               <Link to="/blog" className="footer-link">{t("blog")}</Link>
-              <Link to="#" className="footer-link">{t("footerCommunity")}</Link>
-              <Link to="#" className="footer-link">{t("footerHelpCenter")}</Link>
             </div>
 
             <div className="footer-column">

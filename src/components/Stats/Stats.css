@@ -51,11 +51,21 @@
 @media (max-width: 768px) {
   .stats-container {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     padding: 16px;
+    background: transparent;
+  }
+
+  .stat-card {
+    background: var(--card-bg, #1a1a24);
+    border: 1px solid var(--border-color, #ffffff10);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 }
