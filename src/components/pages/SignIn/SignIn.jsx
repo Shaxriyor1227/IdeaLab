@@ -94,8 +94,9 @@ const SignIn = () => {
                 {/* Email/Password Form */}
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="auth-field-group">
-                        <label className="auth-label">{t('emailAddress') || 'Email address'}</label>
+                        <label htmlFor="signin-email" className="auth-label">{t('emailAddress') || 'Email address'}</label>
                         <input
+                            id="signin-email"
                             type="email"
                             className="auth-input"
                             placeholder="you@example.com"
@@ -107,7 +108,7 @@ const SignIn = () => {
 
                     <div className="auth-field-group">
                         <div className="auth-label-row">
-                            <label className="auth-label">Password</label>
+                            <label htmlFor="signin-password" className="auth-label">Password</label>
                             <span 
                                 className="auth-link-forgot" 
                                 onClick={() => navigate('/forgot-password')}
@@ -117,6 +118,7 @@ const SignIn = () => {
                         </div>
                         <div className="auth-password-input-wrapper">
                             <input
+                                id="signin-password"
                                 type={showPassword ? "text" : "password"}
                                 className="auth-input auth-input-password"
                                 placeholder="Enter your password"
@@ -128,6 +130,7 @@ const SignIn = () => {
                                 type="button" 
                                 className="auth-password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
                             >
                                 {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                             </button>

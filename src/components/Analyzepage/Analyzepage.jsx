@@ -169,8 +169,9 @@ export default function AnalyzePage() {
         <div className="ap-card">
           <div className="ap-row">
             <div className="ap-field">
-              <label className="ap-label">{t("startupName")}</label>
+              <label htmlFor="ap-startup-name" className="ap-label">{t("startupName")}</label>
               <input
+                id="ap-startup-name"
                 className="ap-input"
                 name="startupName"
                 placeholder="IdeaLab"
@@ -179,8 +180,9 @@ export default function AnalyzePage() {
               />
             </div>
             <div className="ap-field">
-              <label className="ap-label">{t("oneLineDesc")}</label>
+              <label htmlFor="ap-one-liner" className="ap-label">{t("oneLineDesc")}</label>
               <input
+                id="ap-one-liner"
                 className="ap-input"
                 name="oneLiner"
                 placeholder="AI CFO for freelance teams"
@@ -191,8 +193,9 @@ export default function AnalyzePage() {
           </div>
 
           <div className="ap-field">
-            <label className="ap-label">{t("problemSolving")}</label>
+            <label htmlFor="ap-problem" className="ap-label">{t("problemSolving")}</label>
             <textarea
+              id="ap-problem"
               className="ap-textarea"
               name="problem"
               placeholder={t("problemDesc")}
@@ -203,8 +206,9 @@ export default function AnalyzePage() {
 
           <div className="ap-row">
             <div className="ap-field">
-              <label className="ap-label">{t("targetCustomer")}</label>
+              <label htmlFor="ap-target-customer" className="ap-label">{t("targetCustomer")}</label>
               <input
+                id="ap-target-customer"
                 className="ap-input"
                 name="targetCustomer"
                 placeholder="Freelance agencies, solo founders..."
@@ -213,8 +217,9 @@ export default function AnalyzePage() {
               />
             </div>
             <div className="ap-field">
-              <label className="ap-label">{t("industryCategory")}</label>
+              <label htmlFor="ap-industry" className="ap-label">{t("industryCategory")}</label>
               <select
+                id="ap-industry"
                 className="ap-select"
                 name="industry"
                 value={form.industry}
@@ -229,8 +234,9 @@ export default function AnalyzePage() {
           </div>
 
           <div className="ap-field">
-            <label className="ap-label">{t("estimatedBudget")}</label>
+            <label htmlFor="ap-budget" className="ap-label">{t("estimatedBudget")}</label>
             <select
+              id="ap-budget"
               className="ap-select"
               name="budget"
               value={form.budget}

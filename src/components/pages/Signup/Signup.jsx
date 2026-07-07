@@ -124,8 +124,9 @@ const Signup = () => {
                 {/* Registration Form */}
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="auth-field-group">
-                        <label className="auth-label">{t('displayName') || 'Full name'}</label>
+                        <label htmlFor="signup-name" className="auth-label">{t('displayName') || 'Full name'}</label>
                         <input
+                            id="signup-name"
                             type="text"
                             className="auth-input"
                             placeholder="John Doe"
@@ -136,8 +137,9 @@ const Signup = () => {
                     </div>
 
                     <div className="auth-field-group">
-                        <label className="auth-label">{t('emailAddress') || 'Email address'}</label>
+                        <label htmlFor="signup-email" className="auth-label">{t('emailAddress') || 'Email address'}</label>
                         <input
+                            id="signup-email"
                             type="email"
                             className="auth-input"
                             placeholder="you@example.com"
@@ -148,9 +150,10 @@ const Signup = () => {
                     </div>
 
                     <div className="auth-field-group">
-                        <label className="auth-label">Password</label>
+                        <label htmlFor="signup-password" className="auth-label">Password</label>
                         <div className="auth-password-input-wrapper">
                             <input
+                                id="signup-password"
                                 type={showPassword ? "text" : "password"}
                                 className="auth-input auth-input-password"
                                 placeholder="Min 8 characters"
@@ -162,6 +165,7 @@ const Signup = () => {
                                 type="button" 
                                 className="auth-password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
                             >
                                 {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                             </button>
@@ -169,9 +173,10 @@ const Signup = () => {
                     </div>
 
                     <div className="auth-field-group">
-                        <label className="auth-label">Confirm password</label>
+                        <label htmlFor="signup-confirm-password" className="auth-label">Confirm password</label>
                         <div className="auth-password-input-wrapper">
                             <input
+                                id="signup-confirm-password"
                                 type={showConfirmPassword ? "text" : "password"}
                                 className="auth-input auth-input-password"
                                 placeholder="Repeat password"
@@ -183,6 +188,7 @@ const Signup = () => {
                                 type="button" 
                                 className="auth-password-toggle"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                             >
                                 {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                             </button>

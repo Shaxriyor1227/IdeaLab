@@ -14,17 +14,17 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <div className="footer-logo-row" onClick={() => navigate("/")} style={{cursor: 'pointer'}}>
-              <img src={logo} alt="IdeaLab logo" className="footer-logo" />
+              <img src={logo} alt="IdeaLab logo" className="footer-logo" width="40" height="40" />
               <span className="footer-logo-text">IdeaLab</span>
             </div>
             <p className="footer-tagline">
               {t("footerTagline")}
             </p>
             <div className="footer-socials">
-              <a href="https://www.instagram.com/shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-              <a href="https://github.com/Shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
-              <a href="https://t.me/@Rozmamatov_Shaxriyor" className="social-icon" target="_blank" rel="noopener noreferrer"><FaTelegramPlane /></a>
-              <a href="https://linkedin.com/in/shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+              <a href="https://www.instagram.com/shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
+              <a href="https://github.com/Shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub /></a>
+              <a href="https://t.me/@Rozmamatov_Shaxriyor" className="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><FaTelegramPlane /></a>
+              <a href="https://linkedin.com/in/shaxriyor1227" className="social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
             </div>
           </div>
 

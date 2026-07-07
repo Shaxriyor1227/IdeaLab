@@ -97,6 +97,7 @@ export default function SettingsPage() {
                       onClick={() => changeTheme(key)}
                       className={`theme-option-btn ${isSelected ? "theme-option-btn--active" : ""}`}
                       style={{ "--theme-color": tData.primaryColor }}
+                      aria-label={`Select ${tData.name} theme`}
                     >
                       <span 
                         className="theme-color-dot" 
@@ -128,6 +129,7 @@ export default function SettingsPage() {
                 <button
                   onClick={toggleMode}
                   className={`mode-toggle-btn ${mode === "light" ? "mode-toggle-btn--light" : ""}`}
+                  aria-label="Toggle dark and light mode"
                 >
                   <div className="mode-toggle-switch">
                     <div className="mode-toggle-knob">
@@ -157,14 +159,16 @@ export default function SettingsPage() {
                 <button
                   onClick={() => handleLanguageChange("en")}
                   className={`lang-option-btn ${locale === "en" ? "lang-option-btn--active" : ""}`}
+                  aria-label="Change language to English"
                 >
-                  <span className="flag-icon">🇺🇸</span> English
+                  <span className="flag-icon" role="img" aria-label="US Flag">🇺🇸</span> English
                 </button>
                 <button
                   onClick={() => handleLanguageChange("uz")}
                   className={`lang-option-btn ${locale === "uz" ? "lang-option-btn--active" : ""}`}
+                  aria-label="Change language to Uzbek"
                 >
-                  <span className="flag-icon">🇺🇿</span> O'zbekcha
+                  <span className="flag-icon" role="img" aria-label="Uzbekistan Flag">🇺🇿</span> O'zbekcha
                 </button>
               </div>
             </div>
@@ -180,9 +184,10 @@ export default function SettingsPage() {
               </div>
 
               <form onSubmit={handleUpdateProfile} className="settings-form">
-                <div className="form-group">
-                  <label>{t("emailAddress")}</label>
+                 <div className="form-group">
+                  <label htmlFor="settings-email">{t("emailAddress")}</label>
                   <input
+                    id="settings-email"
                     type="email"
                     value={user?.email || ""}
                     disabled
@@ -190,8 +195,9 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>{t("displayName")}</label>
+                  <label htmlFor="settings-display-name">{t("displayName")}</label>
                   <input
+                    id="settings-display-name"
                     type="text"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
@@ -234,7 +240,7 @@ export default function SettingsPage() {
             <div className="profile-quick-card">
               <div className="profile-avatar-wrapper">
                 {user?.photoURL ? (
-                  <img src={user.photoURL} alt="Profile" className="profile-avatar-img" />
+                  <img src={user.photoURL} alt="Profile" className="profile-avatar-img" width="80" height="80" />
                 ) : (
                   <div className="profile-avatar-placeholder">
                     {user?.name?.charAt(0).toUpperCase() || "U"}

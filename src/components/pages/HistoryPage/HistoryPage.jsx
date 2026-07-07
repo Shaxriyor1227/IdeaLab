@@ -184,7 +184,7 @@ export default function HistoryPage() {
                       <button className="hp-view-btn" onClick={() => handleView(item)}>
                         <MdTrendingUp size={15} /> {t("viewReport")}
                       </button>
-                      <button className="hp-delete-btn" onClick={() => handleDelete(item.id)}>
+                      <button className="hp-delete-btn" onClick={() => handleDelete(item.id)} aria-label={t("deleteAnalysis") || "Delete analysis"}>
                         <HiOutlineTrash size={15} />
                       </button>
                     </div>

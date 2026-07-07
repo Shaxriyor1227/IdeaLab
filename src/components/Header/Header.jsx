@@ -80,7 +80,7 @@ const Header = () => {
     <header className="header">
       <div className="header-container">
         <div className="header-logo" onClick={() => { navigate('/'); setMobileMenuOpen(false); }}>
-          <img src={logo} alt="IdeaLab Logo" className="logo-img" />
+          <img src={logo} alt="IdeaLab Logo" className="logo-img" width="42" height="42" />
           <span className="logo-text">IdeaLab</span>
         </div>
 
@@ -92,6 +92,7 @@ const Header = () => {
             onClick={toggleMode}
             style={{ padding: '8px', display: 'flex', alignItems: 'center' }}
             title="Toggle Theme Mode"
+            aria-label="Toggle Theme Mode"
           >
             {mode === 'light' ? <FiMoon size={18} /> : <FiSun size={18} />}
           </button>
@@ -111,6 +112,7 @@ const Header = () => {
                 onClick={() => navigate('/settings')}
                 style={{ padding: '8px', display: 'flex', alignItems: 'center' }}
                 title={t('settings')}
+                aria-label={t('settings') || 'Settings'}
               >
                 <FiSettings size={18} />
               </button>

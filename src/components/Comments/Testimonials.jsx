@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import "./Testimonials.css";
-import user1 from "../../assets/user1.png";
-import user2 from "../../assets/user2.png";
-import user3 from "../../assets/user3.png";
+import user1 from "../../assets/user1.svg";
+import user2 from "../../assets/user2.svg";
+import user3 from "../../assets/user3.svg";
 
 export default function Testimonials() {
   const { t } = useTranslation();
@@ -48,6 +48,8 @@ export default function Testimonials() {
                 alt={t.name}
                 loading="lazy"
                 decoding="async"
+                width="48"
+                height="48"
               />
               <div>
                 <p className="test-name">{t.name}</p>
