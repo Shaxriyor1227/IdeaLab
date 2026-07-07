@@ -1,10 +1,10 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, memo } from "react-router-dom";
 import { FaInstagram, FaGithub, FaTelegramPlane, FaLinkedin } from "react-icons/fa";
 import logo from "../../assets/logo.jpg";
 import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
-export default function Footer() {
+const Footer = memo(() => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -63,4 +63,8 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+Footer.displayName = 'Footer';
+
+export default Footer;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { auth, db } from "../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
@@ -156,8 +156,13 @@ export const ThemeProvider = ({ children }) => {
     }
   };
 
+  const contextValue = useMemo(
+    () => ({ theme, changeTheme, themes, mode, toggleMode }),
+    [theme, mode]
+  );
+
   return (
-    <ThemeContext.Provider value={{ theme, changeTheme, themes, mode, toggleMode }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );

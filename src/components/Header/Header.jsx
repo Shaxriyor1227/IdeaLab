@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { TbFileExport } from 'react-icons/tb';
 import { FiMenu, FiX, FiSettings, FiSun, FiMoon } from 'react-icons/fi';
@@ -8,7 +8,7 @@ import { useTheme } from '../context/ThemeContext';
 import './Header.css';
 import logo from '../../assets/logo.jpg';
 
-const Header = () => {
+const Header = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuth, logout, user } = useAuth();
@@ -170,6 +170,8 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;
