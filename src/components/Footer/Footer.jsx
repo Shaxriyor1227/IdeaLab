@@ -1,4 +1,5 @@
-import { useNavigate, Link, memo } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { memo } from "react";
 import { FaInstagram, FaGithub, FaTelegramPlane, FaLinkedin } from "react-icons/fa";
 import logo from "../../assets/logo.jpg";
 import { useTranslation } from "react-i18next";
