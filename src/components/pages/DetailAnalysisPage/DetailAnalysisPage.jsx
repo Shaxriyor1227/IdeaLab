@@ -128,7 +128,9 @@ export default function DetailAnalysisPage() {
         }
 
         const text = resData.choices[0].message.content;
-        const clean = text.replace(/```json|```/g, "").trim();
+        const jsonMatch = text.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+        if (!jsonMatch) throw new Error("AI format error");
+        const clean = jsonMatch[0];
         setData(JSON.parse(clean));
       } catch (err) {
         console.error(err);

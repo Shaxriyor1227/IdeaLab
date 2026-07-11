@@ -133,7 +133,9 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
       if (!response.ok) throw new Error(data.error?.message || "API error");
 
       const text = data.choices[0].message.content;
-      const clean = text.replace(/```json|```/g, "").trim();
+      const jsonMatch = text.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+      if (!jsonMatch) throw new Error("AI format error");
+      const clean = jsonMatch[0];
       const parsed = JSON.parse(clean);
       setCompetitors(Array.isArray(parsed) ? parsed : parsed.competitors || []);
     } catch (err) {
