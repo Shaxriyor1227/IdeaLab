@@ -7,6 +7,7 @@ import '../SignIn/Signin.css'; // Use shared styles
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { resetPassword } = useAuth();
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -16,16 +17,29 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        if (!email) return;
+        
+        if (!email.trim()) {
+            setError("Iltimos, email manzilini kiriting.");
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.trim())) {
+            setError("Iltimos, to'g'ri email manzilini kiriting.");
+            return;
+        }
 
         setLoading(true);
         try {
-            await resetPassword(email);
+            await resetPassword(email.trim());
             setIsSubmitted(true);
         } catch (err) {
             console.error(err);
             if (err.code === 'auth/user-not-found') {
                 setError("Ushbu email topilmadi. Iltimos tekshirib qaytadan urining.");
+            } else if (err.code === 'auth/too-many-requests') {
+                setError("Ko'p marta urinish. Biroz kutib turing.");
             } else {
                 setError("Parolni tiklashda xatolik yuz berdi: " + (err.message || err.code));
             }
@@ -48,12 +62,17 @@ const ForgotPassword = () => {
         <div className="auth-page-container">
             {!isSubmitted ? (
                 // Reset password request state
-                <div className="auth-card">
+        <div className="auth-card">
                     {/* Back to login link */}
-                    <div className="auth-back-link" onClick={() => navigate('/signin')}>
+                    <button 
+                        type="button"
+                        className="auth-back-link" 
+                        onClick={() => navigate('/signin')}
+                        disabled={loading}
+                    >
                         <FiArrowLeft size={16} />
-                        <span>Back to login</span>
-                    </div>
+                        <span>{t('backToLogin') || 'Back to login'}</span>
+                    </button>
 
                     {/* Glowing lock logo */}
                     <div className="auth-logo-wrapper">
@@ -62,14 +81,14 @@ const ForgotPassword = () => {
                         </div>
                     </div>
 
-                    <h2 className="auth-title">Reset your password</h2>
-                    <p className="auth-subtitle">Enter your email and we'll send a reset link</p>
+                    <h2 className="auth-title">{t('resetYourPassword') || 'Reset your password'}</h2>
+                    <p className="auth-subtitle">{t('passwordResetSubtitle') || "Enter your email and we'll send a reset link"}</p>
 
                     {error && <div className="auth-error-message">{error}</div>}
 
                     <form onSubmit={handleSubmit} className="auth-form">
                         <div className="auth-field-group">
-                            <label htmlFor="forgot-email" className="auth-label">Email address</label>
+                            <label htmlFor="forgot-email" className="auth-label">{t('emailAddress') || 'Email address'}</label>
                             <input
                                 id="forgot-email"
                                 type="email"
@@ -77,12 +96,14 @@ const ForgotPassword = () => {
                                 placeholder="you@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                disabled={loading}
+                                autoComplete="email"
                                 required
                             />
                         </div>
 
                         <button type="submit" className="auth-submit-btn" disabled={loading}>
-                            {loading ? 'Sending...' : 'Send Reset Link →'}
+                            {loading ? (t('sending') || 'Sending...') : (t('sendResetLink') || 'Send Reset Link →')}
                         </button>
                     </form>
                 </div>
@@ -96,21 +117,22 @@ const ForgotPassword = () => {
                         </div>
                     </div>
 
-                    <h2 className="auth-title">Check your email</h2>
+                    <h2 className="auth-title">{t('checkYourEmail') || 'Check your email'}</h2>
                     <p className="auth-subtitle">
-                        We've sent a password reset link to your inbox. Follow the link to set a new password.
+                        {t('checkEmailDesc') || "We've sent a password reset link to your inbox. Follow the link to set a new password."}
                     </p>
 
                     <button 
+                        type="button"
                         className="auth-secondary-btn" 
                         onClick={() => navigate('/signin')}
                     >
                         <FiArrowLeft size={16} />
-                        <span>Back to login</span>
+                        <span>{t('backToLogin') || 'Back to login'}</span>
                     </button>
 
                     <p className="auth-footer-text">
-                        Didn't receive it? <span className="auth-footer-link" onClick={handleResend}>Resend email</span>
+                        Didn't receive it? <button type="button" className="auth-footer-link" onClick={handleResend}>{t('resendEmail') || 'Resend email'}</button>
                     </p>
                 </div>
             )}

@@ -20,21 +20,30 @@ const SignIn = () => {
         e.preventDefault();
         setError('');
         
-        if (!signinForm.email.trim() || !signinForm.password) {
+        if (!signinForm.email.trim() || !signinForm.password.trim()) {
             setError(t('fillAllFields') || 'Please fill in all fields.');
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(signinForm.email.trim())) {
+            setError(t('invalidEmail') || 'Please enter a valid email address.');
             return;
         }
 
         setLoading(true);
         
         try {
-            await login(signinForm.email, signinForm.password);
+            await login(signinForm.email.trim(), signinForm.password);
             setSigninForm({ email: "", password: "" });
             navigate("/");
         } catch (err) {
             console.error(err);
             if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
-                setError(t('invalidCredentials') || "Email yoki parol noto'g'ri. Iltimos tekshirib qaytadan urining.");
+                setError(t('invalidCredentials') || "Email yoki parol noto'g'ri. Iltimos tekshirib qaytadan uringing.");
+            } else if (err.code === 'auth/too-many-requests') {
+                setError(t('tooManyAttempts') || "Ko'p marta noto'g'ri urinish. Biroz kutib turing.");
             } else {
                 setError((t('loginError') || "Tizimga kirishda xatolik yuz berdi: ") + (err.message || err.code));
             }
@@ -88,11 +97,23 @@ const SignIn = () => {
 
                 {/* Social Logins */}
                 <div className="auth-social-buttons">
-                    <button type="button" className="auth-social-btn" onClick={handleGoogleLogin} disabled={loading}>
+                    <button 
+                        type="button" 
+                        className="auth-social-btn" 
+                        onClick={handleGoogleLogin} 
+                        disabled={loading}
+                        aria-label="Continue with Google"
+                    >
                         <FcGoogle className="auth-social-icon" />
                         <span>{t('continueWithGoogle') || 'Continue with Google'}</span>
                     </button>
-                    <button type="button" className="auth-social-btn" onClick={handleGithubLogin} disabled={loading}>
+                    <button 
+                        type="button" 
+                        className="auth-social-btn" 
+                        onClick={handleGithubLogin} 
+                        disabled={loading}
+                        aria-label="Continue with GitHub"
+                    >
                         <FaGithub className="auth-social-icon" />
                         <span>{t('continueWithGithub') || 'Continue with GitHub'}</span>
                     </button>
@@ -114,6 +135,8 @@ const SignIn = () => {
                             placeholder="you@example.com"
                             value={signinForm.email}
                             onChange={(e) => setSigninForm({ ...signinForm, email: e.target.value })}
+                            disabled={loading}
+                            autoComplete="email"
                             required
                         />
                     </div>
@@ -121,7 +144,12 @@ const SignIn = () => {
                     <div className="auth-field-group">
                         <div className="auth-label-row">
                             <label htmlFor="signin-password" className="auth-label">{t('password') || 'Password'}</label>
-                            <button type="button" className="auth-forgot-link" onClick={() => navigate('/forgot-password')}>
+                            <button 
+                                type="button" 
+                                className="auth-forgot-link" 
+                                onClick={() => navigate('/forgot-password')}
+                                disabled={loading}
+                            >
                                 {t('forgotPassword') || 'Forgot password?'}
                             </button>
                         </div>
@@ -133,12 +161,16 @@ const SignIn = () => {
                                 placeholder="••••••••"
                                 value={signinForm.password}
                                 onChange={(e) => setSigninForm({ ...signinForm, password: e.target.value })}
+                                disabled={loading}
+                                autoComplete="current-password"
                             />
                             <button 
                                 type="button"
                                 className="auth-password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label={showPassword ? "Hide password" : "Show password"}
+                                disabled={loading}
+                                tabIndex="-1"
                             >
                                 {showPassword ? <FiEyeOff /> : <FiEye />}
                             </button>

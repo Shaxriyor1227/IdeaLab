@@ -110,18 +110,30 @@ const Signup = () => {
                     </div>
                 </div>
 
-                <h2 className="auth-title">Create your account</h2>
-                <p className="auth-subtitle">Start validating startup ideas for free</p>
+                <h2 className="auth-title">{t('createAccountTitle') || 'Create your account'}</h2>
+                <p className="auth-subtitle">{t('createAccountSubtitle') || 'Start validating startup ideas for free'}</p>
 
                 {error && <div className="auth-error-message">{error}</div>}
 
                 {/* Social Logins */}
                 <div className="auth-social-buttons">
-                    <button type="button" className="auth-social-btn" onClick={handleGoogleLogin}>
+                    <button 
+                        type="button" 
+                        className="auth-social-btn" 
+                        onClick={handleGoogleLogin}
+                        disabled={loading}
+                        aria-label="Continue with Google"
+                    >
                         <FcGoogle className="auth-social-icon" />
                         <span>Continue with Google</span>
                     </button>
-                    <button type="button" className="auth-social-btn" onClick={handleGithubLogin}>
+                    <button 
+                        type="button" 
+                        className="auth-social-btn" 
+                        onClick={handleGithubLogin}
+                        disabled={loading}
+                        aria-label="Continue with GitHub"
+                    >
                         <FaGithub className="auth-social-icon" />
                         <span>Continue with GitHub</span>
                     </button>
@@ -129,7 +141,7 @@ const Signup = () => {
 
                 {/* Divider */}
                 <div className="auth-divider">
-                    <span className="auth-divider-text">or continue with email</span>
+                    <span className="auth-divider-text">{t('orContinueWithEmail') || 'or continue with email'}</span>
                 </div>
 
                 {/* Registration Form */}
@@ -143,6 +155,8 @@ const Signup = () => {
                             placeholder="John Doe"
                             value={signupForm.name}
                             onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })}
+                            disabled={loading}
+                            autoComplete="name"
                             required
                         />
                     </div>
@@ -156,20 +170,24 @@ const Signup = () => {
                             placeholder="you@example.com"
                             value={signupForm.email}
                             onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })}
+                            disabled={loading}
+                            autoComplete="email"
                             required
                         />
                     </div>
 
                     <div className="auth-field-group">
-                        <label htmlFor="signup-password" className="auth-label">Password</label>
-                        <div className="auth-password-input-wrapper">
+                        <label htmlFor="signup-password" className="auth-label">{t('password') || 'Password'}</label>
+                        <div className="auth-password-wrapper">
                             <input
                                 id="signup-password"
                                 type={showPassword ? "text" : "password"}
-                                className="auth-input auth-input-password"
-                                placeholder="Min 8 characters"
+                                className="auth-input"
+                                placeholder="••••••••"
                                 value={signupForm.password}
                                 onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}
+                                disabled={loading}
+                                autoComplete="new-password"
                                 required
                             />
                             <button 
@@ -177,22 +195,26 @@ const Signup = () => {
                                 className="auth-password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label={showPassword ? "Hide password" : "Show password"}
+                                disabled={loading}
+                                tabIndex="-1"
                             >
-                                {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                                {showPassword ? <FiEyeOff /> : <FiEye />}
                             </button>
                         </div>
                     </div>
 
                     <div className="auth-field-group">
-                        <label htmlFor="signup-confirm-password" className="auth-label">Confirm password</label>
-                        <div className="auth-password-input-wrapper">
+                        <label htmlFor="signup-confirm-password" className="auth-label">{t('confirmPassword') || 'Confirm password'}</label>
+                        <div className="auth-password-wrapper">
                             <input
                                 id="signup-confirm-password"
                                 type={showConfirmPassword ? "text" : "password"}
-                                className="auth-input auth-input-password"
-                                placeholder="Repeat password"
+                                className="auth-input"
+                                placeholder="••••••••"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
+                                disabled={loading}
+                                autoComplete="new-password"
                                 required
                             />
                             <button 
@@ -200,25 +222,27 @@ const Signup = () => {
                                 className="auth-password-toggle"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                 aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                                disabled={loading}
+                                tabIndex="-1"
                             >
-                                {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                             </button>
                         </div>
                     </div>
 
                     <button type="submit" className="auth-submit-btn" disabled={loading}>
-                        {loading ? 'Creating Account...' : 'Create Account →'}
+                        {loading ? (t('creatingAccount') || 'Creating Account...') : (t('createAccountBtn') || 'Create Account →')}
                     </button>
                 </form>
 
                 <p className="auth-terms-text">
-                    By signing up you agree to our <span onClick={() => navigate('/')}>Terms of Service</span> and <span onClick={() => navigate('/')}>Privacy Policy</span>
+                    {t('bySigningUp') || "By signing up you agree to our"} <span onClick={() => navigate('/')}>{t('termsOfService') || 'Terms of Service'}</span> {t('and') || 'and'} <span onClick={() => navigate('/')}>{t('privacyPolicy') || 'Privacy Policy'}</span>
+                </p>
+
+                <p className="auth-footer-text">
+                    {t('alreadyHaveAccount') || "Already have an account?"} <button type="button" className="auth-footer-link" onClick={() => navigate('/signin')}>{t('loginLink') || 'Log in'}</button>
                 </p>
             </div>
-
-            <p className="auth-footer-text">
-                Already have an account? <span className="auth-footer-link" onClick={() => navigate('/signin')}>Log in</span>
-            </p>
         </div>
     );
 };

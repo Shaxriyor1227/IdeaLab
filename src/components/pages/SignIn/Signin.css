@@ -268,7 +268,7 @@
     transform: translateY(0);
 }
 
-/* Footer Link styling */
+/* Footer Link styling - supports both button and span */
 .auth-footer-text {
     font-size: 14px;
     color: var(--text-muted);
@@ -281,10 +281,25 @@
     font-weight: 500;
     cursor: pointer;
     transition: color 0.15s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
 }
 
-.auth-footer-link:hover {
+.auth-footer-link:hover:not(:disabled) {
     filter: brightness(1.2);
+}
+
+.auth-footer-link:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.auth-footer-link:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Back Link (for Forgot Password page) */
@@ -299,6 +314,24 @@
     margin-bottom: 24px;
     align-self: flex-start;
     transition: color 0.15s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+}
+
+.auth-back-link:hover:not(:disabled) {
+    filter: brightness(1.2);
+}
+
+.auth-back-link:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.auth-back-link:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .auth-back-link:hover {
@@ -322,11 +355,97 @@
     gap: 8px;
     width: 100%;
     margin-top: 16px;
+    font-family: inherit;
 }
 
-.auth-secondary-btn:hover {
+.auth-secondary-btn:hover:not(:disabled) {
     filter: brightness(0.95);
     border-color: var(--primary-color);
+}
+
+.auth-secondary-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Password Wrapper with Eye Toggle */
+.auth-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.auth-password-wrapper .auth-input {
+    padding-right: 40px;
+}
+
+.auth-password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    font-size: 18px;
+    transition: color 0.15s ease;
+}
+
+.auth-password-toggle:hover {
+    color: var(--primary-color);
+}
+
+.auth-password-toggle:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Forgot Password Link */
+.auth-forgot-link {
+    background: none;
+    border: none;
+    font-size: 13px;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.15s ease;
+    padding: 0;
+    font-family: inherit;
+}
+
+.auth-forgot-link:hover:not(:disabled) {
+    filter: brightness(1.2);
+}
+
+.auth-forgot-link:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.auth-forgot-link:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Button Disabled States */
+.auth-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-submit-btn:disabled:hover {
+    transform: none;
+    opacity: 0.6;
+}
+
+.auth-social-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Additional Terms & Conditions styling */
@@ -349,4 +468,65 @@
 .auth-terms-text a:hover,
 .auth-terms-text span:hover {
     color: var(--primary-color);
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 480px) {
+    .auth-page-container {
+        padding: 80px 16px 32px 16px;
+    }
+
+    .auth-card {
+        max-width: 100%;
+        padding: 32px 20px;
+        border-radius: 12px;
+    }
+
+    .auth-title {
+        font-size: 24px;
+    }
+
+    .auth-subtitle {
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+
+    .auth-logo-bg {
+        width: 48px;
+        height: 48px;
+    }
+
+    .auth-logo-icon {
+        font-size: 24px;
+    }
+
+    .auth-social-btn {
+        padding: 11px;
+        font-size: 13px;
+    }
+
+    .auth-social-icon {
+        font-size: 16px;
+    }
+
+    .auth-input {
+        padding: 11px 12px;
+        font-size: 13px;
+    }
+
+    .auth-submit-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .auth-label-row {
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+    }
+
+    .auth-footer-text {
+        font-size: 13px;
+        margin-top: 16px;
+    }
 }
