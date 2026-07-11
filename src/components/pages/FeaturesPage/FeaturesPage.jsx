@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { LuBrain, LuCircleGauge, LuChartNetwork, LuShieldCheck, LuFileDown } from "react-icons/lu";
 import { RiSparklingLine, RiTimeLine } from "react-icons/ri";
+import { useState, useEffect, useRef } from "react";
 import { MdCheckCircle } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
 import { useAuth } from "../../context/AuthContext";
@@ -15,6 +16,45 @@ const featureConfig = [
   { icon: <RiTimeLine size={32} />, accent: "cyan", reverse: false },
   { icon: <LuFileDown size={32} />, accent: "violet", reverse: true },
 ];
+
+const CountUp = ({ end, duration = 2000, suffix = "", prefix = "", decimals = 0 }) => {
+  const [count, setCount] = useState(0);
+  const nodeRef = useRef(null);
+
+  useEffect(() => {
+    let observer;
+    if (nodeRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+              if (!startTimestamp) startTimestamp = timestamp;
+              // Easing function for smoother animation (easeOutExpo)
+              const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+              const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+              setCount(easeProgress * end);
+              if (progress < 1) {
+                window.requestAnimationFrame(step);
+              } else {
+                setCount(end); // Ensure it ends exactly on target
+              }
+            };
+            window.requestAnimationFrame(step);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(nodeRef.current);
+    }
+    return () => {
+      if (observer) observer.disconnect();
+    };
+  }, [end, duration]);
+
+  return <strong ref={nodeRef}>{prefix}{count.toFixed(decimals)}{suffix}</strong>;
+};
 
 export default function FeaturesPage() {
   const navigate = useNavigate();
@@ -43,13 +83,13 @@ export default function FeaturesPage() {
           {t('featuresSubtitle')}
         </p>
         <div className="fp-intro-stats">
-          <div className="fp-stat-pill"><strong>60s</strong><span>{t('fullAnalysisTime')}</span></div>
+          <div className="fp-stat-pill"><CountUp end={60} suffix="s" /><span>{t('fullAnalysisTime')}</span></div>
           <div className="fp-stat-divider" />
-          <div className="fp-stat-pill"><strong>6</strong><span>{t('aiModulesCount')}</span></div>
+          <div className="fp-stat-pill"><CountUp end={6} /><span>{t('aiModulesCount')}</span></div>
           <div className="fp-stat-divider" />
-          <div className="fp-stat-pill"><strong>10K+</strong><span>{t('ideasValidatedText')}</span></div>
+          <div className="fp-stat-pill"><CountUp end={10} suffix="K+" /><span>{t('ideasValidatedText')}</span></div>
           <div className="fp-stat-divider" />
-          <div className="fp-stat-pill"><strong>4.9★</strong><span>{t('userRating')}</span></div>
+          <div className="fp-stat-pill"><CountUp end={4.9} decimals={1} suffix="★" /><span>{t('userRating')}</span></div>
         </div>
       </div>
 

@@ -51,14 +51,14 @@
   border: 3px solid transparent;
   border-top-color: #8b5cf6;
   border-right-color: #06b6d4;
-  animation: rpSpin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  animation: rpSpin 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
 }
 
 .loader-icon-wrapper {
   position: relative;
   z-index: 2;
   color: #fff;
-  animation: rpPulse 2s ease-in-out infinite;
+  animation: rpPulse 1s ease-in-out infinite;
 }
 
 .loader-message {
@@ -67,7 +67,7 @@
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  animation: rpFadeInOut 2s ease-in-out infinite;
+  animation: rpFadeInOut 1s ease-in-out infinite;
 }
 
 @keyframes rpSpin {
@@ -77,10 +77,10 @@
 
 @keyframes rpPulse {
   0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(0.85); opacity: 0.8; }
 }
 
 @keyframes rpFadeInOut {
-  0%, 100% { opacity: 0.5; }
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }

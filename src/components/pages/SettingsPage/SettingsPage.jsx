@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth, userCache } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import { useTranslation } from "react-i18next";
 import { FiUser, FiSettings, FiCheck, FiSun, FiMoon } from "react-icons/fi";
@@ -10,7 +10,7 @@ import { auth, db } from "../../../firebase";
 import "./SettingsPage.css";
 
 export default function SettingsPage() {
-  const { user, logout } = useAuth();
+  const { user, setUser, logout } = useAuth();
   const { theme, changeTheme, themes, mode, toggleMode } = useTheme();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -34,6 +34,10 @@ export default function SettingsPage() {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     if (!displayName.trim() || displayName === user?.name) return;
+    if (displayName.length > 50) {
+      alert(t("nameTooLong") || "Ism juda uzun, iltimos qisqaroq kiriting (max 50).");
+      return;
+    }
 
     setLoading(true);
     setSuccessMsg("");
@@ -48,7 +52,11 @@ export default function SettingsPage() {
         const userDocRef = doc(db, "users", currentUser.uid);
         await updateDoc(userDocRef, { name: displayName });
 
-        // Note: AuthContext listener onAuthStateChanged will trigger and update user state.
+        // Update local context & cache immediately
+        const updatedUser = { ...user, name: displayName };
+        setUser(updatedUser);
+        userCache.set(currentUser.uid, updatedUser);
+
         setSuccessMsg(t("settingsSavedMsg"));
         setTimeout(() => setSuccessMsg(""), 3000);
       }

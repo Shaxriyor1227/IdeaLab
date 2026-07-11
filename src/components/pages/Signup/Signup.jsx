@@ -23,19 +23,24 @@ const Signup = () => {
         e.preventDefault();
         setError('');
 
+        if (!signupForm.name.trim() || signupForm.name.trim().length < 2) {
+            setError(t('invalidName') || "Iltimos, ismingizni to'g'ri kiriting.");
+            return;
+        }
+
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(signupForm.email)) {
-            setError("Please enter a valid email address.");
+            setError(t('invalidEmailFormat') || "Please enter a valid email address.");
             return;
         }
 
         if (signupForm.password.length < 8) {
-            setError("Password must be at least 8 characters long.");
+            setError(t('passwordTooShort') || "Password must be at least 8 characters long.");
             return;
         }
 
         if (signupForm.password !== confirmPassword) {
-            setError("Passwords do not match.");
+            setError(t('passwordsDoNotMatch') || "Passwords do not match.");
             return;
         }
 
@@ -58,9 +63,9 @@ const Signup = () => {
         } catch (err) {
             console.error(err);
             if (err.code === 'auth/email-already-in-use') {
-                setError("Bu elektron pochta orqali allaqachon ro'yxatdan o'tilgan. Iltimos, tizimga kiring.");
+                setError(t('emailInUse') || "Bu elektron pochta orqali allaqachon ro'yxatdan o'tilgan. Iltimos, tizimga kiring.");
             } else {
-                setError("Ro'yxatdan o'tishda xatolik yuz berdi: " + (err.message || err.code));
+                setError((t('signupError') || "Ro'yxatdan o'tishda xatolik yuz berdi: ") + (err.message || err.code));
             }
         } finally {
             setLoading(false);
@@ -69,23 +74,29 @@ const Signup = () => {
 
     const handleGoogleLogin = async () => {
         setError('');
+        setLoading(true);
         try {
             await loginWithGoogle();
             navigate("/");
         } catch (err) {
             console.error(err);
-            setError("Google orqali kirishda xatolik yuz berdi.");
+            setError(t('googleLoginError') || "Google orqali kirishda xatolik yuz berdi.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleGithubLogin = async () => {
         setError('');
+        setLoading(true);
         try {
             await loginWithGithub();
             navigate("/");
         } catch (err) {
             console.error(err);
-            setError("GitHub orqali kirishda xatolik yuz berdi.");
+            setError(t('githubLoginError') || "GitHub orqali kirishda xatolik yuz berdi.");
+        } finally {
+            setLoading(false);
         }
     };
 

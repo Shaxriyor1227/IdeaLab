@@ -78,30 +78,13 @@ Return exactly this JSON structure:
 export default function AnalyzePage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [form, setForm] = useState(() => {
-    const saved = localStorage.getItem("latestAnalysis");
-    if (saved) {
-      try {
-        return JSON.parse(saved).formData;
-      } catch {
-        return {
-          startupName: "",
-          oneLiner: "",
-          problem: "",
-          targetCustomer: "",
-          industry: "",
-          budget: "",
-        };
-      }
-    }
-    return {
-      startupName: "",
-      oneLiner: "",
-      problem: "",
-      targetCustomer: "",
-      industry: "",
-      budget: "",
-    };
+  const [form, setForm] = useState({
+    startupName: "",
+    oneLiner: "",
+    problem: "",
+    targetCustomer: "",
+    industry: "",
+    budget: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -111,6 +94,11 @@ export default function AnalyzePage() {
   };
 
   const handleSubmit = async () => {
+    if (!auth.currentUser) {
+        navigate("/signin");
+        return;
+    }
+
     if (!form.startupName || !form.problem) return;
     setLoading(true);
     setError("");
@@ -126,7 +114,6 @@ export default function AnalyzePage() {
         },
         body: JSON.stringify({
           model: "laguna-m.1:free",
-          // model: "nvidia/nemotron-3-super-120b-a12b:free",
           messages: [
             {
               role: "user",
@@ -146,6 +133,11 @@ export default function AnalyzePage() {
       const clean = text.replace(/```json|```/g, "").trim();
       const result = JSON.parse(clean);
 
+      // Validate schema
+      if (!result.swot || !result.swot.strengths || !result.recommendations || typeof result.viabilityScore !== 'number') {
+        throw new Error("AI returned invalid format. Please try again.");
+      }
+
       const analysisData = {
         analysisId: Date.now().toString(),
         formData: form,
@@ -156,6 +148,14 @@ export default function AnalyzePage() {
           year: "numeric",
         }),
       };
+      
+      // Auto-save to Firestore to prevent data loss
+      try {
+        await addDoc(collection(db, "users", auth.currentUser.uid, "analyses"), analysisData);
+      } catch (e) {
+        console.error("Auto-save failed:", e);
+      }
+
       localStorage.setItem("latestAnalysis", JSON.stringify(analysisData));
 
       navigate("/results", { state: analysisData });

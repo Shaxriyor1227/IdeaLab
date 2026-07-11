@@ -161,8 +161,7 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
       
       const isDuplicate = snapshot.docs.some(doc => {
         const data = doc.data();
-        return data.analyzedAt === analysisData.analyzedAt && 
-               data.result?.viabilityScore === analysisData.result?.viabilityScore;
+        return data.analysisId === analysisData.analysisId;
       });
       
       if (isDuplicate) {
@@ -196,14 +195,13 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
 
       <div className="rp-container">
         
-        {/* Header */}
-        <button className="rp-back" onClick={() => navigate("/")}>
-          <HiArrowLeft size={14} /> {t("backToDashboard")}
+        <button className="rp-back" onClick={() => navigate(-1)}>
+          <HiArrowLeft size={16} /> {t("backToDashboard") || "Ortga qaytish"}
         </button>
         <div className="rp-header">
-          <div className="rp-header-left">
-            <h1 className="rp-title">{t("ideaAnalysisReport")}</h1>
-            <p className="rp-subtitle">AI Code Reviewer · {t("analyzedDate")} {analyzedAt}</p>
+          <div className="rp-header-titles">
+            <h1 className="rp-title">{formData?.startupName || "Loyiha Nomi"}</h1>
+            <p className="rp-subtitle">{t("aiIdeaValidator") || "AI Idea Validator"} · {t("analyzedDate")} {analyzedAt}</p>
           </div>
           <div className="rp-header-right">
             <button className="rp-btn-ghost" onClick={() => window.print()}><TbFileExport size={16} /> {t("exportPdf")}</button>
@@ -276,8 +274,8 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
                   {icon} <h3>{lang === "uz" ? (key === "strengths" ? "Kuchli tomonlar" : key === "weaknesses" ? "Kuchsiz tomonlar" : key === "opportunities" ? "Imkoniyatlar" : "Xavflar") : label}</h3>
                 </div>
                 <ul className="rp-swot-list">
-                  {result.swot[key].map((item, i) => (
-                    <li key={i}>{item}</li>
+                  {(result?.swot?.[key] || []).map((item, i) => (
+                    <li key={`${key}-${i}`}>{item}</li>
                   ))}
                 </ul>
                 <div className="rp-swot-footer">
@@ -299,8 +297,8 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
             <RiStarFill className="rp-text-purple" size={20} /> {t("aiRecommendations")}
           </h2>
           <div className="rp-recs-list">
-            {result.recommendations.map((rec, i) => (
-              <div className="rp-rec-item" key={i}>
+            {(result?.recommendations || []).map((rec, i) => (
+              <div className="rp-rec-item" key={`rec-${i}`}>
                 <div className="rp-rec-num">{i + 1}</div>
                 <div className="rp-rec-content">
                   <h4 className="rp-rec-heading">{rec.title}</h4>
@@ -318,15 +316,15 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
       </div>
 
       {/* --- PRINT ONLY LAYOUT --- */}
-      <div className="rp-print-doc" id="rp-print-doc">
+      <div className="rp-print-doc" id="rp-print-doc">        
         <div className="rp-print-header">
           <div className="rp-print-logo">
             <MdRocketLaunch size={28} />
             <span>IdeaLab AI Report</span>
           </div>
           <div className="rp-print-meta">
-            <span>Sana: {analyzedAt || new Date().toLocaleDateString('uz-UZ')}</span>
-            <span>Startap: {formData?.startupName || 'Kiritilmagan'}</span>
+            <span>{t("analyzedDate")}: {analyzedAt || new Date().toLocaleDateString(lang === 'uz' ? 'uz-UZ' : 'en-US')}</span>
+            <span>Startup: {formData?.startupName || '—'}</span>
           </div>
         </div>
 
@@ -334,85 +332,82 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
 
         <div className="rp-print-summary">
           <div className="rp-print-summary-item">
-            <label>Soha:</label>
-            <span>{formData?.industry || 'Kiritilmagan'}</span>
+            <label>{t("industry") || "Industry"}:</label>
+            <span>{formData?.industry || '—'}</span>
           </div>
           <div className="rp-print-summary-item">
-            <label>Mijozlar:</label>
-            <span>{formData?.targetCustomer || 'Kiritilmagan'}</span>
+            <label>{t("targetCustomer") || "Target Customer"}:</label>
+            <span>{formData?.targetCustomer || '—'}</span>
           </div>
         </div>
 
-        <h2 className="rp-print-section-title">Umumiy Natijalar</h2>
-        <table className="rp-print-table">
-          <thead>
-            <tr>
-              <th>Viability Score (Hayotiylik)</th>
-              <th>Bozor Hajmi</th>
-              <th>Raqobat Darajasi</th>
-              <th>Trend (10 ball)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>{result.viabilityScore} / 100</strong> ({result.viabilityLabel})</td>
-              <td>{result.marketSize} ({result.marketGrowth})</td>
-              <td>{result.competition}</td>
-              <td>{result.trendScore} / 10 ({result.trendLabel})</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2 className="rp-print-section-title">SWOT Tahlil</h2>
-        <table className="rp-print-table">
-          <tbody>
-            <tr>
-              <td style={{ width: '50%', verticalAlign: 'top' }}>
-                <h4 style={{ color: '#10b981', margin: '0 0 10px' }}>Kuchli tomonlar (Strengths)</h4>
-                <ul className="rp-print-list">
-                  {result.swot.strengths.map((item, i) => <li key={i}>{item}</li>)}
-                </ul>
-              </td>
-              <td style={{ width: '50%', verticalAlign: 'top' }}>
-                <h4 style={{ color: '#f59e0b', margin: '0 0 10px' }}>Kuchsiz tomonlar (Weaknesses)</h4>
-                <ul className="rp-print-list">
-                  {result.swot.weaknesses.map((item, i) => <li key={i}>{item}</li>)}
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ width: '50%', verticalAlign: 'top' }}>
-                <h4 style={{ color: '#06b6d4', margin: '0 0 10px' }}>Imkoniyatlar (Opportunities)</h4>
-                <ul className="rp-print-list">
-                  {result.swot.opportunities.map((item, i) => <li key={i}>{item}</li>)}
-                </ul>
-              </td>
-              <td style={{ width: '50%', verticalAlign: 'top' }}>
-                <h4 style={{ color: '#ef4444', margin: '0 0 10px' }}>Xavflar (Threats)</h4>
-                <ul className="rp-print-list">
-                  {result.swot.threats.map((item, i) => <li key={i}>{item}</li>)}
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2 className="rp-print-section-title">AI Tavsiyalari</h2>
-        <div className="rp-print-recs">
-          {result.recommendations.map((rec, i) => (
-            <div className="rp-print-rec" key={i}>
-              <div className="rp-print-rec-title">
-                <strong>{i + 1}. {rec.title}</strong>
-                <span>({rec.priority} Priority)</span>
-              </div>
-              <p className="rp-print-rec-desc">{rec.description}</p>
+        <div className="rp-print-scores">
+          <h3>{t("overallResults") || "Overall Results"}</h3>
+          <div className="rp-print-score-grid">
+            <div className="rp-print-score-box">
+              <span className="rp-print-score-val">{result?.viabilityScore}/100</span>
+              <span className="rp-print-score-lbl">{t("viabilityScore") || "Viability Score"}</span>
             </div>
-          ))}
+            <div className="rp-print-score-box">
+              <span className="rp-print-score-val">{result?.marketSize}</span>
+              <span className="rp-print-score-lbl">{t("marketSize") || "Market Size"}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="rp-print-swot">
+          <h3>{t("swotAnalysis") || "SWOT Analysis"}</h3>
+          <table className="rp-print-table">
+            <tbody>
+              <tr>
+                <td style={{ width: '50%', verticalAlign: 'top' }}>
+                  <h4 style={{ color: '#10b981', margin: '0 0 10px' }}>{lang === 'uz' ? 'Kuchli tomonlar' : 'Strengths'}</h4>
+                  <ul className="rp-print-list">
+                    {(result?.swot?.strengths || []).map((item, i) => <li key={`print-s-${i}`}>{item}</li>)}
+                  </ul>
+                </td>
+                <td style={{ width: '50%', verticalAlign: 'top' }}>
+                  <h4 style={{ color: '#f59e0b', margin: '0 0 10px' }}>{lang === 'uz' ? 'Kuchsiz tomonlar' : 'Weaknesses'}</h4>
+                  <ul className="rp-print-list">
+                    {(result?.swot?.weaknesses || []).map((item, i) => <li key={`print-w-${i}`}>{item}</li>)}
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td style={{ width: '50%', verticalAlign: 'top' }}>
+                  <h4 style={{ color: '#06b6d4', margin: '0 0 10px' }}>{lang === 'uz' ? 'Imkoniyatlar' : 'Opportunities'}</h4>
+                  <ul className="rp-print-list">
+                    {(result?.swot?.opportunities || []).map((item, i) => <li key={`print-o-${i}`}>{item}</li>)}
+                  </ul>
+                </td>
+                <td style={{ width: '50%', verticalAlign: 'top' }}>
+                  <h4 style={{ color: '#ef4444', margin: '0 0 10px' }}>{lang === 'uz' ? 'Xavflar' : 'Threats'}</h4>
+                  <ul className="rp-print-list">
+                    {(result?.swot?.threats || []).map((item, i) => <li key={`print-t-${i}`}>{item}</li>)}
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="rp-print-recs">
+          <h3>{t("aiRecommendations") || "AI Recommendations"}</h3>
+          <div className="rp-print-recs-list">
+            {(result?.recommendations || []).map((rec, i) => (
+              <div className="rp-print-rec-item" key={`print-rec-${i}`}>
+                <div className="rp-print-rec-title">
+                  <strong>{i + 1}. {rec.title}</strong>
+                  <span>({rec.priority} Priority)</span>
+                </div>
+                <p className="rp-print-rec-desc">{rec.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="rp-print-footer">
-          <span>IdeaLab AI — Maxfiy Tahlil Hujjati</span>
-          <span>{new Date().toISOString().slice(0, 10)}</span>
+          <p>{t("confidentialReport") || "Confidential Report generated by IdeaLab"} — {new Date().getFullYear()}</p>
         </div>
       </div>
 

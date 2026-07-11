@@ -16,12 +16,11 @@ import Loader from "../Loader/Loader";
 const AuthContext = createContext();
 
 // Cache for user data to avoid refetching on rerenders
-const userCache = new Map();
-
+export const userCache = new Map();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [signupForm, setSignupForm] = useState({
     name: "",
@@ -42,6 +41,7 @@ export const AuthProvider = ({ children }) => {
         if (userCache.has(firebaseUser.uid)) {
           setUser(userCache.get(firebaseUser.uid));
           setIsAuth(true);
+          setLoading(false);
           return;
         }
 
@@ -97,6 +97,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         setIsAuth(false);
         userCache.clear();
+        setLoading(false);
       }
     });
 
@@ -163,6 +164,7 @@ export const AuthProvider = ({ children }) => {
       setSignupForm,
       signinForm,
       setSigninForm,
+      setUser,
     }),
     [user, isAuth, loading, signupForm, signinForm]
   );

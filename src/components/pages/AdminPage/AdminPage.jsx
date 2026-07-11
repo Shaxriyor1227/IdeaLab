@@ -10,6 +10,7 @@ import OverviewTab from './tabs/OverviewTab';
 import UsersTab from './tabs/UsersTab';
 import AnalyticsTab from './tabs/AnalyticsTab';
 import ExportTab from './tabs/ExportTab';
+import RolesTab from './tabs/RolesTab';
 import './AdminPage.css';
 
 const TABS = [
@@ -17,6 +18,7 @@ const TABS = [
   { key: 'users', label: 'Foydalanuvchilar', icon: <FiUsers size={18} /> },
   { key: 'analytics', label: 'Tahlil', icon: <FiBarChart2 size={18} /> },
   { key: 'export', label: 'Eksport / PDF', icon: <FiDownload size={18} /> },
+  { key: 'roles', label: 'Huquqlar', icon: <FiSettings size={18} />, secret: true },
 ];
 
 export default function AdminPage() {
@@ -116,7 +118,7 @@ export default function AdminPage() {
           {TABS.map(tab => (
             <button
               key={tab.key}
-              className={`adm-nav-btn ${activeTab === tab.key ? 'adm-nav-btn--active' : ''}`}
+              className={`adm-nav-btn ${activeTab === tab.key ? 'adm-nav-btn--active' : ''} ${tab.secret ? 'adm-nav-btn--secret' : ''}`}
               onClick={() => setActiveTab(tab.key)}
             >
               <span className="adm-nav-icon">{tab.icon}</span>
@@ -191,6 +193,7 @@ export default function AdminPage() {
               {activeTab === 'users' && `Barcha foydalanuvchilarni boshqarish`}
               {activeTab === 'analytics' && `Platforma statistikasi va ko'rsatkichlari`}
               {activeTab === 'export' && `Hisobotlarni PDF sifatida eksport qilish`}
+              {activeTab === 'roles' && `Foydalanuvchilarga admin huquqini berish yoki olib tashlash`}
             </p>
           </div>
           <div className="adm-header-stats">
@@ -227,6 +230,9 @@ export default function AdminPage() {
               allAnalyses={allAnalyses}
               userAnalysesCounts={userAnalysesCounts}
             />
+          )}
+          {activeTab === 'roles' && (
+            <RolesTab users={users} setUsers={setUsers} />
           )}
         </div>
       </main>

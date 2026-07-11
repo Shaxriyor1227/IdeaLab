@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { HiOutlineTrash } from "react-icons/hi";
 import { MdRocketLaunch, MdTrendingUp, MdOutlineHistory } from "react-icons/md";
 import { RiSparklingLine } from "react-icons/ri";
-import { auth, db } from "../../../firebase";
-import { collection, doc, deleteDoc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../firebase";
+import { collection, doc, deleteDoc, getDocs } from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import Loader from "../../Loader/Loader";
@@ -21,28 +21,24 @@ export default function HistoryPage() {
   useEffect(() => {
     if (!user?.uid) return;
 
-    // Listen to analysis documents in real-time
-    const unsubscribe = onSnapshot(
-      collection(db, "users", user.uid, "analyses"),
-      (snapshot) => {
+    const fetchHistory = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "users", user.uid, "analyses"));
         const items = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         
-        // Sort in memory by createdAt descending to avoid composite index requirement
         items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-        
         setHistory(items);
-        setLoading(false);
-      },
-      (error) => {
+      } catch (error) {
         console.error("Error fetching analysis history:", error);
+      } finally {
         setLoading(false);
       }
-    );
+    };
 
-    return () => unsubscribe();
+    fetchHistory();
   }, [user]);
 
   const handleDeleteClick = (id) => {
@@ -54,6 +50,7 @@ export default function HistoryPage() {
 
     try {
       await deleteDoc(doc(db, "users", user.uid, "analyses", itemToDelete));
+      setHistory(prev => prev.filter(item => item.id !== itemToDelete));
     } catch (err) {
       console.error("Error deleting analysis:", err);
     } finally {
@@ -175,15 +172,15 @@ export default function HistoryPage() {
                     {/* Quick Metrics */}
                     <div className="hp-card-metrics">
                       <div className="hp-mini-metric">
-                        <span className="hp-mini-label">Market</span>
+                        <span className="hp-mini-label">{t("marketSize") || "Market"}</span>
                         <span className="hp-mini-value">{item.result?.marketSize}</span>
                       </div>
                       <div className="hp-mini-metric">
-                        <span className="hp-mini-label">Competition</span>
+                        <span className="hp-mini-label">{t("competition") || "Competition"}</span>
                         <span className="hp-mini-value">{item.result?.competition}</span>
                       </div>
                       <div className="hp-mini-metric">
-                        <span className="hp-mini-label">Trend</span>
+                        <span className="hp-mini-label">{t("trendScore") || "Trend"}</span>
                         <span className="hp-mini-value">{item.result?.trendScore}</span>
                       </div>
                     </div>
@@ -216,19 +213,17 @@ export default function HistoryPage() {
               <HiOutlineTrash size={32} />
             </div>
             <h3 className="hp-modal-title">
-              {i18n.language === "uz" ? "O'chirishni tasdiqlaysizmi?" : "Confirm Deletion"}
+              {t("confirmDeletion") || "Confirm Deletion"}
             </h3>
             <p className="hp-modal-text">
-              {i18n.language === "uz"
-                ? "Ushbu tahlil hisobotini o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi."
-                : "Are you sure you want to delete this analysis report? This action cannot be undone."}
+              {t("confirmDeleteDesc") || "Are you sure you want to delete this analysis report? This action cannot be undone."}
             </p>
             <div className="hp-modal-actions">
               <button className="hp-modal-cancel" onClick={() => setItemToDelete(null)}>
-                {i18n.language === "uz" ? "Bekor qilish" : "Cancel"}
+                {t("cancelBtn") || "Cancel"}
               </button>
               <button className="hp-modal-confirm" onClick={confirmDeleteAction}>
-                {i18n.language === "uz" ? "O'chirish" : "Delete"}
+                {t("deleteBtn") || "Delete"}
               </button>
             </div>
           </div>

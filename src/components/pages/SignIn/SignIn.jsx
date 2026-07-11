@@ -19,6 +19,12 @@ const SignIn = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        
+        if (!signinForm.email.trim() || !signinForm.password) {
+            setError(t('fillAllFields') || 'Please fill in all fields.');
+            return;
+        }
+
         setLoading(true);
         
         try {
@@ -28,9 +34,9 @@ const SignIn = () => {
         } catch (err) {
             console.error(err);
             if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
-                setError("Email yoki parol noto'g'ri. Iltimos tekshirib qaytadan urining.");
+                setError(t('invalidCredentials') || "Email yoki parol noto'g'ri. Iltimos tekshirib qaytadan urining.");
             } else {
-                setError("Tizimga kirishda xatolik yuz berdi: " + (err.message || err.code));
+                setError((t('loginError') || "Tizimga kirishda xatolik yuz berdi: ") + (err.message || err.code));
             }
         } finally {
             setLoading(false);
@@ -39,23 +45,29 @@ const SignIn = () => {
 
     const handleGoogleLogin = async () => {
         setError('');
+        setLoading(true);
         try {
             await loginWithGoogle();
             navigate("/");
         } catch (err) {
             console.error(err);
-            setError("Google orqali kirishda xatolik yuz berdi.");
+            setError(t('googleLoginError') || "Google orqali kirishda xatolik yuz berdi.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleGithubLogin = async () => {
         setError('');
+        setLoading(true);
         try {
             await loginWithGithub();
             navigate("/");
         } catch (err) {
             console.error(err);
-            setError("GitHub orqali kirishda xatolik yuz berdi.");
+            setError(t('githubLoginError') || "GitHub orqali kirishda xatolik yuz berdi.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -70,25 +82,25 @@ const SignIn = () => {
                 </div>
 
                 <h2 className="auth-title">{t('welcomeBack') || 'Welcome back'}</h2>
-                <p className="auth-subtitle">Log in to your IdeaLab account</p>
+                <p className="auth-subtitle">{t('loginSubtitle') || 'Log in to your IdeaLab account'}</p>
 
                 {error && <div className="auth-error-message">{error}</div>}
 
                 {/* Social Logins */}
                 <div className="auth-social-buttons">
-                    <button type="button" className="auth-social-btn" onClick={handleGoogleLogin}>
+                    <button type="button" className="auth-social-btn" onClick={handleGoogleLogin} disabled={loading}>
                         <FcGoogle className="auth-social-icon" />
-                        <span>Continue with Google</span>
+                        <span>{t('continueWithGoogle') || 'Continue with Google'}</span>
                     </button>
-                    <button type="button" className="auth-social-btn" onClick={handleGithubLogin}>
+                    <button type="button" className="auth-social-btn" onClick={handleGithubLogin} disabled={loading}>
                         <FaGithub className="auth-social-icon" />
-                        <span>Continue with GitHub</span>
+                        <span>{t('continueWithGithub') || 'Continue with GitHub'}</span>
                     </button>
                 </div>
 
                 {/* Divider */}
                 <div className="auth-divider">
-                    <span className="auth-divider-text">or continue with email</span>
+                    <span className="auth-divider-text">{t('orContinueWithEmail') || 'or continue with email'}</span>
                 </div>
 
                 {/* Email/Password Form */}
@@ -108,44 +120,40 @@ const SignIn = () => {
 
                     <div className="auth-field-group">
                         <div className="auth-label-row">
-                            <label htmlFor="signin-password" className="auth-label">Password</label>
-                            <span 
-                                className="auth-link-forgot" 
-                                onClick={() => navigate('/forgot-password')}
-                            >
-                                Forgot password?
-                            </span>
+                            <label htmlFor="signin-password" className="auth-label">{t('password') || 'Password'}</label>
+                            <button type="button" className="auth-forgot-link" onClick={() => navigate('/forgot-password')}>
+                                {t('forgotPassword') || 'Forgot password?'}
+                            </button>
                         </div>
-                        <div className="auth-password-input-wrapper">
+                        <div className="auth-password-wrapper">
                             <input
                                 id="signin-password"
                                 type={showPassword ? "text" : "password"}
-                                className="auth-input auth-input-password"
-                                placeholder="Enter your password"
+                                className="auth-input"
+                                placeholder="••••••••"
                                 value={signinForm.password}
                                 onChange={(e) => setSigninForm({ ...signinForm, password: e.target.value })}
-                                required
                             />
                             <button 
-                                type="button" 
+                                type="button"
                                 className="auth-password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
                                 aria-label={showPassword ? "Hide password" : "Show password"}
                             >
-                                {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                                {showPassword ? <FiEyeOff /> : <FiEye />}
                             </button>
                         </div>
                     </div>
 
                     <button type="submit" className="auth-submit-btn" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Log in →'}
+                        {loading ? (t('loggingIn') || 'Logging in...') : (t('loginBtn') || 'Log in →')}
                     </button>
                 </form>
-            </div>
 
-            <p className="auth-footer-text">
-                Don't have an account? <span className="auth-footer-link" onClick={() => navigate('/signup')}>Sign up</span>
-            </p>
+                <p className="auth-footer-text">
+                    {t('dontHaveAccount') || "Don't have an account?"} <button type="button" className="auth-footer-link" onClick={() => navigate('/signup')}>{t('signUpLabel') || 'Sign up'}</button>
+                </p>
+            </div>
         </div>
     );
 };

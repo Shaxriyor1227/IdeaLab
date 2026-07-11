@@ -9,6 +9,8 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
+import { db } from '../../firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 import './Header.css';
 import logo from '../../assets/logo.jpg';
 
@@ -106,25 +108,36 @@ const Header = memo(() => {
     setMobileMenuOpen(false);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (e) {
+      console.error("Logout error:", e);
+    }
     setProfileOpen(false);
     setMobileMenuOpen(false);
   };
 
-  const switchLang = () => {
+  const switchLang = async () => {
     const next = i18n.language === 'uz' ? 'en' : 'uz';
     i18n.changeLanguage(next);
+    if (user && user.uid) {
+      try {
+        await updateDoc(doc(db, "users", user.uid), { locale: next });
+      } catch (e) {
+        console.error("Failed to save language preference:", e);
+      }
+    }
   };
 
   return (
     <header className="header">
       <div className="header-container">
         {/* Logo */}
-        <div className="header-logo" onClick={() => handleNav('/')}>
+        <button className="header-logo" onClick={() => handleNav('/')} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit' }}>
           <img src={logo} alt="IdeaLab Logo" className="logo-img" width="42" height="42" />
           <span className="logo-text">IdeaLab</span>
-        </div>
+        </button>
 
         {/* Desktop Nav */}
         <nav className="header-nav">{navItems}</nav>
