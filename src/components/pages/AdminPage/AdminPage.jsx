@@ -104,7 +104,7 @@ export default function AdminPage() {
       {/* ===== Sidebar ===== */}
       <aside className="adm-sidebar">
         <div className="adm-sidebar-top">
-          <div className="adm-sidebar-logo">
+          <div className="adm-sidebar-logo" onClick={() => setActiveTab('overview')}>
             <MdRocketLaunch size={22} />
             <span>IdeaLab</span>
           </div>

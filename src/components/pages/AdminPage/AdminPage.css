@@ -104,8 +104,10 @@
   color: #fff;
   margin-bottom: 10px;
   background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  cursor: pointer;
 }
 
 .adm-sidebar-logo svg {
