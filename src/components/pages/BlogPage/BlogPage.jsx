@@ -33,7 +33,7 @@ export default function BlogPage() {
         {(blogPosts[i18n.language] || blogPosts.en).map((post) => (
           <div className="blog-card" key={post.id}>
             <div className="blog-card-image">
-              <img src={post.image} alt={post.title} />
+              <img src={post.image} alt={post.title} loading="lazy" />
               <div className="blog-card-category">{post.category}</div>
             </div>
             <div className="blog-card-content">

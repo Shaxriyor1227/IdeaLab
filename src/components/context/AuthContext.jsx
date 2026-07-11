@@ -11,6 +11,7 @@ import {
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db, googleProvider, githubProvider } from "../../firebase";
 import i18n from "../../i18n";
+import Loader from "../Loader/Loader";
 
 const AuthContext = createContext();
 
@@ -168,7 +169,11 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={contextValue}>
-      {!loading && children}
+      {loading ? (
+        <Loader fullScreen={true} message="Tizimga ulanilmoqda..." />
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

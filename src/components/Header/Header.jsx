@@ -83,13 +83,16 @@ const Header = memo(() => {
   ) : (
     <>
       <NavLink to="/" className={getLinkClass} end onClick={() => setMobileMenuOpen(false)}>
-        {t('dashboard')}
+        {i18n.language === 'uz' ? 'Asosiy Sahifa' : 'Home'}
       </NavLink>
       <NavLink to="/blog" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
         {t('blog')}
       </NavLink>
       <NavLink to="/analyze" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
         {t('newAnalysis')}
+      </NavLink>
+      <NavLink to="/results" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
+        {t('result') || (i18n.language === 'uz' ? 'Natijalar' : 'Results')}
       </NavLink>
       <NavLink to="/history" className={getLinkClass} onClick={() => setMobileMenuOpen(false)}>
         {t('history')}
@@ -140,7 +143,7 @@ const Header = memo(() => {
           </button>
 
           {/* Analysis page export */}
-          {isAnalysisPage && (
+          {location.pathname === '/results' && (
             <button className="header-btn-ghost header-btn-ghost--desktop" onClick={() => window.print()}>
               <TbFileExport size={18} />
               {t('exportPdf')}

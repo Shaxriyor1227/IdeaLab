@@ -10,9 +10,13 @@ import {
   RiErrorWarningLine,
   RiStarFill
 } from "react-icons/ri";
-import { FiTrendingUp, FiActivity, FiGlobe, FiX, FiExternalLink } from "react-icons/fi";
-import { RiBuildingLine } from "react-icons/ri";
+import { FiTrendingUp, FiActivity, FiGlobe, FiX, FiExternalLink, FiPlusCircle } from "react-icons/fi";
+import { RiBuildingLine, RiCheckLine } from "react-icons/ri";
+import { MdRocketLaunch } from "react-icons/md";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../context/AuthContext";
+import { db } from "../../../firebase";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import "./Resultspage.css";
 
 const priorityColor = { High: "rp-high", Medium: "rp-medium", Low: "rp-low" };
@@ -34,6 +38,9 @@ export default function ResultsPage() {
   const [competitors, setCompetitors] = useState(null);
   const [compLoading, setCompLoading] = useState(false);
   const [compError, setCompError] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
+  
+  const { user } = useAuth();
 
   let analysisData = state;
 
@@ -49,8 +56,27 @@ export default function ResultsPage() {
   }
 
   if (!analysisData?.result) {
-    navigate("/analyze");
-    return null;
+    return (
+      <div className="rp-page rp-page-empty">
+        <div className="rp-empty-container">
+          <div className="rp-empty-icon">
+            <FiActivity size={48} />
+          </div>
+          <h2 className="rp-empty-title">
+            {lang === "uz" ? "Hozircha tahlil yo'q" : "No Analysis Yet"}
+          </h2>
+          <p className="rp-empty-subtitle">
+            {lang === "uz" 
+              ? "G'oyangizni kiritib, uni sun'iy intellekt orqali baholang va to'liq hisobot oling." 
+              : "Enter your idea to get it evaluated by AI and receive a full report."}
+          </p>
+          <button className="rp-btn-primary rp-empty-btn" onClick={() => navigate("/analyze")}>
+            <FiPlusCircle size={18} />
+            {lang === "uz" ? "Yangi tahlilni boshlash" : "Start New Analysis"}
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const { result, analyzedAt, formData } = analysisData;
@@ -118,8 +144,56 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
     }
   };
 
+  const handleSaveToHistory = async () => {
+    if (!user) {
+      setToastMessage(lang === "uz" ? "Saqlash uchun tizimga kiring!" : "Please login to save!");
+      setTimeout(() => setToastMessage(""), 3000);
+      return;
+    }
+
+    try {
+      // Check if it already exists in history
+      const q = query(
+        collection(db, "users", user.uid, "analyses"),
+        where("formData.startupName", "==", analysisData?.formData?.startupName || "")
+      );
+      const snapshot = await getDocs(q);
+      
+      const isDuplicate = snapshot.docs.some(doc => {
+        const data = doc.data();
+        return data.analyzedAt === analysisData.analyzedAt && 
+               data.result?.viabilityScore === analysisData.result?.viabilityScore;
+      });
+      
+      if (isDuplicate) {
+        setToastMessage(lang === "uz" ? "Ushbu tahlil allaqachon tarixga saqlangan!" : "Already saved in history!");
+        setTimeout(() => setToastMessage(""), 3000);
+        return;
+      }
+
+      await addDoc(collection(db, "users", user.uid, "analyses"), {
+        ...analysisData,
+        createdAt: new Date().toISOString()
+      });
+      setToastMessage(lang === "uz" ? "Tarix bo'limiga saqlandi!" : "Saved to history!");
+      setTimeout(() => setToastMessage(""), 3000);
+    } catch (err) {
+      console.error("Error saving to history:", err);
+      setToastMessage(lang === "uz" ? "Xatolik yuz berdi" : "Error saving");
+      setTimeout(() => setToastMessage(""), 3000);
+    }
+  };
+
   return (
     <div className="rp-page">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="rp-toast">
+          <RiCheckLine size={18} />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
       <div className="rp-container">
         
         {/* Header */}
@@ -133,7 +207,9 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
           </div>
           <div className="rp-header-right">
             <button className="rp-btn-ghost" onClick={() => window.print()}><TbFileExport size={16} /> {t("exportPdf")}</button>
-            <button className="rp-btn-primary" onClick={() => navigate('/history')}><MdBookmark size={16} /> {t("saveToHistory")}</button>
+            <button className="rp-btn-primary" onClick={handleSaveToHistory}>
+              <MdBookmark size={16} /> {lang === "uz" ? "Tarixga saqlash" : "Save to History"}
+            </button>
           </div>
         </div>
 
@@ -238,6 +314,105 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* --- PRINT ONLY LAYOUT --- */}
+      <div className="rp-print-doc" id="rp-print-doc">
+        <div className="rp-print-header">
+          <div className="rp-print-logo">
+            <MdRocketLaunch size={28} />
+            <span>IdeaLab AI Report</span>
+          </div>
+          <div className="rp-print-meta">
+            <span>Sana: {analyzedAt || new Date().toLocaleDateString('uz-UZ')}</span>
+            <span>Startap: {formData?.startupName || 'Kiritilmagan'}</span>
+          </div>
+        </div>
+
+        <div className="rp-print-divider" />
+
+        <div className="rp-print-summary">
+          <div className="rp-print-summary-item">
+            <label>Soha:</label>
+            <span>{formData?.industry || 'Kiritilmagan'}</span>
+          </div>
+          <div className="rp-print-summary-item">
+            <label>Mijozlar:</label>
+            <span>{formData?.targetCustomer || 'Kiritilmagan'}</span>
+          </div>
+        </div>
+
+        <h2 className="rp-print-section-title">Umumiy Natijalar</h2>
+        <table className="rp-print-table">
+          <thead>
+            <tr>
+              <th>Viability Score (Hayotiylik)</th>
+              <th>Bozor Hajmi</th>
+              <th>Raqobat Darajasi</th>
+              <th>Trend (10 ball)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>{result.viabilityScore} / 100</strong> ({result.viabilityLabel})</td>
+              <td>{result.marketSize} ({result.marketGrowth})</td>
+              <td>{result.competition}</td>
+              <td>{result.trendScore} / 10 ({result.trendLabel})</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 className="rp-print-section-title">SWOT Tahlil</h2>
+        <table className="rp-print-table">
+          <tbody>
+            <tr>
+              <td style={{ width: '50%', verticalAlign: 'top' }}>
+                <h4 style={{ color: '#10b981', margin: '0 0 10px' }}>Kuchli tomonlar (Strengths)</h4>
+                <ul className="rp-print-list">
+                  {result.swot.strengths.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+              </td>
+              <td style={{ width: '50%', verticalAlign: 'top' }}>
+                <h4 style={{ color: '#f59e0b', margin: '0 0 10px' }}>Kuchsiz tomonlar (Weaknesses)</h4>
+                <ul className="rp-print-list">
+                  {result.swot.weaknesses.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td style={{ width: '50%', verticalAlign: 'top' }}>
+                <h4 style={{ color: '#06b6d4', margin: '0 0 10px' }}>Imkoniyatlar (Opportunities)</h4>
+                <ul className="rp-print-list">
+                  {result.swot.opportunities.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+              </td>
+              <td style={{ width: '50%', verticalAlign: 'top' }}>
+                <h4 style={{ color: '#ef4444', margin: '0 0 10px' }}>Xavflar (Threats)</h4>
+                <ul className="rp-print-list">
+                  {result.swot.threats.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 className="rp-print-section-title">AI Tavsiyalari</h2>
+        <div className="rp-print-recs">
+          {result.recommendations.map((rec, i) => (
+            <div className="rp-print-rec" key={i}>
+              <div className="rp-print-rec-title">
+                <strong>{i + 1}. {rec.title}</strong>
+                <span>({rec.priority} Priority)</span>
+              </div>
+              <p className="rp-print-rec-desc">{rec.description}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="rp-print-footer">
+          <span>IdeaLab AI — Maxfiy Tahlil Hujjati</span>
+          <span>{new Date().toISOString().slice(0, 10)}</span>
         </div>
       </div>
 

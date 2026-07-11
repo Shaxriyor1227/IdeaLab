@@ -147,6 +147,7 @@ export default function AnalyzePage() {
       const result = JSON.parse(clean);
 
       const analysisData = {
+        analysisId: Date.now().toString(),
         formData: form,
         result,
         analyzedAt: new Date().toLocaleDateString("en-US", {
@@ -155,21 +156,7 @@ export default function AnalyzePage() {
           year: "numeric",
         }),
       };
-      
       localStorage.setItem("latestAnalysis", JSON.stringify(analysisData));
-
-      // Save to Firestore under the authenticated user's profile
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        try {
-          await addDoc(collection(db, "users", currentUser.uid, "analyses"), {
-            ...analysisData,
-            createdAt: new Date().toISOString()
-          });
-        } catch (dbErr) {
-          console.error("Error saving analysis to Firestore:", dbErr);
-        }
-      }
 
       navigate("/results", { state: analysisData });
     } catch (err) {

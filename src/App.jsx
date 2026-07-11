@@ -3,6 +3,7 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import ProtectedRoute from './components/pages/Route/ProtectedRoute'
+import Loader from './components/Loader/Loader'
 
 const HomePage = lazy(() => import('./components/HomePage/HomePage'))
 const AnalyzePage = lazy(() => import('./components/Analyzepage/Analyzepage'))
@@ -27,11 +28,7 @@ const App = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [location.pathname]);
 
-  const pageFallback = (
-    <div style={{ minHeight: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-      Loading page...
-    </div>
-  );
+  const pageFallback = <Loader fullScreen={false} message="Sahifa yuklanmoqda..." />;
 
   return (
     <div>

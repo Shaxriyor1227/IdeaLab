@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineTrash } from "react-icons/hi";
 import { MdRocketLaunch, MdTrendingUp, MdOutlineHistory } from "react-icons/md";
@@ -7,6 +7,7 @@ import { auth, db } from "../../../firebase";
 import { collection, doc, deleteDoc, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "react-i18next";
+import Loader from "../Loader/Loader";
 import "./HistoryPage.css";
 
 export default function HistoryPage() {
@@ -15,6 +16,7 @@ export default function HistoryPage() {
   const { t, i18n } = useTranslation();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -43,17 +45,19 @@ export default function HistoryPage() {
     return () => unsubscribe();
   }, [user]);
 
-  const handleDelete = async (id) => {
-    if (!user?.uid) return;
-    const confirmDelete = window.confirm(
-      i18n.language === "uz" ? "Ushbu hisobotni o'chirmoqchimisiz?" : "Are you sure you want to delete this analysis report?"
-    );
-    if (!confirmDelete) return;
+  const handleDeleteClick = (id) => {
+    setItemToDelete(id);
+  };
+
+  const confirmDeleteAction = async () => {
+    if (!user?.uid || !itemToDelete) return;
 
     try {
-      await deleteDoc(doc(db, "users", user.uid, "analyses", id));
+      await deleteDoc(doc(db, "users", user.uid, "analyses", itemToDelete));
     } catch (err) {
       console.error("Error deleting analysis:", err);
+    } finally {
+      setItemToDelete(null);
     }
   };
 
@@ -66,6 +70,14 @@ export default function HistoryPage() {
     if (score >= 50) return "#F59E0B";
     return "#EF4444";
   };
+
+  const stats = useMemo(() => {
+    if (!history.length) return { highPotential: 0, avgViability: 0 };
+    const highPotential = history.filter(h => h.result?.viabilityScore >= 75).length;
+    const totalScore = history.reduce((acc, h) => acc + (h.result?.viabilityScore || 0), 0);
+    const avgViability = Math.round(totalScore / history.length);
+    return { highPotential, avgViability };
+  }, [history]);
 
   return (
     <div className="hp-page">
@@ -87,8 +99,8 @@ export default function HistoryPage() {
 
         {/* Loading State */}
         {loading ? (
-          <div style={{ display: "flex", justifyContent: "center", padding: "40px", color: "#fff" }}>
-            Loading history...
+          <div style={{ display: "flex", justifyContent: "center", padding: "80px 0" }}>
+            <Loader fullScreen={false} message={t("loadingHistory") || "Tarix yuklanmoqda..."} />
           </div>
         ) : (
           <>
@@ -101,13 +113,13 @@ export default function HistoryPage() {
                 </div>
                 <div className="hp-stat-card">
                   <span className="hp-stat-value" style={{ color: "#10B981" }}>
-                    {history.filter(h => h.result?.viabilityScore >= 75).length}
+                    {stats.highPotential}
                   </span>
                   <span className="hp-stat-label">{t("highPotential")}</span>
                 </div>
                 <div className="hp-stat-card">
                   <span className="hp-stat-value" style={{ color: "#7C3AED" }}>
-                    {Math.round(history.reduce((acc, h) => acc + (h.result?.viabilityScore || 0), 0) / history.length)}
+                    {stats.avgViability}
                   </span>
                   <span className="hp-stat-label">{t("avgViability")}</span>
                 </div>
@@ -184,7 +196,7 @@ export default function HistoryPage() {
                       <button className="hp-view-btn" onClick={() => handleView(item)}>
                         <MdTrendingUp size={15} /> {t("viewReport")}
                       </button>
-                      <button className="hp-delete-btn" onClick={() => handleDelete(item.id)} aria-label={t("deleteAnalysis") || "Delete analysis"}>
+                      <button className="hp-delete-btn" onClick={() => handleDeleteClick(item.id)} aria-label={t("deleteAnalysis") || "Delete analysis"}>
                         <HiOutlineTrash size={15} />
                       </button>
                     </div>
@@ -195,6 +207,33 @@ export default function HistoryPage() {
           </>
         )}
       </div>
+
+      {/* Custom Delete Confirmation Modal */}
+      {itemToDelete && (
+        <div className="hp-modal-overlay" onClick={() => setItemToDelete(null)}>
+          <div className="hp-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="hp-modal-icon">
+              <HiOutlineTrash size={32} />
+            </div>
+            <h3 className="hp-modal-title">
+              {i18n.language === "uz" ? "O'chirishni tasdiqlaysizmi?" : "Confirm Deletion"}
+            </h3>
+            <p className="hp-modal-text">
+              {i18n.language === "uz"
+                ? "Ushbu tahlil hisobotini o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi."
+                : "Are you sure you want to delete this analysis report? This action cannot be undone."}
+            </p>
+            <div className="hp-modal-actions">
+              <button className="hp-modal-cancel" onClick={() => setItemToDelete(null)}>
+                {i18n.language === "uz" ? "Bekor qilish" : "Cancel"}
+              </button>
+              <button className="hp-modal-confirm" onClick={confirmDeleteAction}>
+                {i18n.language === "uz" ? "O'chirish" : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

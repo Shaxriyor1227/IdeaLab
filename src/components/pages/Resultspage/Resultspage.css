@@ -792,4 +792,276 @@
 .rp-comp-link:hover {
   color: #a78bfa;
 }
-
+
+/* ===== Empty State ===== */
+.rp-page-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+}
+
+.rp-empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 60px 40px;
+  max-width: 480px;
+  margin: 0 auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.rp-empty-icon {
+  width: 96px;
+  height: 96px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(79, 70, 229, 0.1));
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.rp-empty-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 12px;
+}
+
+.rp-empty-subtitle {
+  color: #9ca3af;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+
+.rp-empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 16px;
+}
+
+/* ===== Toast Notification ===== */
+.rp-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: #10b981;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+  z-index: 1000;
+  animation: rpToastSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes rpToastSlideIn {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* =========================================
+   BEAUTIFUL PDF EXPORT STYLES (PRINT)
+   ========================================= */
+/* Hide print layout on screen */
+.rp-print-doc {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
+  
+  body, html, #root, .page-content-with-header, .rp-page {
+    background: #ffffff !important;
+    color: #000000 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+    position: relative !important;
+  }
+
+  /* Force background colors and gradients to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide main app UI completely */
+  .rp-container,
+  .rp-header,
+  .rp-back,
+  .rp-header-right,
+  .rp-comp-btn,
+  .rp-modal-overlay,
+  .rp-empty-container,
+  .rp-toast {
+    display: none !important;
+  }
+
+  /* SHOW PRINT DOCUMENT */
+  .rp-print-doc {
+    display: block !important;
+    width: 100% !important;
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    color: #111827 !important;
+  }
+
+  .rp-print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .rp-print-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #8b5cf6 !important;
+  }
+
+  .rp-print-meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+  .rp-print-divider {
+    height: 1px;
+    background: #e5e7eb !important;
+    margin: 20px 0;
+  }
+
+  .rp-print-summary {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+  }
+
+  .rp-print-summary-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .rp-print-summary-item label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6b7280;
+    margin-bottom: 4px;
+  }
+
+  .rp-print-summary-item span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .rp-print-section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin: 30px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #8b5cf6 !important;
+  }
+
+  .rp-print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    break-inside: auto;
+  }
+
+  .rp-print-table th, .rp-print-table td {
+    border: 1px solid #e5e7eb;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+    color: #374151;
+  }
+
+  .rp-print-table th {
+    background: #f9fafb !important;
+    font-weight: 600;
+    color: #111827;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  .rp-print-list {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .rp-print-list li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #374151;
+  }
+
+  .rp-print-recs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    break-inside: auto;
+  }
+
+  .rp-print-rec {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .rp-print-rec-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: #111827;
+    margin-bottom: 8px;
+  }
+
+  .rp-print-rec-desc {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .rp-print-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #9ca3af;
+  }
+}

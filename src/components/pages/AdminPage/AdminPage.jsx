@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { FiGrid, FiUsers, FiBarChart2, FiDownload } from 'react-icons/fi';
+import { FiGrid, FiUsers, FiBarChart2, FiDownload, FiGlobe, FiLogOut, FiSettings, FiChevronUp } from 'react-icons/fi';
 import { MdRocketLaunch, MdAdminPanelSettings } from 'react-icons/md';
 
 import OverviewTab from './tabs/OverviewTab';
@@ -20,10 +20,11 @@ const TABS = [
 ];
 
 export default function AdminPage() {
-  const { user, isAuth, isAdmin } = useAuth();
+  const { user, isAuth, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState('overview');
+  const [profileOpen, setProfileOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [allAnalyses, setAllAnalyses] = useState([]);
   const [userAnalysesCounts, setUserAnalysesCounts] = useState({});
@@ -126,7 +127,11 @@ export default function AdminPage() {
         </nav>
 
         <div className="adm-sidebar-footer">
-          <div className="adm-sidebar-user">
+          <div 
+            className="adm-sidebar-user" 
+            onClick={() => setProfileOpen(!profileOpen)}
+            style={{ cursor: 'pointer', position: 'relative' }}
+          >
             <div className="adm-sidebar-avatar">
               {user?.photoURL
                 ? <img src={user.photoURL} alt="av" />
@@ -137,6 +142,40 @@ export default function AdminPage() {
               <span className="adm-sidebar-user-name">{user?.name}</span>
               <span className="adm-sidebar-user-role">Admin</span>
             </div>
+            <FiChevronUp 
+              size={16} 
+              style={{ 
+                marginLeft: 'auto', 
+                color: '#6b7280', 
+                transform: profileOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s'
+              }} 
+            />
+
+            {/* Dropdown Menu */}
+            {profileOpen && (
+              <div className="adm-profile-dropdown" onClick={(e) => e.stopPropagation()}>
+                <button className="adm-dropdown-item" onClick={() => navigate('/')}>
+                  <FiGlobe size={16} />
+                  <span>Asosiy saytga qaytish</span>
+                </button>
+                <button className="adm-dropdown-item" onClick={() => navigate('/settings')}>
+                  <FiSettings size={16} />
+                  <span>Sozlamalar</span>
+                </button>
+                <div className="adm-dropdown-divider" />
+                <button 
+                  className="adm-dropdown-item adm-dropdown-item--danger" 
+                  onClick={() => {
+                    logout();
+                    navigate('/'); 
+                  }}
+                >
+                  <FiLogOut size={16} />
+                  <span>Chiqish</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </aside>
