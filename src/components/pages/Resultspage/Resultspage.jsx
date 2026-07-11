@@ -231,24 +231,21 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
             <p className="rp-card-desc">{t("strongMarketFit")}</p>
           </div>
 
-          {/* Card 2 - Market Size */}
+          {/* Card 2 - Market Size & Revenue */}
           <div className="rp-card">
             <div className="rp-card-top">
-              <span className="rp-card-label">{t("marketSize")}</span>
+              <span className="rp-card-label">{t("marketSize")} & ROI</span>
               <div className="rp-icon-blue"><FiGlobe size={18} /></div>
             </div>
             <div className="rp-metric-value rp-text-cyan">{result.marketSize}</div>
-            <p className="rp-card-desc rp-text-green">{result.marketGrowth}</p>
-          </div>
-
-          {/* Card 2.5 - Revenue & ROI (New) */}
-          <div className="rp-card">
-            <div className="rp-card-top">
-              <span className="rp-card-label">{lang === "uz" ? "1-Yillik Daromad va ROI" : "1-Year Revenue & ROI"}</span>
-              <div className="rp-icon-green"><FiDollarSign size={18} /></div>
+            <p className="rp-card-desc rp-text-green" style={{ marginBottom: "8px" }}>{result.marketGrowth}</p>
+            <div style={{ padding: "8px", background: "rgba(16, 185, 129, 0.1)", borderRadius: "8px", border: "1px solid rgba(16, 185, 129, 0.2)" }}>
+              <div style={{ fontSize: "12px", color: "#A0AEC0", marginBottom: "2px" }}>{lang === "uz" ? "1-Yillik Daromad:" : "1-Year Revenue:"}</div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: "16px", fontWeight: "600", color: "#10B981" }}>{result.estimatedRevenue1Yr || (lang === "uz" ? "N/A" : "N/A")}</span>
+                <span style={{ fontSize: "12px", fontWeight: "700", color: "#10B981", background: "rgba(16, 185, 129, 0.2)", padding: "2px 6px", borderRadius: "4px" }}>{result.roiPercentage || "ROI"}</span>
+              </div>
             </div>
-            <div className="rp-metric-value rp-text-green">{result.estimatedRevenue1Yr || (lang === "uz" ? "Hisoblanmadi" : "Not calculated")}</div>
-            <p className="rp-card-desc rp-text-green">{result.roiPercentage ? `ROI: ${result.roiPercentage}` : ""}</p>
           </div>
 
           {/* Card 3 - Competition */}
