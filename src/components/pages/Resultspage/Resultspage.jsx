@@ -40,6 +40,12 @@ export default function ResultsPage() {
   const [compError, setCompError] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   
+  const [showRoiModal, setShowRoiModal] = useState(false);
+  const [roiAmount, setRoiAmount] = useState("");
+  const [roiResult, setRoiResult] = useState(null);
+  const [roiLoading, setRoiLoading] = useState(false);
+  const [roiError, setRoiError] = useState("");
+
   const { user } = useAuth();
 
   let analysisData = state;
@@ -146,6 +152,57 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
     }
   };
 
+  const handleCalculateRoi = async () => {
+    if (!roiAmount) return;
+    setRoiLoading(true);
+    setRoiError("");
+
+    const ideaTitle = formData?.startupName || "startup idea";
+    const ideaDesc = formData?.oneLiner || formData?.problem || "";
+
+    const prompt = `You are a strict Venture Capital analyst. Calculate the realistic 1-year revenue and ROI for this startup idea given a specific investment amount.
+Startup: ${ideaTitle}
+Description: ${ideaDesc}
+Investment Amount: $${roiAmount}
+
+Return ONLY a valid JSON object. No markdown, no backticks.
+{
+  "revenue": "<realistic 1-year revenue, e.g. $15,000>",
+  "roi": "<ROI percentage, e.g. +150%>",
+  "explanation": "<1 short sentence explaining why in ${lang === 'uz' ? 'Uzbek' : 'English'}>"
+}`;
+
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+          "HTTP-Referer": window.location.origin,
+          "X-Title": "IdeaLab",
+        },
+        body: JSON.stringify({
+          model: "nvidia/nemotron-3-super-120b-a12b:free",
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error?.message || "API error");
+
+      const text = data.choices[0].message.content;
+      const jsonMatch = text.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+      if (!jsonMatch) throw new Error("AI format error");
+      const parsed = JSON.parse(jsonMatch[0]);
+      setRoiResult(parsed);
+    } catch (err) {
+      console.error(err);
+      setRoiError(lang === "uz" ? "Hisoblashda xatolik. Qayta urinib ko'ring." : "Failed to calculate. Please try again.");
+    } finally {
+      setRoiLoading(false);
+    }
+  };
+
   const handleSaveToHistory = async () => {
     if (!user) {
       setToastMessage(lang === "uz" ? "Saqlash uchun tizimga kiring!" : "Please login to save!");
@@ -231,21 +288,18 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
             <p className="rp-card-desc">{t("strongMarketFit")}</p>
           </div>
 
-          {/* Card 2 - Market Size & Revenue */}
+          {/* Card 2 - Market Size */}
           <div className="rp-card">
             <div className="rp-card-top">
-              <span className="rp-card-label">{t("marketSize")} & ROI</span>
+              <span className="rp-card-label">{t("marketSize")}</span>
               <div className="rp-icon-blue"><FiGlobe size={18} /></div>
             </div>
             <div className="rp-metric-value rp-text-cyan">{result.marketSize}</div>
-            <p className="rp-card-desc rp-text-green" style={{ marginBottom: "8px" }}>{result.marketGrowth}</p>
-            <div style={{ padding: "8px", background: "rgba(16, 185, 129, 0.1)", borderRadius: "8px", border: "1px solid rgba(16, 185, 129, 0.2)" }}>
-              <div style={{ fontSize: "12px", color: "#A0AEC0", marginBottom: "2px" }}>{lang === "uz" ? "1-Yillik Daromad:" : "1-Year Revenue:"}</div>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: "16px", fontWeight: "600", color: "#10B981" }}>{result.estimatedRevenue1Yr || (lang === "uz" ? "N/A" : "N/A")}</span>
-                <span style={{ fontSize: "12px", fontWeight: "700", color: "#10B981", background: "rgba(16, 185, 129, 0.2)", padding: "2px 6px", borderRadius: "4px" }}>{result.roiPercentage || "ROI"}</span>
-              </div>
-            </div>
+            <p className="rp-card-desc rp-text-green">{result.marketGrowth}</p>
+            <button className="rp-comp-btn" style={{ marginTop: '16px', background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', border: '1px solid rgba(16, 185, 129, 0.2)' }} onClick={() => setShowRoiModal(true)}>
+              <FiDollarSign size={14} />
+              {lang === "uz" ? "ROI Hisoblash" : "Calculate ROI"}
+            </button>
           </div>
 
           {/* Card 3 - Competition */}
@@ -500,6 +554,73 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
                   : "* These competitors were found in real-time by AI based on your specific idea"}
               </p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ROI Modal */}
+      {showRoiModal && (
+        <div className="rp-modal-overlay" onClick={() => setShowRoiModal(false)}>
+          <div className="rp-modal" onClick={e => e.stopPropagation()}>
+            <div className="rp-modal-header">
+              <div className="rp-modal-title-group">
+                <FiDollarSign size={20} className="rp-text-green" />
+                <h3 className="rp-modal-title">
+                  {lang === "uz" ? "ROI va Daromadni Hisoblash" : "Calculate ROI & Revenue"}
+                </h3>
+              </div>
+              <button className="rp-modal-close" onClick={() => setShowRoiModal(false)}>
+                <FiX size={20} />
+              </button>
+            </div>
+
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", color: "#A0AEC0", fontSize: "14px" }}>
+                {lang === "uz" ? "Qancha sarmoya kiritmoqchisiz? (Masalan: 5000)" : "How much will you invest? (e.g. 5000)"}
+              </label>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <input 
+                  type="number" 
+                  value={roiAmount}
+                  onChange={(e) => setRoiAmount(e.target.value)}
+                  placeholder={lang === "uz" ? "Summani kiriting..." : "Enter amount..."}
+                  style={{ flex: 1, padding: "10px 14px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.2)", color: "white", outline: "none" }}
+                />
+                <button 
+                  onClick={handleCalculateRoi}
+                  disabled={roiLoading || !roiAmount}
+                  style={{ padding: "10px 20px", borderRadius: "8px", background: "#10B981", color: "white", border: "none", fontWeight: "600", cursor: roiLoading || !roiAmount ? "not-allowed" : "pointer", opacity: roiLoading || !roiAmount ? 0.6 : 1 }}
+                >
+                  {roiLoading ? (lang === "uz" ? "Hisoblanmoqda..." : "Calculating...") : (lang === "uz" ? "Hisoblash" : "Calculate")}
+                </button>
+              </div>
+            </div>
+
+            {roiError && (
+              <div className="rp-comp-error" style={{ marginBottom: "20px" }}>
+                <RiErrorWarningLine size={24} />
+                <p>{roiError}</p>
+              </div>
+            )}
+
+            {roiResult && !roiLoading && (
+              <div style={{ padding: "16px", background: "rgba(16, 185, 129, 0.1)", borderRadius: "12px", border: "1px solid rgba(16, 185, 129, 0.2)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                  <div>
+                    <div style={{ fontSize: "12px", color: "#A0AEC0", marginBottom: "4px" }}>{lang === "uz" ? "Taxminiy Daromad (1 yil):" : "Estimated Revenue (1 yr):"}</div>
+                    <div style={{ fontSize: "20px", fontWeight: "700", color: "#10B981" }}>{roiResult.revenue}</div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "12px", color: "#A0AEC0", marginBottom: "4px" }}>{lang === "uz" ? "Kutilayotgan ROI:" : "Expected ROI:"}</div>
+                    <div style={{ fontSize: "20px", fontWeight: "700", color: "#10B981" }}>{roiResult.roi}</div>
+                  </div>
+                </div>
+                <div style={{ paddingTop: "12px", borderTop: "1px solid rgba(16, 185, 129, 0.2)", fontSize: "14px", color: "#E2E8F0", lineHeight: "1.5" }}>
+                  <RiLightbulbLine style={{ display: "inline", marginRight: "6px", color: "#10B981" }} />
+                  {roiResult.explanation}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
