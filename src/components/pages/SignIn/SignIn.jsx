@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { RiLightbulbFill } from 'react-icons/ri';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiAlertCircle } from 'react-icons/fi';
 import './Signin.css';
 
 const SignIn = () => {
@@ -15,29 +15,29 @@ const SignIn = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [socialLoading, setSocialLoading] = useState(''); // 'google' | 'github' | ''
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        
+
         if (!signinForm.email.trim() || !signinForm.password.trim()) {
-            setError(t('fillAllFields') || 'Please fill in all fields.');
+            setError(t('fillAllFields') || "Iltimos, barcha maydonlarni to'ldiring.");
             return;
         }
 
-        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(signinForm.email.trim())) {
-            setError(t('invalidEmail') || 'Please enter a valid email address.');
+            setError(t('invalidEmail') || "Iltimos, to'g'ri email manzilini kiriting.");
             return;
         }
 
         setLoading(true);
-        
+
         try {
             await login(signinForm.email.trim(), signinForm.password);
-            setSigninForm({ email: "", password: "" });
-            navigate("/");
+            setSigninForm({ email: '', password: '' });
+            navigate('/');
         } catch (err) {
             console.error(err);
             if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
@@ -45,7 +45,7 @@ const SignIn = () => {
             } else if (err.code === 'auth/too-many-requests') {
                 setError(t('tooManyAttempts') || "Ko'p marta noto'g'ri urinish. Biroz kutib turing.");
             } else {
-                setError((t('loginError') || "Tizimga kirishda xatolik yuz berdi: ") + (err.message || err.code));
+                setError(t('loginError') || "Tizimga kirishda xatolik yuz berdi.");
             }
         } finally {
             setLoading(false);
@@ -54,88 +54,102 @@ const SignIn = () => {
 
     const handleGoogleLogin = async () => {
         setError('');
-        setLoading(true);
+        setSocialLoading('google');
         try {
             await loginWithGoogle();
-            navigate("/");
+            navigate('/');
         } catch (err) {
             console.error(err);
             setError(t('googleLoginError') || "Google orqali kirishda xatolik yuz berdi.");
         } finally {
-            setLoading(false);
+            setSocialLoading('');
         }
     };
 
     const handleGithubLogin = async () => {
         setError('');
-        setLoading(true);
+        setSocialLoading('github');
         try {
             await loginWithGithub();
-            navigate("/");
+            navigate('/');
         } catch (err) {
             console.error(err);
             setError(t('githubLoginError') || "GitHub orqali kirishda xatolik yuz berdi.");
         } finally {
-            setLoading(false);
+            setSocialLoading('');
         }
     };
+
+    const isAnyLoading = loading || socialLoading !== '';
 
     return (
         <div className="auth-page-container">
             <div className="auth-card">
-                {/* Glowing bulb logo */}
+                {/* Logo */}
                 <div className="auth-logo-wrapper">
                     <div className="auth-logo-bg">
                         <RiLightbulbFill className="auth-logo-icon" />
                     </div>
                 </div>
 
-                <h2 className="auth-title">{t('welcomeBack') || 'Welcome back'}</h2>
-                <p className="auth-subtitle">{t('loginSubtitle') || 'Log in to your IdeaLab account'}</p>
+                <h2 className="auth-title">{t('welcomeBack') || 'Xush kelibsiz'}</h2>
+                <p className="auth-subtitle">{t('loginSubtitle') || 'IdeaLab hisobingizga kiring'}</p>
 
-                {error && <div className="auth-error-message">{error}</div>}
+                {/* Error */}
+                {error && (
+                    <div className="auth-error-message">
+                        <FiAlertCircle size={15} style={{ flexShrink: 0 }} />
+                        <span>{error}</span>
+                    </div>
+                )}
 
-                {/* Social Logins */}
+                {/* Social Buttons */}
                 <div className="auth-social-buttons">
-                    <button 
-                        type="button" 
-                        className="auth-social-btn" 
-                        onClick={handleGoogleLogin} 
-                        disabled={loading}
+                    <button
+                        type="button"
+                        className="auth-social-btn"
+                        onClick={handleGoogleLogin}
+                        disabled={isAnyLoading}
                         aria-label="Continue with Google"
                     >
-                        <FcGoogle className="auth-social-icon" />
-                        <span>{t('continueWithGoogle') || 'Continue with Google'}</span>
+                        {socialLoading === 'google'
+                            ? <span className="auth-btn-spinner" />
+                            : <FcGoogle className="auth-social-icon" />
+                        }
+                        <span>{socialLoading === 'google' ? "Kirilmoqda..." : (t('continueWithGoogle') || 'Google orqali kirish')}</span>
                     </button>
-                    <button 
-                        type="button" 
-                        className="auth-social-btn" 
-                        onClick={handleGithubLogin} 
-                        disabled={loading}
+                    <button
+                        type="button"
+                        className="auth-social-btn"
+                        onClick={handleGithubLogin}
+                        disabled={isAnyLoading}
                         aria-label="Continue with GitHub"
                     >
-                        <FaGithub className="auth-social-icon" />
-                        <span>{t('continueWithGithub') || 'Continue with GitHub'}</span>
+                        {socialLoading === 'github'
+                            ? <span className="auth-btn-spinner" />
+                            : <FaGithub className="auth-social-icon" />
+                        }
+                        <span>{socialLoading === 'github' ? "Kirilmoqda..." : (t('continueWithGithub') || 'GitHub orqali kirish')}</span>
                     </button>
                 </div>
 
                 {/* Divider */}
                 <div className="auth-divider">
-                    <span className="auth-divider-text">{t('orContinueWithEmail') || 'or continue with email'}</span>
+                    <span className="auth-divider-text">{t('orContinueWithEmail') || 'yoki email orqali'}</span>
                 </div>
 
-                {/* Email/Password Form */}
+                {/* Form */}
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="auth-field-group">
-                        <label htmlFor="signin-email" className="auth-label">{t('emailAddress') || 'Email address'}</label>
+                        <label htmlFor="signin-email" className="auth-label">{t('emailAddress') || 'Email'}</label>
                         <input
                             id="signin-email"
                             type="email"
                             className="auth-input"
-                            placeholder="you@example.com"
+                            placeholder="siz@example.com"
                             value={signinForm.email}
                             onChange={(e) => setSigninForm({ ...signinForm, email: e.target.value })}
-                            disabled={loading}
+                            disabled={isAnyLoading}
                             autoComplete="email"
                             required
                         />
@@ -143,33 +157,33 @@ const SignIn = () => {
 
                     <div className="auth-field-group">
                         <div className="auth-label-row">
-                            <label htmlFor="signin-password" className="auth-label">{t('password') || 'Password'}</label>
-                            <button 
-                                type="button" 
-                                className="auth-forgot-link" 
+                            <label htmlFor="signin-password" className="auth-label">{t('password') || 'Parol'}</label>
+                            <button
+                                type="button"
+                                className="auth-forgot-link"
                                 onClick={() => navigate('/forgot-password')}
-                                disabled={loading}
+                                disabled={isAnyLoading}
                             >
-                                {t('forgotPassword') || 'Forgot password?'}
+                                {t('forgotPassword') || 'Parolni unutdingizmi?'}
                             </button>
                         </div>
                         <div className="auth-password-wrapper">
                             <input
                                 id="signin-password"
-                                type={showPassword ? "text" : "password"}
+                                type={showPassword ? 'text' : 'password'}
                                 className="auth-input"
                                 placeholder="••••••••"
                                 value={signinForm.password}
                                 onChange={(e) => setSigninForm({ ...signinForm, password: e.target.value })}
-                                disabled={loading}
+                                disabled={isAnyLoading}
                                 autoComplete="current-password"
                             />
-                            <button 
+                            <button
                                 type="button"
                                 className="auth-password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
-                                aria-label={showPassword ? "Hide password" : "Show password"}
-                                disabled={loading}
+                                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                disabled={isAnyLoading}
                                 tabIndex="-1"
                             >
                                 {showPassword ? <FiEyeOff /> : <FiEye />}
@@ -177,13 +191,19 @@ const SignIn = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="auth-submit-btn" disabled={loading}>
-                        {loading ? (t('loggingIn') || 'Logging in...') : (t('loginBtn') || 'Log in →')}
+                    <button type="submit" className="auth-submit-btn" disabled={isAnyLoading}>
+                        {loading
+                            ? <><span className="auth-btn-spinner" /> Kirilmoqda...</>
+                            : (t('loginBtn') || 'Kirish →')
+                        }
                     </button>
                 </form>
 
                 <p className="auth-footer-text">
-                    {t('dontHaveAccount') || "Don't have an account?"} <button type="button" className="auth-footer-link" onClick={() => navigate('/signup')}>{t('signUpLabel') || 'Sign up'}</button>
+                    {t('dontHaveAccount') || "Hisobingiz yo'qmi?"}{' '}
+                    <button type="button" className="auth-footer-link" onClick={() => navigate('/signup')}>
+                        {t('signUpLabel') || "Ro'yxatdan o'tish"}
+                    </button>
                 </p>
             </div>
         </div>

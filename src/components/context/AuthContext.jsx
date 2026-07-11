@@ -20,7 +20,8 @@ export const userCache = new Map();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [authReady, setAuthReady] = useState(false); // Firebase birinchi tekshiruvi tugadimi
 
   const [signupForm, setSignupForm] = useState({
     name: "",
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }) => {
           setUser(userCache.get(firebaseUser.uid));
           setIsAuth(true);
           setLoading(false);
+          setAuthReady(true);
           return;
         }
 
@@ -93,11 +95,13 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         setIsAuth(true);
         setLoading(false);
+        setAuthReady(true);
       } else {
         setUser(null);
         setIsAuth(false);
         userCache.clear();
         setLoading(false);
+        setAuthReady(true);
       }
     });
 
@@ -154,6 +158,7 @@ export const AuthProvider = ({ children }) => {
       isAuth,
       isAdmin: user?.role === "admin",
       loading,
+      authReady,
       signup,
       login,
       loginWithGoogle,
@@ -166,16 +171,13 @@ export const AuthProvider = ({ children }) => {
       setSigninForm,
       setUser,
     }),
-    [user, isAuth, loading, signupForm, signinForm]
+    [user, isAuth, loading, authReady, signupForm, signinForm]
   );
 
   return (
     <AuthContext.Provider value={contextValue}>
-      {loading ? (
-        <Loader fullScreen={true} message="Tizimga ulanilmoqda..." />
-      ) : (
-        children
-      )}
+      {/* authReady bo'lguncha hech narsa render qilmaymiz — sahifa momentda chiqadi */}
+      {authReady ? children : null}
     </AuthContext.Provider>
   );
 };

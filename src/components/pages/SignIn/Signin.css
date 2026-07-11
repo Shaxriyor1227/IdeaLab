@@ -83,16 +83,101 @@
 
 /* Error Message */
 .auth-error-message {
-    background-color: rgba(239, 68, 68, 0.1);
+    background-color: rgba(239, 68, 68, 0.08);
     border: 1px solid rgba(239, 68, 68, 0.2);
     color: #f87171;
     font-size: 13px;
-    padding: 12px 16px;
-    border-radius: 8px;
+    padding: 11px 14px;
+    border-radius: 10px;
     margin-bottom: 20px;
-    text-align: center;
-    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
 }
+
+/* ---- Button Spinner ---- */
+.auth-btn-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: auth-spin 0.7s linear infinite;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+@keyframes auth-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---- Password Strength ---- */
+.auth-password-strength {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.auth-strength-bars {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+}
+
+.auth-strength-bar {
+    height: 4px;
+    flex: 1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.auth-strength-label {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    min-width: 56px;
+    text-align: right;
+}
+
+/* ---- Input states ---- */
+.auth-input--valid {
+    border-color: rgba(16, 185, 129, 0.5) !important;
+}
+
+.auth-input--invalid {
+    border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+/* ---- Confirm match icon ---- */
+.auth-match-icon {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-match-icon--ok {
+    color: #10b981;
+}
+
+.auth-match-icon--no {
+    color: #ef4444;
+}
+
+/* ---- Field hint ---- */
+.auth-field-hint {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.auth-field-hint--error {
+    color: #f87171;
+}
+
+
 
 /* Social Buttons */
 .auth-social-buttons {

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import { RiLockPasswordLine, RiCheckboxCircleFill } from 'react-icons/ri';
-import { FiArrowLeft } from 'react-icons/fi';
-import '../SignIn/Signin.css'; // Use shared styles
+import { FiArrowLeft, FiAlertCircle } from 'react-icons/fi';
+import '../SignIn/Signin.css';
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -17,13 +18,12 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        
+
         if (!email.trim()) {
             setError("Iltimos, email manzilini kiriting.");
             return;
         }
 
-        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.trim())) {
             setError("Iltimos, to'g'ri email manzilini kiriting.");
@@ -41,7 +41,7 @@ const ForgotPassword = () => {
             } else if (err.code === 'auth/too-many-requests') {
                 setError("Ko'p marta urinish. Biroz kutib turing.");
             } else {
-                setError("Parolni tiklashda xatolik yuz berdi: " + (err.message || err.code));
+                setError("Parolni tiklashda xatolik yuz berdi.");
             }
         } finally {
             setLoading(false);
@@ -52,48 +52,49 @@ const ForgotPassword = () => {
         setError('');
         try {
             await resetPassword(email);
-            alert(`Reset link resent to ${email}`);
         } catch (err) {
-            alert(`Resend failed: ${err.message}`);
+            console.error(err);
         }
     };
 
     return (
         <div className="auth-page-container">
             {!isSubmitted ? (
-                // Reset password request state
-        <div className="auth-card">
-                    {/* Back to login link */}
-                    <button 
+                <div className="auth-card">
+                    <button
                         type="button"
-                        className="auth-back-link" 
+                        className="auth-back-link"
                         onClick={() => navigate('/signin')}
                         disabled={loading}
                     >
                         <FiArrowLeft size={16} />
-                        <span>{t('backToLogin') || 'Back to login'}</span>
+                        <span>{t('backToLogin') || 'Kirish sahifasiga qaytish'}</span>
                     </button>
 
-                    {/* Glowing lock logo */}
                     <div className="auth-logo-wrapper">
                         <div className="auth-logo-bg lock-bg">
                             <RiLockPasswordLine className="auth-logo-icon" />
                         </div>
                     </div>
 
-                    <h2 className="auth-title">{t('resetYourPassword') || 'Reset your password'}</h2>
-                    <p className="auth-subtitle">{t('passwordResetSubtitle') || "Enter your email and we'll send a reset link"}</p>
+                    <h2 className="auth-title">{t('resetYourPassword') || 'Parolni tiklash'}</h2>
+                    <p className="auth-subtitle">{t('passwordResetSubtitle') || "Email manzilingizni kiriting — tiklanish havolasini yuboramiz"}</p>
 
-                    {error && <div className="auth-error-message">{error}</div>}
+                    {error && (
+                        <div className="auth-error-message">
+                            <FiAlertCircle size={15} style={{ flexShrink: 0 }} />
+                            <span>{error}</span>
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="auth-form">
                         <div className="auth-field-group">
-                            <label htmlFor="forgot-email" className="auth-label">{t('emailAddress') || 'Email address'}</label>
+                            <label htmlFor="forgot-email" className="auth-label">{t('emailAddress') || 'Email'}</label>
                             <input
                                 id="forgot-email"
                                 type="email"
                                 className="auth-input"
-                                placeholder="you@example.com"
+                                placeholder="siz@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={loading}
@@ -103,36 +104,42 @@ const ForgotPassword = () => {
                         </div>
 
                         <button type="submit" className="auth-submit-btn" disabled={loading}>
-                            {loading ? (t('sending') || 'Sending...') : (t('sendResetLink') || 'Send Reset Link →')}
+                            {loading
+                                ? <><span className="auth-btn-spinner" /> Yuborilmoqda...</>
+                                : (t('sendResetLink') || 'Tiklanish havolasini yuborish →')
+                            }
                         </button>
                     </form>
                 </div>
             ) : (
-                // Success state
                 <div className="auth-card">
-                    {/* Glowing green check logo */}
                     <div className="auth-logo-wrapper">
                         <div className="auth-logo-bg success-bg">
                             <RiCheckboxCircleFill className="auth-logo-icon" />
                         </div>
                     </div>
 
-                    <h2 className="auth-title">{t('checkYourEmail') || 'Check your email'}</h2>
+                    <h2 className="auth-title">{t('checkYourEmail') || 'Emailingizni tekshiring'}</h2>
                     <p className="auth-subtitle">
-                        {t('checkEmailDesc') || "We've sent a password reset link to your inbox. Follow the link to set a new password."}
+                        {t('checkEmailDesc') || "Parolni tiklash havolasi yuborildi."}{' '}
+                        <strong style={{ color: '#fff' }}>{email}</strong>
                     </p>
 
-                    <button 
+                    <button
                         type="button"
-                        className="auth-secondary-btn" 
+                        className="auth-submit-btn"
                         onClick={() => navigate('/signin')}
+                        style={{ marginTop: '8px' }}
                     >
                         <FiArrowLeft size={16} />
-                        <span>{t('backToLogin') || 'Back to login'}</span>
+                        <span>{t('backToLogin') || 'Kirish sahifasiga qaytish'}</span>
                     </button>
 
                     <p className="auth-footer-text">
-                        Didn't receive it? <button type="button" className="auth-footer-link" onClick={handleResend}>{t('resendEmail') || 'Resend email'}</button>
+                        Xat kelmadimi?{' '}
+                        <button type="button" className="auth-footer-link" onClick={handleResend}>
+                            {t('resendEmail') || 'Qayta yuborish'}
+                        </button>
                     </p>
                 </div>
             )}

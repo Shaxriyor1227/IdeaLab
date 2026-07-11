@@ -1,18 +1,14 @@
 import { useAuth } from '../../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
-import Loader from '../../Loader/Loader';
+const ProtectedRoute = ({ children }) => {
+  const { isAuth, authReady } = useAuth();
 
-const ProtectedRoute = ({children}) => {
-  const { isAuth, loading } = useAuth();
-  
-  if (loading) return <Loader />;
-  
-  return isAuth ? (
-    children 
-  ) : (
-    <Navigate to="/signin" />
-  );
+  // authReady bo'lguncha hech narsa ko'rsatmaymiz
+  // (AuthContext allaqachon null render qiladi, bu holat kamdan-kam yuz beradi)
+  if (!authReady) return null;
+
+  return isAuth ? children : <Navigate to="/signin" />;
 };
 
-export default ProtectedRoute
+export default ProtectedRoute;
