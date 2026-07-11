@@ -124,7 +124,7 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
           "X-Title": "IdeaLab",
         },
         body: JSON.stringify({
-          model: "laguna-m.1:free",
+          model: "nvidia/nemotron-3-super-120b-a12b:free",
           messages: [{ role: "user", content: prompt }],
         }),
       });
