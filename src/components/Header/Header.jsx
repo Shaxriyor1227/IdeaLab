@@ -1,7 +1,11 @@
-import { useState, memo } from 'react';
+import { useState, memo, useRef, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { TbFileExport } from 'react-icons/tb';
-import { FiMenu, FiX, FiSettings, FiSun, FiMoon } from 'react-icons/fi';
+import {
+  FiMenu, FiX, FiSettings, FiSun, FiMoon,
+  FiLogOut, FiPlusCircle, FiClock, FiBookOpen,
+  FiGlobe, FiChevronDown, FiShield
+} from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
@@ -11,15 +15,48 @@ import logo from '../../assets/logo.jpg';
 const Header = memo(() => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuth, logout, user } = useAuth();
-  const { t } = useTranslation();
+  const { isAuth, logout, user, isAdmin } = useAuth();
+  const { t, i18n } = useTranslation();
   const { mode, toggleMode } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setProfileOpen(false);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const getLinkClass = ({ isActive }) =>
     isActive ? 'nav-link active' : 'nav-link';
 
-  const isAnalysisPage = location.pathname === '/results' || location.pathname === '/swot-detail' || location.pathname === '/history';
+  const isAnalysisPage =
+    location.pathname === '/results' ||
+    location.pathname === '/swot-detail' ||
+    location.pathname === '/history';
+
+  // Get user initials for avatar
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    const parts = name.trim().split(' ');
+    return parts.length >= 2
+      ? (parts[0][0] + parts[1][0]).toUpperCase()
+      : parts[0].slice(0, 2).toUpperCase();
+  };
+
+  const initials = getInitials(user?.name || user?.email);
 
   const navItems = !isAnalysisPage ? (
     <>
@@ -60,68 +97,146 @@ const Header = memo(() => {
     </>
   );
 
-  const handlePrimaryAction = () => {
-    if (isAnalysisPage) {
-      window.print();
-      return;
-    }
-
-    if (isAuth) {
-      logout();
-      setMobileMenuOpen(false);
-      return;
-    }
-
-    navigate('/signin');
+  const handleNav = (path) => {
+    navigate(path);
+    setProfileOpen(false);
     setMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setProfileOpen(false);
+    setMobileMenuOpen(false);
+  };
+
+  const switchLang = () => {
+    const next = i18n.language === 'uz' ? 'en' : 'uz';
+    i18n.changeLanguage(next);
   };
 
   return (
     <header className="header">
       <div className="header-container">
-        <div className="header-logo" onClick={() => { navigate('/'); setMobileMenuOpen(false); }}>
+        {/* Logo */}
+        <div className="header-logo" onClick={() => handleNav('/')}>
           <img src={logo} alt="IdeaLab Logo" className="logo-img" width="42" height="42" />
           <span className="logo-text">IdeaLab</span>
         </div>
 
+        {/* Desktop Nav */}
         <nav className="header-nav">{navItems}</nav>
 
+        {/* Actions */}
         <div className="header-actions">
-          <button 
-            className="header-btn-ghost theme-toggle-btn" 
+          {/* Theme toggle */}
+          <button
+            className="header-btn-ghost theme-toggle-btn"
             onClick={toggleMode}
             style={{ padding: '8px', display: 'flex', alignItems: 'center' }}
-            title="Toggle Theme Mode"
-            aria-label="Toggle Theme Mode"
+            title="Toggle Theme"
+            aria-label="Toggle Theme"
           >
             {mode === 'light' ? <FiMoon size={18} /> : <FiSun size={18} />}
           </button>
 
-          {isAnalysisPage ? (
+          {/* Analysis page export */}
+          {isAnalysisPage && (
             <button className="header-btn-ghost header-btn-ghost--desktop" onClick={() => window.print()}>
               <TbFileExport size={18} />
               {t('exportPdf')}
             </button>
-          ) : isAuth ? (
-            <div className="user-profile-menu">
-              <span className="user-name" onClick={() => navigate('/settings')} style={{ cursor: 'pointer' }}>
-                {user?.name || 'User'}
-              </span>
-              <button 
-                className="header-btn-ghost" 
-                onClick={() => navigate('/settings')}
-                style={{ padding: '8px', display: 'flex', alignItems: 'center' }}
-                title={t('settings')}
-                aria-label={t('settings') || 'Settings'}
-              >
-                <FiSettings size={18} />
-              </button>
-              <button className="header-btn logout-btn" onClick={logout}>{t('logout')}</button>
-            </div>
-          ) : (
-            <button className="header-btn" onClick={() => navigate('/signin')}>{t('getStarted')}</button>
           )}
 
+          {/* Auth: profile avatar dropdown OR get started */}
+          {isAuth ? (
+            <div className="hd-profile-wrap" ref={profileRef}>
+              <button
+                className="hd-avatar-btn"
+                onClick={() => setProfileOpen((p) => !p)}
+                aria-label="Profile menu"
+              >
+                <div className="hd-avatar">
+                  {user?.photoURL
+                    ? <img src={user.photoURL} alt="avatar" className="hd-avatar-img" />
+                    : <span className="hd-avatar-initials">{initials}</span>
+                  }
+                  <span className="hd-avatar-online" />
+                </div>
+                <FiChevronDown
+                  size={14}
+                  className={`hd-chevron ${profileOpen ? 'hd-chevron--open' : ''}`}
+                />
+              </button>
+
+              {/* Dropdown */}
+              {profileOpen && (
+                <div className="hd-dropdown">
+                  {/* User info */}
+                  <div className="hd-dropdown-user">
+                    <div className="hd-dropdown-avatar">
+                      {user?.photoURL
+                        ? <img src={user.photoURL} alt="avatar" className="hd-avatar-img" />
+                        : <span className="hd-avatar-initials">{initials}</span>
+                      }
+                    </div>
+                    <div className="hd-dropdown-userinfo">
+                      <span className="hd-dropdown-name">{user?.name || 'User'}</span>
+                      <span className="hd-dropdown-email">{user?.email || ''}</span>
+                    </div>
+                  </div>
+
+                  <div className="hd-dropdown-divider" />
+
+                  {/* Menu items */}
+                  <button className="hd-dropdown-item" onClick={() => handleNav('/analyze')}>
+                    <FiPlusCircle size={16} />
+                    <span>{t('newAnalysis')}</span>
+                  </button>
+                  <button className="hd-dropdown-item" onClick={() => handleNav('/history')}>
+                    <FiClock size={16} />
+                    <span>{t('history') || 'History'}</span>
+                  </button>
+                  <button className="hd-dropdown-item" onClick={() => handleNav('/blog')}>
+                    <FiBookOpen size={16} />
+                    <span>{t('blog')}</span>
+                  </button>
+
+                  <div className="hd-dropdown-divider" />
+
+                  {isAdmin && (
+                    <button className="hd-dropdown-item" onClick={() => handleNav('/admin')} style={{ color: '#8b5cf6' }}>
+                      <FiShield size={16} />
+                      <span>{t('adminPanel') || 'Admin Panel'}</span>
+                    </button>
+                  )}
+
+                  <button className="hd-dropdown-item" onClick={() => handleNav('/settings')}>
+                    <FiSettings size={16} />
+                    <span>{t('settings')}</span>
+                  </button>
+                  <button className="hd-dropdown-item" onClick={switchLang}>
+                    <FiGlobe size={16} />
+                    <span>
+                      {i18n.language === 'uz' ? 'Switch to English' : "O'zbekchaga o'tish"}
+                    </span>
+                  </button>
+
+                  <div className="hd-dropdown-divider" />
+
+                  <button className="hd-dropdown-item hd-dropdown-item--danger" onClick={handleLogout}>
+                    <FiLogOut size={16} />
+                    <span>{t('logout')}</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button className="header-btn" onClick={() => navigate('/signin')}>
+              {t('getStarted')}
+            </button>
+          )}
+
+          {/* Mobile hamburger */}
           <button
             className="header-menu-toggle"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -133,39 +248,76 @@ const Header = memo(() => {
         </div>
       </div>
 
+      {/* Mobile menu */}
       <div className={`mobile-menu ${mobileMenuOpen ? 'mobile-menu--open' : ''}`}>
         <div className="mobile-menu__content">
+          {/* Mobile user info */}
+          {isAuth && (
+            <div className="mobile-menu__user">
+              <div className="hd-avatar hd-avatar--sm">
+                {user?.photoURL
+                  ? <img src={user.photoURL} alt="avatar" className="hd-avatar-img" />
+                  : <span className="hd-avatar-initials">{initials}</span>
+                }
+              </div>
+              <div>
+                <p className="mobile-menu__username">{user?.name || 'User'}</p>
+                <p className="mobile-menu__useremail">{user?.email || ''}</p>
+              </div>
+            </div>
+          )}
+
           <div className="mobile-menu__nav">{navItems}</div>
 
-          <button 
-            className="mobile-menu__action" 
+          <button
+            className="mobile-menu__action"
             onClick={() => { toggleMode(); setMobileMenuOpen(false); }}
             style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
           >
-            {mode === 'light' ? <FiMoon size={18} /> : <FiSun size={18} />} {mode === 'light' ? 'Dark Mode' : 'Light Mode'}
+            {mode === 'light' ? <FiMoon size={18} /> : <FiSun size={18} />}
+            {mode === 'light' ? 'Dark Mode' : 'Light Mode'}
           </button>
 
           {isAuth && (
-            <button 
-              className="mobile-menu__action" 
-              onClick={() => { navigate('/settings'); setMobileMenuOpen(false); }}
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
-            >
-              <FiSettings size={18} /> {t('settings')}
-            </button>
+            <>
+              {isAdmin && (
+                <button
+                  className="mobile-menu__action"
+                  onClick={() => { navigate('/admin'); setMobileMenuOpen(false); }}
+                  style={{ background: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.3)', color: '#a78bfa' }}
+                >
+                  <FiShield size={18} /> Admin Panel
+                </button>
+              )}
+              <button
+                className="mobile-menu__action"
+                onClick={() => { switchLang(); setMobileMenuOpen(false); }}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                <FiGlobe size={18} />
+                {i18n.language === 'uz' ? 'Switch to English' : "O'zbekchaga o'tish"}
+              </button>
+              <button
+                className="mobile-menu__action"
+                onClick={() => { navigate('/settings'); setMobileMenuOpen(false); }}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                <FiSettings size={18} /> {t('settings')}
+              </button>
+              <button
+                className="mobile-menu__action"
+                onClick={handleLogout}
+              >
+                <FiLogOut size={18} /> {t('logout')}
+              </button>
+            </>
           )}
 
-          <button className="mobile-menu__action" onClick={handlePrimaryAction}>
-            {isAnalysisPage ? (
-              <>
-                <TbFileExport size={18} /> {t('exportPdf')}
-              </>
-            ) : isAuth ? (
-              t('logout')
-            ) : (
-              t('getStarted')
-            )}
-          </button>
+          {!isAuth && (
+            <button className="mobile-menu__action" onClick={() => { navigate('/signin'); setMobileMenuOpen(false); }}>
+              {t('getStarted')}
+            </button>
+          )}
         </div>
       </div>
     </header>
@@ -173,5 +325,4 @@ const Header = memo(() => {
 });
 
 Header.displayName = 'Header';
-
 export default Header;

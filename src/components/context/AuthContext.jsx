@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }) => {
           name: firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "User",
           email: firebaseUser.email,
           photoURL: firebaseUser.photoURL,
+          role: "user",
         };
 
         try {
@@ -66,6 +67,7 @@ export const AuthProvider = ({ children }) => {
               name: dbData.name || userData.name,
               theme: dbData.theme,
               locale: dbData.locale,
+              role: dbData.role || "user",
             };
             // Sync i18n language with user's saved preference
             if (dbData.locale && (dbData.locale === 'en' || dbData.locale === 'uz')) {
@@ -148,6 +150,7 @@ export const AuthProvider = ({ children }) => {
     () => ({
       user,
       isAuth,
+      isAdmin: user?.role === "admin",
       loading,
       signup,
       login,

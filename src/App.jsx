@@ -16,6 +16,7 @@ const Signup = lazy(() => import('./components/pages/Signup/Signup'))
 const ForgotPassword = lazy(() => import('./components/pages/ForgotPassword/ForgotPassword'))
 const BlogPostPage = lazy(() => import('./components/pages/BlogPage/BlogPostPage'))
 const SettingsPage = lazy(() => import('./components/pages/SettingsPage/SettingsPage'))
+const AdminPage = lazy(() => import('./components/pages/AdminPage/AdminPage'))
 
 const App = () => {
   const location = useLocation();
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="/swot-detail" element={<ProtectedRoute><DetailAnalysisPage /></ProtectedRoute>} />
             <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
             <Route path="/features" element={<FeaturesPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/signin" element={<SignIn />} />

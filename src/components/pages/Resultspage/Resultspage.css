@@ -509,3 +509,287 @@
   background: #22c55e20;
   color: #22c55e;
 }
+
+/* ===== Competitor Button ===== */
+.rp-comp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: #a78bfa;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.rp-comp-btn:hover {
+  background: rgba(124, 58, 237, 0.2);
+  border-color: rgba(124, 58, 237, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+/* ===== Modal Overlay ===== */
+.rp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: rp-fadeIn 0.2s ease;
+}
+
+@keyframes rp-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== Modal Card ===== */
+.rp-modal {
+  background: #13131a;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 520px;
+  padding: 28px;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(124, 58, 237, 0.15);
+  animation: rp-slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes rp-slideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.rp-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.rp-modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rp-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.rp-modal-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #9ca3af;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.rp-modal-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.rp-modal-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 24px;
+}
+
+/* ===== Competitor List ===== */
+.rp-comp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rp-comp-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 16px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.rp-comp-item:hover {
+  border-color: rgba(124, 58, 237, 0.3);
+  background: rgba(124, 58, 237, 0.05);
+}
+
+.rp-comp-logo {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7C3AED, #4f46e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.rp-comp-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rp-comp-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.rp-comp-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.rp-comp-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(124, 58, 237, 0.12);
+  color: #a78bfa;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.rp-comp-desc {
+  font-size: 13px;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.rp-comp-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.rp-modal-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rp-modal-note {
+  font-size: 12px;
+  color: #4b5563;
+  margin: 0;
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  .rp-modal {
+    padding: 20px;
+    border-radius: 20px;
+  }
+  .rp-comp-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* ===== Competitor Modal Loading ===== */
+.rp-comp-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.rp-comp-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(124, 58, 237, 0.2);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: rp-spin 0.8s linear infinite;
+}
+
+@keyframes rp-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Competitor Modal Error ===== */
+.rp-comp-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 20px;
+  text-align: center;
+  color: #ef4444;
+  font-size: 14px;
+}
+
+.rp-comp-retry {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #a78bfa;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.rp-comp-retry:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+/* ===== External link ===== */
+.rp-comp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #6b7280;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.rp-comp-link:hover {
+  color: #a78bfa;
+}
+

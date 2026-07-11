@@ -35,6 +35,32 @@ Return exactly this JSON structure:
   "competitorCount": <number>,
   "trendScore": "<e.g. 9.2/10>",
   "trendLabel": "<short trend description>",
+  "competitors": [
+    {
+      "name": "<Real competitor company name>",
+      "type": "<Product category e.g. SaaS Platform>",
+      "founded": "<year>",
+      "funding": "<e.g. $50M or Bootstrapped>",
+      "desc": "<One sentence about what they do and their scale>",
+      "logo": "<1-2 uppercase initials of company name>"
+    },
+    {
+      "name": "<Real competitor company name>",
+      "type": "<Product category>",
+      "founded": "<year>",
+      "funding": "<e.g. $50M or Bootstrapped>",
+      "desc": "<One sentence about what they do and their scale>",
+      "logo": "<1-2 uppercase initials>"
+    },
+    {
+      "name": "<Real competitor company name>",
+      "type": "<Product category>",
+      "founded": "<year>",
+      "funding": "<e.g. $50M or Bootstrapped>",
+      "desc": "<One sentence about what they do and their scale>",
+      "logo": "<1-2 uppercase initials>"
+    }
+  ],
   "swot": {
     "strengths": ["...", "...", "..."],
     "weaknesses": ["...", "...", "..."],
@@ -100,6 +126,7 @@ export default function AnalyzePage() {
         },
         body: JSON.stringify({
           model: "laguna-m.1:free",
+          // model: "nvidia/nemotron-3-super-120b-a12b:free",
           messages: [
             {
               role: "user",
