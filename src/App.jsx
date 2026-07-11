@@ -20,8 +20,8 @@ const AdminPage = lazy(() => import('./components/pages/AdminPage/AdminPage'))
 
 const App = () => {
   const location = useLocation();
-  const hideFooter = ['/results', '/swot-detail', '/signin', '/signup', '/forgot-password'].includes(location.pathname);
-  const hideHeader = ['/signin', '/signup', '/forgot-password'].includes(location.pathname);
+  const hideFooter = ['/results', '/swot-detail', '/signin', '/signup', '/forgot-password', '/admin'].includes(location.pathname);
+  const hideHeader = ['/signin', '/signup', '/forgot-password', '/admin'].includes(location.pathname);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
