@@ -7,7 +7,7 @@ import { auth, db } from "../../../firebase";
 import { collection, doc, deleteDoc, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "react-i18next";
-import Loader from "../Loader/Loader";
+import Loader from "../../Loader/Loader";
 import "./HistoryPage.css";
 
 export default function HistoryPage() {
