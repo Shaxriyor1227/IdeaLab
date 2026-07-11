@@ -10,7 +10,7 @@ import {
   RiErrorWarningLine,
   RiStarFill
 } from "react-icons/ri";
-import { FiTrendingUp, FiActivity, FiGlobe, FiX, FiExternalLink, FiPlusCircle } from "react-icons/fi";
+import { FiTrendingUp, FiActivity, FiGlobe, FiX, FiExternalLink, FiPlusCircle, FiDollarSign } from "react-icons/fi";
 import { RiBuildingLine, RiCheckLine } from "react-icons/ri";
 import { MdRocketLaunch } from "react-icons/md";
 import { useTranslation } from "react-i18next";
@@ -239,6 +239,16 @@ Return ONLY a valid JSON array. No markdown, no explanation. Exactly this format
             </div>
             <div className="rp-metric-value rp-text-cyan">{result.marketSize}</div>
             <p className="rp-card-desc rp-text-green">{result.marketGrowth}</p>
+          </div>
+
+          {/* Card 2.5 - Revenue & ROI (New) */}
+          <div className="rp-card">
+            <div className="rp-card-top">
+              <span className="rp-card-label">{lang === "uz" ? "1-Yillik Daromad va ROI" : "1-Year Revenue & ROI"}</span>
+              <div className="rp-icon-green"><FiDollarSign size={18} /></div>
+            </div>
+            <div className="rp-metric-value rp-text-green">{result.estimatedRevenue1Yr || (lang === "uz" ? "Hisoblanmadi" : "Not calculated")}</div>
+            <p className="rp-card-desc rp-text-green">{result.roiPercentage ? `ROI: ${result.roiPercentage}` : ""}</p>
           </div>
 
           {/* Card 3 - Competition */}
