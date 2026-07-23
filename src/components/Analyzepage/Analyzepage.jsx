@@ -15,8 +15,12 @@ const industries = [
 
 const budgets = ["<$1k","$5k", "$5k-$10k", "$10k-$50k", "$50k-$200k", "$200k+"];
 
-const buildPrompt = (form) => `
-You are a startup idea validator. Analyze the following startup idea and return ONLY a valid JSON object. No markdown, no backticks, no explanation.
+const buildPrompt = (form, lang) => `
+You are a strict, highly critical, and realistic Venture Capital analyst. Analyze the startup idea below. DO NOT give high scores easily unless it is truly revolutionary. Be extremely realistic about market size, revenue, and ROI based on the provided budget.
+Return ONLY a valid JSON object. No markdown, no backticks, no explanation.
+
+IMPORTANT: All text values inside the JSON MUST be in ${lang === 'uz' ? 'Uzbek' : 'English'} language!
+
 
 Startup name: ${form.startupName}
 One-line description: ${form.oneLiner}
@@ -31,6 +35,8 @@ Return exactly this JSON structure:
   "viabilityLabel": "<High Potential | Moderate Potential | Needs Work>",
   "marketSize": "<e.g. $2.4B>",
   "marketGrowth": "<e.g. +12% YoY growth>",
+  "estimatedRevenue1Yr": "<Calculate realistic 1st-year revenue based on ${form.budget} budget and market reality. e.g. $15,000>",
+  "roiPercentage": "<Calculate realistic 1-year ROI percentage based on budget and revenue. e.g. +150% or -40%>",
   "competition": "<Low | Medium | High>",
   "competitorCount": <number>,
   "trendScore": "<e.g. 9.2/10>",
@@ -117,7 +123,7 @@ export default function AnalyzePage() {
           messages: [
             {
               role: "user",
-              content: buildPrompt(form),
+              content: buildPrompt(form, i18n.language),
             },
           ],
         }),
